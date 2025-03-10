@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -7,7 +8,9 @@ export default function Header() {
         <h2 className="text-2xl font-bold">AVG</h2>
       </div>
       <div className="flex items-center ">
-        <Button className="bg-white text-black">Get Started</Button>
+        <Button className="bg-white text-black">
+          <Link href="/dashboard">Dashboard</Link>
+        </Button>
       </div>
     </div>
   );

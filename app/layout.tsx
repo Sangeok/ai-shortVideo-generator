@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./provider";
+import { SidebarProvider } from "./context/SidebarContext";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -23,7 +24,7 @@ export default function RootLayout({
       <body className={outfit.className}>
         {" "}
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
+          <SidebarProvider>{children}</SidebarProvider>
         </ThemeProvider>
       </body>
     </html>
