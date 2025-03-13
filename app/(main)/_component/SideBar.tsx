@@ -30,7 +30,7 @@ const MenuItems = [
   },
 ];
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function SideBar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   const { isSidebarOpen } = useSidebar();

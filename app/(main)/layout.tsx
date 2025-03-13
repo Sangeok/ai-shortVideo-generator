@@ -1,9 +1,9 @@
-import DashboardProvider from "./provider";
+import SideBar from "./_component/SideBar";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <DashboardProvider>{children}</DashboardProvider>
+      <SideBar>{children}</SideBar>
     </div>
   );
 }
