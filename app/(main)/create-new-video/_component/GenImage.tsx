@@ -12,6 +12,8 @@ export default function GenImage() {
 
   const [resScript, setResScript] = useState<any[]>([]);
 
+  const [resImage, setResImage] = useState<any[]>([]);
+
   const GenerateScript = async () => {
     setLoading(true);
     setScript("");
@@ -26,8 +28,24 @@ export default function GenImage() {
     }
   };
 
-  console.log("kkkkkkk");
-  console.log(resScript);
+  const GenerateImage = async () => {
+    const imagePrompt = resScript[0].imagePrompt;
+
+    setLoading(true);
+    setResImage([]);
+    try {
+      const result = await axios.post("/api/generate-videoImage", { imagePrompt: imagePrompt });
+      console.log(result.data);
+      setResImage(result?.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  console.log("resImage");
+  console.log(resImage);
 
   return (
     <div className="mt-5">
@@ -64,7 +82,7 @@ export default function GenImage() {
         )}
       </div>
 
-      {
+      <div className="flex w-full justify-between gap-2">
         <Button
           className="bg-white text-black mt-4 cursor-pointer"
           disabled={loading}
@@ -74,7 +92,23 @@ export default function GenImage() {
           {loading ? <Loader2Icon className="w-4 h-4 mr-2 animate-spin" /> : <SparklesIcon className="w-4 h-4 mr-2" />}
           Generate Script
         </Button>
-      }
+
+        {resScript.length > 0 && (
+          <Button
+            className=" bg-white text-black mt-4 cursor-pointer"
+            disabled={loading}
+            size={"sm"}
+            onClick={GenerateImage}
+          >
+            {loading ? (
+              <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <SparklesIcon className="w-4 h-4 mr-2" />
+            )}
+            Generate Image
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

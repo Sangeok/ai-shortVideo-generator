@@ -7,6 +7,17 @@ const model = genAI.getGenerativeModel({
   model: "gemini-2.0-flash",
 });
 
+const imageGeneratorModel = genAI.getGenerativeModel({
+  model: "gemini-2.0-flash-exp-image-generation",
+});
+
+const imageGenerationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 40,
+  responseModalities: ["Text", "Image"],
+};
+
 const generationConfig = {
   temperature: 1,
   topP: 0.95,
@@ -25,4 +36,8 @@ export const generateImageScript = model.startChat({
   history: [],
 });
 
+export const generateImage = imageGeneratorModel.startChat({
+  generationConfig: imageGenerationConfig,
+  history: [],
+});
 // run();

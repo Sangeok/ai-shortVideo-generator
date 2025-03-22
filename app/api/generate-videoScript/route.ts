@@ -23,16 +23,3 @@ export async function POST(req: Request) {
 
   return NextResponse.json(JSON.parse(response));
 }
-
-// export async function POST(req: Request) {
-//     console.log(req);
-
-//     const { topic } = await req.json();
-
-//     const PROMPT = SCRIPT_PROMPT.replace("{topic}", topic);
-//     const result = await generateScript.sendMessage(PROMPT);
-
-//     const response = result?.response?.text();
-
-//     return NextResponse.json(JSON.parse(response));
-//   }
