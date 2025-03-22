@@ -6,7 +6,7 @@ interface VideoStyleProps {
   onHandleInputChange: (fieldName: string, fieldValue: string) => void;
 }
 
-const options = [
+export const options = [
   {
     name: "Realistic",
     image: "/Realistic.png",

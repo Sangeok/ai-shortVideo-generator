@@ -20,4 +20,9 @@ export const generateScript = model.startChat({
   history: [],
 });
 
+export const generateImageScript = model.startChat({
+  generationConfig,
+  history: [],
+});
+
 // run();
