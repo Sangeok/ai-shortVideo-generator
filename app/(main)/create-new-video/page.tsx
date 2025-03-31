@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { WandSparkles } from "lucide-react";
 import Preview from "./_component/Preview";
 import GenImage from "./_component/GenImage";
+import ProjectTitle from "./_component/ProjectTitle";
 
 export default function CreateNewVideo() {
   const [formData, setFormData] = useState<any>({});
@@ -28,6 +29,8 @@ export default function CreateNewVideo() {
       <h2 className="text-2xl font-bold mt-2 p-4">Create New Video</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 p-4 gap-7">
         <div className="col-span-2 p-7 border rounded-xl h-[72vh] overflow-y-auto">
+          {/* Project Title */}
+          <ProjectTitle onHandleInputChange={onHandleInputChange} />
           {/* Topic & Script */}
           <Topic onHandleInputChange={onHandleInputChange} />
           {/* Video Image Style */}

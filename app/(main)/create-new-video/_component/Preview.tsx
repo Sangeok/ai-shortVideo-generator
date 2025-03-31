@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { options } from "./VideoStyle";
+import { VideoStyleOptions } from "@/constants/VideoStyleOptions";
 
 interface PreviewProps {
   formData: any;
 }
 
 export default function Preview({ formData }: PreviewProps) {
-  const selectVideoStyle = formData && options.find((option) => option.name === formData?.videoStyle);
+  const selectVideoStyle =
+    formData &&
+    VideoStyleOptions.find((option) => option.name === formData?.videoStyle);
 
   return (
     <div>

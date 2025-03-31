@@ -2,7 +2,7 @@ import { generateScript } from "@/app/configs/AiModel";
 import { NextResponse } from "next/server";
 
 const SCRIPT_PROMPT = `
-    Write a two different script for 30 Seconds video on Topic:{topic},
+    Write a two different script for 45 Seconds video on Topic:{topic},
 
     Do not add Scene description
     Do not add anything in Braces, Just return the plain story in text
@@ -19,9 +19,9 @@ const SCRIPT_PROMPT = `
 `;
 
 export async function POST(req: Request) {
-  console.log(req);
-
   const { topic } = await req.json();
+  console.log("topic");
+  console.log(topic);
 
   const PROMPT = SCRIPT_PROMPT.replace("{topic}", topic);
   const result = await generateScript.sendMessage(PROMPT);
