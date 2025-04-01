@@ -29,7 +29,8 @@ export default function GenImage() {
   };
 
   const GenerateImage = async () => {
-    const imagePrompt = resScript[0].imagePrompt;
+    // const imagePrompt = resScript[0].imagePrompt;
+    const imagePrompt = resScript.map((item: any) => item.imagePrompt);
 
     setLoading(true);
     setResImage([]);
