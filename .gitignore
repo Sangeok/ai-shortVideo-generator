@@ -19,6 +19,7 @@
 
 # production
 /build
+/public/generated-images
 
 # misc
 .DS_Store
