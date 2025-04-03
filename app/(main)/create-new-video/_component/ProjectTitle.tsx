@@ -1,17 +1,25 @@
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { CreateVideoField } from "@/type/CreateVideoField";
 
 interface ProjectTitleProps {
-  onHandleInputChange: (fieldName: string, fieldValue: string) => void;
+  title: string;
+  setTitle: (fieldName: CreateVideoField, fieldValue: string) => void;
+  onHandleInputChange: (
+    fieldName: CreateVideoField,
+    fieldValue: string
+  ) => void;
 }
 
 export default function ProjectTitle({
+  title,
+  setTitle,
   onHandleInputChange,
 }: ProjectTitleProps) {
-  const [title, setTitle] = useState<string>("");
+  // const [title, setTitle] = useState<string>("");
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setTitle("title", event.target.value);
+
     onHandleInputChange("title", event.target.value);
   };
 

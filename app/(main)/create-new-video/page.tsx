@@ -9,11 +9,16 @@ import { WandSparkles } from "lucide-react";
 import Preview from "./_component/Preview";
 import GenImage from "./_component/GenImage";
 import ProjectTitle from "./_component/ProjectTitle";
+import useCreateVideoStore from "@/store/useCreateVideoStore";
 
 export default function CreateNewVideo() {
   const [formData, setFormData] = useState<any>({});
+  const { initialCreateVideoData, setCreateVideoDataByField } =
+    useCreateVideoStore();
 
-  const onHandleInputChange = (fieldName: any, fieldValue: any) => {
+  const { title } = initialCreateVideoData;
+
+  const onHandleInputChange = (fieldName: string, fieldValue: string) => {
     setFormData((prev: any) => ({
       ...prev,
       [fieldName]: fieldValue,
@@ -30,7 +35,11 @@ export default function CreateNewVideo() {
       <div className="grid grid-cols-1 md:grid-cols-3 p-4 gap-7">
         <div className="col-span-2 p-7 border rounded-xl h-[72vh] overflow-y-auto">
           {/* Project Title */}
-          <ProjectTitle onHandleInputChange={onHandleInputChange} />
+          <ProjectTitle
+            title={title}
+            setTitle={setCreateVideoDataByField}
+            onHandleInputChange={onHandleInputChange}
+          />
           {/* Topic & Script */}
           <Topic onHandleInputChange={onHandleInputChange} />
           {/* Video Image Style */}
