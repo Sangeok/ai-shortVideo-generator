@@ -2,9 +2,11 @@ import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
 import { VideoStyleOptions } from "@/constants/VideoStyleOptions";
+import { CreateVideoField } from "@/type/CreateVideoField";
 
 interface VideoStyleProps {
-  onHandleInputChange: (fieldName: string, fieldValue: string) => void;
+  videoStyle: string;
+  setVideoStyle: (fieldName: CreateVideoField, fieldValue: string) => void;
 }
 
 // export const options = [
@@ -26,9 +28,7 @@ interface VideoStyleProps {
 //   },
 // ] as const;
 
-export default function VideoStyle({ onHandleInputChange }: VideoStyleProps) {
-  const [selectedStyle, setSelectedStyle] = useState<string>("");
-
+export default function VideoStyle({ videoStyle, setVideoStyle }: VideoStyleProps) {
   return (
     <div className="mt-5">
       <h2>Video Styles</h2>
@@ -39,8 +39,7 @@ export default function VideoStyle({ onHandleInputChange }: VideoStyleProps) {
           <div
             className="relative"
             onClick={() => {
-              setSelectedStyle(option.name);
-              onHandleInputChange("videoStyle", option.name);
+              setVideoStyle("videoStyle", option.name);
             }}
             key={index}
           >
@@ -51,12 +50,10 @@ export default function VideoStyle({ onHandleInputChange }: VideoStyleProps) {
               height={120}
               className={clsx(
                 "object-cover hover:border border-gray-300 cursor-pointer",
-                selectedStyle === option.name && "border-2 border-gray-300"
+                videoStyle === option.name && "border-2 border-gray-300"
               )}
             />
-            <h2 className="absolute bottom-1 text-center w-full text-white">
-              {option.name}
-            </h2>
+            <h2 className="absolute bottom-1 text-center w-full text-white">{option.name}</h2>
           </div>
         ))}
       </div>

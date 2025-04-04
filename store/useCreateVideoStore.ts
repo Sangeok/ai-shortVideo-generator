@@ -1,10 +1,12 @@
 import { CreateVideoField } from "@/type/CreateVideoField";
+import { videoScriptType } from "@/type/videoScriptType";
 import { VideoStyleOptions } from "@/type/VideoStyleOptions";
 import { create } from "zustand";
 
 type CreateVideoType = {
   title: string;
-  imageScript: string;
+  topic: string;
+  videoScript: videoScriptType[];
   videoStyle: VideoStyleOptions;
   videoCaption: string;
   imageUrl: string;
@@ -16,7 +18,8 @@ type CreateVideoType = {
 
 const initialCreateVideoData: CreateVideoType = {
   title: "",
-  imageScript: "",
+  topic: "",
+  videoScript: [],
   videoStyle: "",
   videoCaption: "",
   imageUrl: "",

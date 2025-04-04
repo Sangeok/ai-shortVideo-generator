@@ -1,6 +1,7 @@
 export type CreateVideoField =
   | "title"
-  | "imageScript"
+  | "topic"
+  | "videoScript"
   | "videoStyle"
   | "videoCaption"
   | "imageUrl"

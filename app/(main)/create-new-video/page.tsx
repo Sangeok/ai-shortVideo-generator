@@ -13,10 +13,9 @@ import useCreateVideoStore from "@/store/useCreateVideoStore";
 
 export default function CreateNewVideo() {
   const [formData, setFormData] = useState<any>({});
-  const { initialCreateVideoData, setCreateVideoDataByField } =
-    useCreateVideoStore();
+  const { initialCreateVideoData, setCreateVideoDataByField } = useCreateVideoStore();
 
-  const { title } = initialCreateVideoData;
+  const { title, topic, videoScript, videoStyle } = initialCreateVideoData;
 
   const onHandleInputChange = (fieldName: string, fieldValue: string) => {
     setFormData((prev: any) => ({
@@ -35,15 +34,11 @@ export default function CreateNewVideo() {
       <div className="grid grid-cols-1 md:grid-cols-3 p-4 gap-7">
         <div className="col-span-2 p-7 border rounded-xl h-[72vh] overflow-y-auto">
           {/* Project Title */}
-          <ProjectTitle
-            title={title}
-            setTitle={setCreateVideoDataByField}
-            onHandleInputChange={onHandleInputChange}
-          />
+          <ProjectTitle title={title} setTitle={setCreateVideoDataByField} />
           {/* Topic & Script */}
-          <Topic onHandleInputChange={onHandleInputChange} />
+          <Topic topic={topic} setTopicOrVideoScript={setCreateVideoDataByField} videoScript={videoScript} />
           {/* Video Image Style */}
-          <VideoStyle onHandleInputChange={onHandleInputChange} />
+          <VideoStyle videoStyle={videoStyle} setVideoStyle={setCreateVideoDataByField} />
           <GenImage />
           <Button className="bg-white text-black mt-5 w-full cursor-pointer">
             <WandSparkles /> Generate Video Prompt

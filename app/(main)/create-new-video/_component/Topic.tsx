@@ -8,24 +8,19 @@ import { Loader2Icon, SparklesIcon } from "lucide-react";
 import { useState } from "react";
 
 import axios from "axios";
-const suggestion = [
-  "Historic Story",
-  "Kids Story",
-  "Movie Story",
-  "AI Innovation",
-] as const;
+import { CreateVideoField } from "@/type/CreateVideoField";
+import { videoScriptType } from "@/type/videoScriptType";
+const suggestion = ["Historic Story", "Kids Story", "Movie Story", "AI Innovation"] as const;
 
 interface TopicProps {
-  onHandleInputChange: (fieldName: string, fieldValue: string) => void;
+  topic: string;
+  setTopicOrVideoScript: (fieldName: CreateVideoField, fieldValue: string) => void;
+  videoScript: videoScriptType[];
 }
 
-export default function Topic({ onHandleInputChange }: TopicProps) {
-  const [selectedTopic, setSelectedTopic] = useState<string>("");
-  const [userTopic, setUserTopic] = useState<string>("");
-  const [selectedScriptIndex, setSelectedScriptIndex] = useState<number | null>(
-    0
-  );
-  const [script, setScript] = useState<any[]>([]);
+export default function Topic({ topic, setTopicOrVideoScript, videoScript }: TopicProps) {
+  const [selectedScriptIndex, setSelectedScriptIndex] = useState<number | null>(0);
+  // const [script, setScript] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -34,16 +29,15 @@ export default function Topic({ onHandleInputChange }: TopicProps) {
     setSelectedScriptIndex(null);
     try {
       const result = await axios.post("/api/generate-script", {
-        topic: selectedTopic || userTopic,
+        topic,
       });
       console.log(result.data);
-      setScript(result?.data?.scripts);
+      setTopicOrVideoScript("videoScript", result?.data?.scripts);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-      setSelectedTopic("");
-      setUserTopic("");
+      setTopicOrVideoScript("topic", "");
     }
   };
 
@@ -56,12 +50,14 @@ export default function Topic({ onHandleInputChange }: TopicProps) {
           <TabsList className="bg-zinc-800">
             <TabsTrigger
               value="Suggestions"
+              onChange={() => setTopicOrVideoScript("topic", "")}
               className="data-[state=active]:bg-black data-[state=active]:text-white"
             >
               Suggestions
             </TabsTrigger>
             <TabsTrigger
               value="My_Topics"
+              onChange={() => setTopicOrVideoScript("topic", "")}
               className="data-[state=active]:bg-black data-[state=active]:text-white"
             >
               My Topics
@@ -72,12 +68,11 @@ export default function Topic({ onHandleInputChange }: TopicProps) {
               {suggestion.map((suggestion, index) => (
                 <Button
                   onClick={() => {
-                    setSelectedTopic(suggestion);
-                    onHandleInputChange("topic", suggestion);
+                    setTopicOrVideoScript("topic", suggestion);
                   }}
                   className={clsx(
                     "border border-zinc-700 hover:bg-zinc-800 cursor-pointer m-1",
-                    selectedTopic === suggestion && "bg-gray-700"
+                    topic === suggestion && "bg-gray-700"
                   )}
                   key={index}
                 >
@@ -91,8 +86,7 @@ export default function Topic({ onHandleInputChange }: TopicProps) {
               <h2>Enter your own topic</h2>
               <Textarea
                 onChange={(event) => {
-                  setUserTopic(event.target.value);
-                  onHandleInputChange("topic", event.target.value);
+                  setTopicOrVideoScript("topic", event.target.value);
                 }}
                 className="mt-2"
                 placeholder="Enter your own topic..."
@@ -101,11 +95,11 @@ export default function Topic({ onHandleInputChange }: TopicProps) {
           </TabsContent>
         </Tabs>
 
-        {script?.length > 0 && (
+        {videoScript?.length > 0 && (
           <div className="mt-4">
             <h2>Select the Script</h2>
             <div className="grid grid-cols-2 gap-4 mt-4">
-              {script.map((script, index) => (
+              {videoScript.map((script: any, index) => (
                 <div
                   key={index}
                   className="relative"
@@ -119,12 +113,9 @@ export default function Topic({ onHandleInputChange }: TopicProps) {
                       selectedScriptIndex === index && "bg-zinc-700"
                     )}
                   >
-                    <h2 className="line-clamp-3 text-sm text-gray-500">
-                      {script.content}
-                    </h2>
+                    <h2 className="line-clamp-3 text-sm text-gray-500">{script.content}</h2>
                   </div>
 
-                  {/* Tooltip */}
                   {hoveredIndex === index && (
                     <div className="absolute z-50 p-3 bg-zinc-800 border border-zinc-600 rounded-lg shadow-lg text-sm text-white max-h-60 overflow-y-auto left-0 right-0 top-full mt-1 w-full">
                       {script.content}
@@ -142,12 +133,8 @@ export default function Topic({ onHandleInputChange }: TopicProps) {
         size={"sm"}
         onClick={GenerateScript}
       >
-        {loading ? (
-          <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
-        ) : (
-          <SparklesIcon className="w-4 h-4 mr-2" />
-        )}
-        {script?.length > 0 ? "Generate New Script" : "Generate Script"}
+        {loading ? <Loader2Icon className="w-4 h-4 mr-2 animate-spin" /> : <SparklesIcon className="w-4 h-4 mr-2" />}
+        {videoScript?.length > 0 ? "Generate New Script" : "Generate Script"}
       </Button>
     </div>
   );
