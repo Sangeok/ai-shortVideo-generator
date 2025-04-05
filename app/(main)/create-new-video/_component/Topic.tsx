@@ -14,7 +14,7 @@ const suggestion = ["Historic Story", "Kids Story", "Movie Story", "AI Innovatio
 
 interface TopicProps {
   topic: string;
-  setVideoTopic: (fieldName1: CreateVideoField, fieldValue: string) => void;
+  setVideoTopic: (fieldName: CreateVideoField, fieldValue: string) => void;
   setSelectedVideoScript: (fieldName: string, fieldValue: string) => void;
   setVideoScript: (fieldName1: CreateVideoField, fieldValue: string) => void;
   videoScript: videoScriptType[];

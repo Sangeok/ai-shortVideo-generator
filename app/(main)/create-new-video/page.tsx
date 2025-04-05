@@ -15,7 +15,7 @@ export default function CreateNewVideo() {
   const [formData, setFormData] = useState<any>({});
   const { initialCreateVideoData, setCreateVideoDataByField, setGenerateImageDataByFied } = useCreateVideoStore();
 
-  const { title, topic, videoScript, videoStyle, generateImage } = initialCreateVideoData;
+  const { title, topic, videoScript, videoStyle, generateImage, imageUrl } = initialCreateVideoData;
   const { generateImageStyle, generateImageScript } = generateImage;
 
   // const onHandleInputChange = (fieldName: string, fieldValue: string) => {
@@ -46,13 +46,18 @@ export default function CreateNewVideo() {
           />
           {/* Video Image Style */}
           <VideoStyle videoStyle={generateImageStyle} setVideoStyle={setGenerateImageDataByFied} />
-          <GenImage videoStyle={generateImageStyle} videoScript={generateImageScript} />
+          <GenImage
+            imageUrl={imageUrl}
+            videoStyle={generateImageStyle}
+            videoScript={generateImageScript}
+            setImageUrl={setCreateVideoDataByField}
+          />
           <Button className="bg-white text-black mt-5 w-full cursor-pointer">
             <WandSparkles /> Generate Video Prompt
           </Button>
         </div>
         <div>
-          <Preview formData={formData} />
+          <Preview imageUrl={imageUrl} />
         </div>
       </div>
     </div>

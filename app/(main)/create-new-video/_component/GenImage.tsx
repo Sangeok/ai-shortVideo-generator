@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CreateVideoField } from "@/type/CreateVideoField";
+import { ImageUrlType } from "@/type/ImageUrlType";
 import axios from "axios";
 import { Loader2Icon, SparklesIcon } from "lucide-react";
 import { useState } from "react";
@@ -45,7 +47,20 @@ function ImageGenerateButton({
   );
 }
 
-export default function GenImage({ videoStyle, videoScript }: { videoStyle: string; videoScript: string }) {
+export default function GenImage({
+  imageUrl,
+  videoStyle,
+  videoScript,
+  setImageUrl,
+}: {
+  imageUrl: ImageUrlType[];
+  videoStyle: string;
+  videoScript: string;
+  setImageUrl: (fieldName: CreateVideoField, fieldValue: ImageUrlType[]) => void;
+}) {
+  console.log("imageUrl");
+  console.log(imageUrl);
+
   const [isDoneCreateImage, setIsDoneCreateImage] = useState<Record<number, boolean>>({});
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -54,7 +69,8 @@ export default function GenImage({ videoStyle, videoScript }: { videoStyle: stri
 
   const [resVideoScript, setResVideoScript] = useState<any[]>([]);
 
-  const [resImage, setResImage] = useState<any[]>([]);
+  console.log("resVideoScript");
+  console.log(resVideoScript);
 
   const GenerateScript = async () => {
     setLoading(true);
@@ -78,11 +94,33 @@ export default function GenImage({ videoStyle, videoScript }: { videoStyle: stri
     const imagePrompt = resVideoScript[index].imagePrompt;
 
     setLoading(true);
-    setResImage([]);
     try {
       const result = await axios.post("/api/generate-videoImage", { imagePrompt: imagePrompt });
+      console.log("result");
       console.log(result.data);
-      setResImage(result?.data);
+      console.log("imageUrl");
+      console.log(result?.data.data.imageUrl);
+
+      if (imageUrl.length > 0 && imageUrl[index]?.imageUrl) {
+        const updatedImageUrl: ImageUrlType[] = imageUrl.map((item, i) =>
+          item.imageId === index
+            ? {
+                imageId: index,
+                imageUrl: result?.data.data.imageUrl,
+              }
+            : item
+        );
+        console.log("updatedImageUrl");
+        console.log(updatedImageUrl);
+        setImageUrl("imageUrl", updatedImageUrl);
+      } else {
+        const imageUrlData = {
+          imageId: index,
+          imageUrl: result?.data.data.imageUrl,
+        };
+        const updatedImageUrl: ImageUrlType[] = [...imageUrl, imageUrlData];
+        setImageUrl("imageUrl", updatedImageUrl);
+      }
 
       // 이미지 생성 완료 시 상태 업데이트
       if (imagePrompt && result?.status === 200) {
@@ -98,31 +136,12 @@ export default function GenImage({ videoStyle, videoScript }: { videoStyle: stri
     }
   };
 
-  console.log("resImage");
-  console.log(resImage);
-
   return (
     <div className="mt-5">
       <header>
         <h2>Generate Image Script</h2>
-        <p className="text-sm text-gray-400">Generate images from selected video style and script.</p>
+        <p className="text-sm text-gray-400">Generate image scripts from selected video style and script.</p>
       </header>
-      {/* <div className="flex gap-2">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="style">Style</label>
-          <Input type="text" id="style" value={style} onChange={(e) => setStyle(e.target.value)} />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="script">Script</label>
-          <Input
-            type="text"
-            id="script"
-            placeholder="Enter your video content."
-            value={script}
-            onChange={(e) => setScript(e.target.value)}
-          />
-        </div>
-      </div> */}
 
       <div className="flex w-full justify-between gap-2">
         <Button
@@ -134,22 +153,6 @@ export default function GenImage({ videoStyle, videoScript }: { videoStyle: stri
           {loading ? <Loader2Icon className="w-4 h-4 mr-2 animate-spin" /> : <SparklesIcon className="w-4 h-4 mr-2" />}
           Generate Script
         </Button>
-
-        {/* {resVideoScript.length > 0 && (
-          <Button
-            className=" bg-white text-black mt-4 cursor-pointer"
-            disabled={loading}
-            size={"sm"}
-            onClick={GenerateImage}
-          >
-            {loading ? (
-              <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <SparklesIcon className="w-4 h-4 mr-2" />
-            )}
-            Generate Image
-          </Button>
-        )} */}
       </div>
 
       <div className="mt-5 flex flex-col gap-2">

@@ -1,4 +1,5 @@
 import { CreateVideoField } from "@/type/CreateVideoField";
+import { ImageUrlType } from "@/type/ImageUrlType";
 import { videoScriptType } from "@/type/videoScriptType";
 import { VideoStyleOptions } from "@/type/VideoStyleOptions";
 import { create } from "zustand";
@@ -9,7 +10,7 @@ type CreateVideoType = {
   videoScript: videoScriptType[];
   videoStyle: VideoStyleOptions;
   videoCaption: string;
-  imageUrl: string;
+  imageUrl: ImageUrlType[];
   generateImage: {
     generateImageStyle: VideoStyleOptions;
     generateImageScript: string;
@@ -22,7 +23,7 @@ const initialCreateVideoData: CreateVideoType = {
   videoScript: [],
   videoStyle: "",
   videoCaption: "",
-  imageUrl: "",
+  imageUrl: [],
   generateImage: {
     generateImageStyle: "",
     generateImageScript: "",
@@ -31,7 +32,7 @@ const initialCreateVideoData: CreateVideoType = {
 
 interface CreateVideoStore {
   initialCreateVideoData: CreateVideoType;
-  setCreateVideoDataByField: (field: CreateVideoField, data: string) => void;
+  setCreateVideoDataByField: (field: CreateVideoField, data: string | ImageUrlType[]) => void;
   setGenerateImageDataByFied: (field1: string, data: string | VideoStyleOptions) => void;
   setGenerateImageDataByField: (field: CreateVideoField, data: string) => void;
 }
@@ -39,7 +40,7 @@ interface CreateVideoStore {
 const useCreateVideoStore = create<CreateVideoStore>((set) => ({
   initialCreateVideoData: initialCreateVideoData,
 
-  setCreateVideoDataByField: (field: CreateVideoField, data: string) =>
+  setCreateVideoDataByField: (field: CreateVideoField, data: string | ImageUrlType[]) =>
     set((state) => ({
       initialCreateVideoData: {
         ...state.initialCreateVideoData,
