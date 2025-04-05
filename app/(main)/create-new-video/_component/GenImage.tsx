@@ -34,7 +34,7 @@ export default function GenImage({ videoStyle, videoScript }: { videoStyle: stri
     setLoading(true);
     setResImage([]);
     try {
-      const result = await axios.post("/api/generate-videoImage", { imagePrompt: imagePrompt });
+      const result = await axios.post("/api/generate-videoImage", { imagePrompt: imagePrompt[0] });
       console.log(result.data);
       setResImage(result?.data);
     } catch (error) {

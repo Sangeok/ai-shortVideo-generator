@@ -88,7 +88,7 @@
 //     );
 //   }
 // }
-import { generateImage } from "@/app/configs/AiModel";
+import { imageGeneratorModel } from "@/app/configs/AiModel";
 import { ImageOptions } from "@/lib/type";
 import { saveImage } from "@/lib/server-utils";
 import { ApiResponse } from "@/lib/type";
@@ -127,7 +127,7 @@ export async function POST(req: Request) {
       }
 
       // Gemini 모델을 사용하여 이미지 생성
-      const result = await generateImage.sendMessage(prompt);
+      const result = await imageGeneratorModel.generateContent(prompt);
       const response = result.response;
 
       let textResponse = null;
