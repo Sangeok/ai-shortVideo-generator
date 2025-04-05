@@ -4,7 +4,49 @@ import axios from "axios";
 import { Loader2Icon, SparklesIcon } from "lucide-react";
 import { useState } from "react";
 
+// 이미지 생성 버튼 컴포넌트
+function ImageGenerateButton({
+  index,
+  isDone,
+  isLoading,
+  onClick,
+}: {
+  index: number;
+  isDone: boolean;
+  isLoading: boolean;
+  onClick: () => void;
+}) {
+  let buttonStyle = "mt-4 cursor-pointer ";
+  buttonStyle += isDone ? "bg-green-500" : "bg-white text-black";
+
+  let buttonContent;
+  if (isLoading) {
+    buttonContent = <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />;
+  } else if (isDone) {
+    buttonContent = (
+      <>
+        <SparklesIcon className="w-4 h-4 mr-2" />
+        Generate New Image
+      </>
+    );
+  } else {
+    buttonContent = (
+      <>
+        <SparklesIcon className="w-4 h-4 mr-2" />
+        Generate Image
+      </>
+    );
+  }
+
+  return (
+    <Button className={buttonStyle} disabled={isLoading} size={"sm"} onClick={onClick}>
+      {buttonContent}
+    </Button>
+  );
+}
+
 export default function GenImage({ videoStyle, videoScript }: { videoStyle: string; videoScript: string }) {
+  const [isDoneCreateImage, setIsDoneCreateImage] = useState<Record<number, boolean>>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   // const [style, setStyle] = useState<string>("");
@@ -20,6 +62,10 @@ export default function GenImage({ videoStyle, videoScript }: { videoStyle: stri
       const result = await axios.post("/api/generate-videoScript", { style: videoStyle, script: videoScript });
       console.log(result.data);
       setResVideoScript(result?.data);
+
+      // 새 스크립트가 생성되면 이미지 생성 상태 초기화
+      const initialImageStatus = Object.fromEntries(Array.from({ length: result?.data.length }, (_, i) => [i, false]));
+      setIsDoneCreateImage(initialImageStatus);
     } catch (error) {
       console.log(error);
     } finally {
@@ -27,16 +73,24 @@ export default function GenImage({ videoStyle, videoScript }: { videoStyle: stri
     }
   };
 
-  const GenerateImage = async () => {
+  const GenerateImage = async (index: number) => {
     // const imagePrompt = resScript[0].imagePrompt;
-    const imagePrompt = resVideoScript.map((item: any) => item.imagePrompt);
+    const imagePrompt = resVideoScript[index].imagePrompt;
 
     setLoading(true);
     setResImage([]);
     try {
-      const result = await axios.post("/api/generate-videoImage", { imagePrompt: imagePrompt[0] });
+      const result = await axios.post("/api/generate-videoImage", { imagePrompt: imagePrompt });
       console.log(result.data);
       setResImage(result?.data);
+
+      // 이미지 생성 완료 시 상태 업데이트
+      if (imagePrompt && result?.status === 200) {
+        setIsDoneCreateImage((prev) => ({
+          ...prev,
+          [index]: true,
+        }));
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -81,7 +135,7 @@ export default function GenImage({ videoStyle, videoScript }: { videoStyle: stri
           Generate Script
         </Button>
 
-        {resVideoScript.length > 0 && (
+        {/* {resVideoScript.length > 0 && (
           <Button
             className=" bg-white text-black mt-4 cursor-pointer"
             disabled={loading}
@@ -95,16 +149,22 @@ export default function GenImage({ videoStyle, videoScript }: { videoStyle: stri
             )}
             Generate Image
           </Button>
-        )}
+        )} */}
       </div>
 
       <div className="mt-5 flex flex-col gap-2">
         <label htmlFor="resScript">Image Script Result</label>
         {resVideoScript?.length > 0 && (
           <div className="flex flex-col gap-y-4">
-            {resVideoScript?.map((item: any) => (
-              <div key={item.imagePrompt} className="border border-gray-300 rounded-md p-2">
-                {item.imagePrompt}
+            {resVideoScript?.map((item: any, index: number) => (
+              <div className="flex flex-col gap-2" key={item.imagePrompt}>
+                <div className="border border-gray-300 rounded-md p-2">{item.imagePrompt}</div>
+                <ImageGenerateButton
+                  index={index}
+                  isDone={isDoneCreateImage[index]}
+                  isLoading={loading}
+                  onClick={() => GenerateImage(index)}
+                />
               </div>
             ))}
           </div>
