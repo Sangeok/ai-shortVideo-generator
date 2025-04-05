@@ -16,6 +16,12 @@ const SCRIPT_PROMPT = `Generate image prompt of {style} style with all details f
 export async function POST(req: Request) {
   const { style, script } = await req.json();
 
+  console.log("videoStyle");
+  console.log(style);
+
+  console.log("videoScript");
+  console.log(script);
+
   const PROMPT = SCRIPT_PROMPT.replace("{style}", style).replace("{script}", script);
   const result = await generateImageScript.sendMessage(PROMPT);
 

@@ -32,11 +32,7 @@ const initialCreateVideoData: CreateVideoType = {
 interface CreateVideoStore {
   initialCreateVideoData: CreateVideoType;
   setCreateVideoDataByField: (field: CreateVideoField, data: string) => void;
-  setGenerateImageDataTwoFields: (
-    field1: CreateVideoField,
-    field2: CreateVideoField,
-    data: string | VideoStyleOptions
-  ) => void;
+  setGenerateImageDataByFied: (field1: string, data: string | VideoStyleOptions) => void;
   setGenerateImageDataByField: (field: CreateVideoField, data: string) => void;
 }
 
@@ -51,18 +47,13 @@ const useCreateVideoStore = create<CreateVideoStore>((set) => ({
       },
     })),
 
-  setGenerateImageDataTwoFields: (
-    field1: CreateVideoField,
-    field2: CreateVideoField,
-    data: string | VideoStyleOptions
-  ) =>
+  setGenerateImageDataByFied: (field: string, data: string | VideoStyleOptions) =>
     set((state) => ({
       initialCreateVideoData: {
         ...state.initialCreateVideoData,
-        [field1]: data,
         generateImage: {
           ...state.initialCreateVideoData.generateImage,
-          [field2]: data,
+          [field]: data,
         },
       },
     })),

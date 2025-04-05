@@ -1,32 +1,11 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { useState } from "react";
 import { VideoStyleOptions } from "@/constants/VideoStyleOptions";
-import { CreateVideoField } from "@/type/CreateVideoField";
 
 interface VideoStyleProps {
   videoStyle: string;
-  setVideoStyle: (fieldName: CreateVideoField, fieldValue: string) => void;
+  setVideoStyle: (fieldName: string, fieldValue: string) => void;
 }
-
-// export const options = [
-//   {
-//     name: "Realistic",
-//     image: "/Realistic.png",
-//   },
-//   {
-//     name: "Cinematic",
-//     image: "/Cinematic.png",
-//   },
-//   {
-//     name: "Cartoon",
-//     image: "/Cartoon.png",
-//   },
-//   {
-//     name: "Cyberpunk",
-//     image: "/Cyberpunk.jpg",
-//   },
-// ] as const;
 
 export default function VideoStyle({ videoStyle, setVideoStyle }: VideoStyleProps) {
   return (
@@ -39,7 +18,7 @@ export default function VideoStyle({ videoStyle, setVideoStyle }: VideoStyleProp
           <div
             className="relative"
             onClick={() => {
-              setVideoStyle("videoStyle", option.name);
+              setVideoStyle("generateImageStyle", option.name);
             }}
             key={index}
           >

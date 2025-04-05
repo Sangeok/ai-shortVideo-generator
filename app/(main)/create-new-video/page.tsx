@@ -13,18 +13,19 @@ import useCreateVideoStore from "@/store/useCreateVideoStore";
 
 export default function CreateNewVideo() {
   const [formData, setFormData] = useState<any>({});
-  const { initialCreateVideoData, setCreateVideoDataByField } = useCreateVideoStore();
+  const { initialCreateVideoData, setCreateVideoDataByField, setGenerateImageDataByFied } = useCreateVideoStore();
 
-  const { title, topic, videoScript, videoStyle } = initialCreateVideoData;
+  const { title, topic, videoScript, videoStyle, generateImage } = initialCreateVideoData;
+  const { generateImageStyle, generateImageScript } = generateImage;
 
-  const onHandleInputChange = (fieldName: string, fieldValue: string) => {
-    setFormData((prev: any) => ({
-      ...prev,
-      [fieldName]: fieldValue,
-    }));
+  // const onHandleInputChange = (fieldName: string, fieldValue: string) => {
+  //   setFormData((prev: any) => ({
+  //     ...prev,
+  //     [fieldName]: fieldValue,
+  //   }));
 
-    console.log(formData);
-  };
+  //   console.log(formData);
+  // };
 
   return (
     <div>
@@ -36,10 +37,16 @@ export default function CreateNewVideo() {
           {/* Project Title */}
           <ProjectTitle title={title} setTitle={setCreateVideoDataByField} />
           {/* Topic & Script */}
-          <Topic topic={topic} setTopicOrVideoScript={setCreateVideoDataByField} videoScript={videoScript} />
+          <Topic
+            topic={topic}
+            setVideoTopic={setCreateVideoDataByField}
+            setVideoScript={setCreateVideoDataByField}
+            setSelectedVideoScript={setGenerateImageDataByFied}
+            videoScript={videoScript}
+          />
           {/* Video Image Style */}
-          <VideoStyle videoStyle={videoStyle} setVideoStyle={setCreateVideoDataByField} />
-          <GenImage />
+          <VideoStyle videoStyle={generateImageStyle} setVideoStyle={setGenerateImageDataByFied} />
+          <GenImage videoStyle={generateImageStyle} videoScript={generateImageScript} />
           <Button className="bg-white text-black mt-5 w-full cursor-pointer">
             <WandSparkles /> Generate Video Prompt
           </Button>

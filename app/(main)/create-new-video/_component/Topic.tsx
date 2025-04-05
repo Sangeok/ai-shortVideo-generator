@@ -14,15 +14,30 @@ const suggestion = ["Historic Story", "Kids Story", "Movie Story", "AI Innovatio
 
 interface TopicProps {
   topic: string;
-  setTopicOrVideoScript: (fieldName: CreateVideoField, fieldValue: string) => void;
+  setVideoTopic: (fieldName1: CreateVideoField, fieldValue: string) => void;
+  setSelectedVideoScript: (fieldName: string, fieldValue: string) => void;
+  setVideoScript: (fieldName1: CreateVideoField, fieldValue: string) => void;
   videoScript: videoScriptType[];
 }
 
-export default function Topic({ topic, setTopicOrVideoScript, videoScript }: TopicProps) {
+export default function Topic({
+  topic,
+  setVideoTopic,
+  setVideoScript,
+  setSelectedVideoScript,
+  videoScript,
+}: TopicProps) {
   const [selectedScriptIndex, setSelectedScriptIndex] = useState<number | null>(0);
-  // const [script, setScript] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const handleSelectVideoScript = (index: number) => {
+    setSelectedScriptIndex(index);
+    setSelectedVideoScript("generateImageScript", videoScript[index].content);
+  };
+
+  console.log("videoScript");
+  console.log(videoScript);
 
   const GenerateScript = async () => {
     setLoading(true);
@@ -32,12 +47,12 @@ export default function Topic({ topic, setTopicOrVideoScript, videoScript }: Top
         topic,
       });
       console.log(result.data);
-      setTopicOrVideoScript("videoScript", result?.data?.scripts);
+      setVideoScript("videoScript", result?.data?.scripts);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-      setTopicOrVideoScript("topic", "");
+      setVideoTopic("topic", "");
     }
   };
 
@@ -50,14 +65,14 @@ export default function Topic({ topic, setTopicOrVideoScript, videoScript }: Top
           <TabsList className="bg-zinc-800">
             <TabsTrigger
               value="Suggestions"
-              onChange={() => setTopicOrVideoScript("topic", "")}
+              onChange={() => setVideoTopic("topic", "")}
               className="data-[state=active]:bg-black data-[state=active]:text-white"
             >
               Suggestions
             </TabsTrigger>
             <TabsTrigger
               value="My_Topics"
-              onChange={() => setTopicOrVideoScript("topic", "")}
+              onChange={() => setVideoTopic("topic", "")}
               className="data-[state=active]:bg-black data-[state=active]:text-white"
             >
               My Topics
@@ -68,7 +83,7 @@ export default function Topic({ topic, setTopicOrVideoScript, videoScript }: Top
               {suggestion.map((suggestion, index) => (
                 <Button
                   onClick={() => {
-                    setTopicOrVideoScript("topic", suggestion);
+                    setVideoTopic("topic", suggestion);
                   }}
                   className={clsx(
                     "border border-zinc-700 hover:bg-zinc-800 cursor-pointer m-1",
@@ -86,7 +101,7 @@ export default function Topic({ topic, setTopicOrVideoScript, videoScript }: Top
               <h2>Enter your own topic</h2>
               <Textarea
                 onChange={(event) => {
-                  setTopicOrVideoScript("topic", event.target.value);
+                  setVideoTopic("topic", event.target.value);
                 }}
                 className="mt-2"
                 placeholder="Enter your own topic..."
@@ -107,7 +122,7 @@ export default function Topic({ topic, setTopicOrVideoScript, videoScript }: Top
                   onMouseLeave={() => setHoveredIndex(null)}
                 >
                   <div
-                    onClick={() => setSelectedScriptIndex(index)}
+                    onClick={() => handleSelectVideoScript(index)}
                     className={clsx(
                       "p-3 border rounded-lg cursor-pointer",
                       selectedScriptIndex === index && "bg-zinc-700"

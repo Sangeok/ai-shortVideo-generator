@@ -4,23 +4,22 @@ import axios from "axios";
 import { Loader2Icon, SparklesIcon } from "lucide-react";
 import { useState } from "react";
 
-export default function GenImage() {
+export default function GenImage({ videoStyle, videoScript }: { videoStyle: string; videoScript: string }) {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [style, setStyle] = useState<string>("");
-  const [script, setScript] = useState<string>("");
+  // const [style, setStyle] = useState<string>("");
+  // const [script, setScript] = useState<string>("");
 
-  const [resScript, setResScript] = useState<any[]>([]);
+  const [resVideoScript, setResVideoScript] = useState<any[]>([]);
 
   const [resImage, setResImage] = useState<any[]>([]);
 
   const GenerateScript = async () => {
     setLoading(true);
-    setScript("");
     try {
-      const result = await axios.post("/api/generate-videoScript", { style: style, script: script });
+      const result = await axios.post("/api/generate-videoScript", { style: videoStyle, script: videoScript });
       console.log(result.data);
-      setResScript(result?.data);
+      setResVideoScript(result?.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -30,7 +29,7 @@ export default function GenImage() {
 
   const GenerateImage = async () => {
     // const imagePrompt = resScript[0].imagePrompt;
-    const imagePrompt = resScript.map((item: any) => item.imagePrompt);
+    const imagePrompt = resVideoScript.map((item: any) => item.imagePrompt);
 
     setLoading(true);
     setResImage([]);
@@ -51,9 +50,10 @@ export default function GenImage() {
   return (
     <div className="mt-5">
       <header>
-        <h2>Generate Image</h2>
+        <h2>Generate Image Script</h2>
+        <p className="text-sm text-gray-400">Generate images from selected video style and script.</p>
       </header>
-      <div className="flex gap-2">
+      {/* <div className="flex gap-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="style">Style</label>
           <Input type="text" id="style" value={style} onChange={(e) => setStyle(e.target.value)} />
@@ -68,20 +68,7 @@ export default function GenImage() {
             onChange={(e) => setScript(e.target.value)}
           />
         </div>
-      </div>
-
-      <div className="mt-5 flex flex-col gap-2">
-        <label htmlFor="resScript">Result</label>
-        {resScript?.length > 0 && (
-          <div className="flex flex-col gap-y-4">
-            {resScript?.map((item: any) => (
-              <div key={item.imagePrompt} className="border border-gray-300 rounded-md p-2">
-                {item.imagePrompt}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      </div> */}
 
       <div className="flex w-full justify-between gap-2">
         <Button
@@ -94,7 +81,7 @@ export default function GenImage() {
           Generate Script
         </Button>
 
-        {resScript.length > 0 && (
+        {resVideoScript.length > 0 && (
           <Button
             className=" bg-white text-black mt-4 cursor-pointer"
             disabled={loading}
@@ -108,6 +95,19 @@ export default function GenImage() {
             )}
             Generate Image
           </Button>
+        )}
+      </div>
+
+      <div className="mt-5 flex flex-col gap-2">
+        <label htmlFor="resScript">Image Script Result</label>
+        {resVideoScript?.length > 0 && (
+          <div className="flex flex-col gap-y-4">
+            {resVideoScript?.map((item: any) => (
+              <div key={item.imagePrompt} className="border border-gray-300 rounded-md p-2">
+                {item.imagePrompt}
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>
