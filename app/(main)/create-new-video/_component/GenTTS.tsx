@@ -18,7 +18,9 @@ export default function GenTTS({ selectedVideoScript, setSelectedVideoScript }: 
   return (
     <div className="mt-5">
       <h2>Generate TTS</h2>
-      <p className="text-sm text-gray-400">If you fine with the video style, click the button below to generate TTS.</p>
+      <p className="text-sm text-gray-400">
+        If you fine with the video style and script, click the button below to generate TTS.
+      </p>
 
       <div className="mt-5">
         <h2>Check the TTS Script</h2>
@@ -31,6 +33,8 @@ export default function GenTTS({ selectedVideoScript, setSelectedVideoScript }: 
           placeholder="Check the TTS Script..."
         />
       </div>
+
+      {/* openai tts 연결 */}
       <Button
         className="bg-white text-black mt-4 cursor-pointer"
         disabled={loading}
