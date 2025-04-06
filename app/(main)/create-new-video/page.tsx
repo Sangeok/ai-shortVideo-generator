@@ -3,13 +3,14 @@
 import ToggleSideBarButton from "@/app/_components/ToggleSideBarButton";
 import Topic from "./_component/Topic";
 import { useState } from "react";
-import VideoStyle from "./_component/VideoStyle";
 import { Button } from "@/components/ui/button";
 import { WandSparkles } from "lucide-react";
 import Preview from "./_component/Preview";
 import GenImage from "./_component/GenImage";
 import ProjectTitle from "./_component/ProjectTitle";
 import useCreateVideoStore from "@/store/useCreateVideoStore";
+import GenTTS from "./_component/GenTTS";
+import VideoStyle from "./_component/VideoStyle";
 
 export default function CreateNewVideo() {
   const [formData, setFormData] = useState<any>({});
@@ -52,6 +53,8 @@ export default function CreateNewVideo() {
             videoScript={generateImageScript}
             setImageUrl={setCreateVideoDataByField}
           />
+          {/* Gen TTS */}
+          <GenTTS selectedVideoScript={generateImageScript} setSelectedVideoScript={setGenerateImageDataByFied} />
           <Button className="bg-white text-black mt-5 w-full cursor-pointer">
             <WandSparkles /> Generate Video Prompt
           </Button>
