@@ -10,6 +10,7 @@ import ProjectTitle from "./_component/ProjectTitle";
 import useCreateVideoStore from "@/store/useCreateVideoStore";
 import GenTTS from "./_component/GenTTS";
 import VideoStyle from "./_component/VideoStyle";
+import GenCaptions from "./_component/GenCaptions";
 
 export default function CreateNewVideo() {
   const {
@@ -18,8 +19,15 @@ export default function CreateNewVideo() {
     setGenerateImageDataByFied,
   } = useCreateVideoStore();
 
-  const { title, topic, videoScript, generateImage, imageUrl, ttsUrl } =
-    initialCreateVideoData;
+  const {
+    title,
+    topic,
+    videoScript,
+    generateImage,
+    imageUrl,
+    ttsUrl,
+    captions,
+  } = initialCreateVideoData;
   const { generateImageStyle, generateImageScript } = generateImage;
 
   // const onHandleInputChange = (fieldName: string, fieldValue: string) => {
@@ -65,6 +73,12 @@ export default function CreateNewVideo() {
             setSelectedVideoScript={setGenerateImageDataByFied}
             ttsUrl={ttsUrl}
             setTtsUrl={setCreateVideoDataByField}
+          />
+          {/* Gen Captions */}
+          <GenCaptions
+            ttsUrl={ttsUrl}
+            captions={captions}
+            setCaptions={setCreateVideoDataByField}
           />
           <Button className="bg-white text-black mt-5 w-full cursor-pointer">
             <WandSparkles /> Generate Video Prompt
