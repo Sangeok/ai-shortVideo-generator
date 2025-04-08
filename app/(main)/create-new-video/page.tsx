@@ -2,7 +2,6 @@
 
 import ToggleSideBarButton from "@/app/_components/ToggleSideBarButton";
 import Topic from "./_component/Topic";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { WandSparkles } from "lucide-react";
 import Preview from "./_component/Preview";
@@ -13,10 +12,14 @@ import GenTTS from "./_component/GenTTS";
 import VideoStyle from "./_component/VideoStyle";
 
 export default function CreateNewVideo() {
-  const [formData, setFormData] = useState<any>({});
-  const { initialCreateVideoData, setCreateVideoDataByField, setGenerateImageDataByFied } = useCreateVideoStore();
+  const {
+    initialCreateVideoData,
+    setCreateVideoDataByField,
+    setGenerateImageDataByFied,
+  } = useCreateVideoStore();
 
-  const { title, topic, videoScript, videoStyle, generateImage, imageUrl } = initialCreateVideoData;
+  const { title, topic, videoScript, generateImage, imageUrl, ttsUrl } =
+    initialCreateVideoData;
   const { generateImageStyle, generateImageScript } = generateImage;
 
   // const onHandleInputChange = (fieldName: string, fieldValue: string) => {
@@ -46,7 +49,10 @@ export default function CreateNewVideo() {
             videoScript={videoScript}
           />
           {/* Video Image Style */}
-          <VideoStyle videoStyle={generateImageStyle} setVideoStyle={setGenerateImageDataByFied} />
+          <VideoStyle
+            videoStyle={generateImageStyle}
+            setVideoStyle={setGenerateImageDataByFied}
+          />
           <GenImage
             imageUrl={imageUrl}
             videoStyle={generateImageStyle}
@@ -54,7 +60,12 @@ export default function CreateNewVideo() {
             setImageUrl={setCreateVideoDataByField}
           />
           {/* Gen TTS */}
-          <GenTTS selectedVideoScript={generateImageScript} setSelectedVideoScript={setGenerateImageDataByFied} />
+          <GenTTS
+            selectedVideoScript={generateImageScript}
+            setSelectedVideoScript={setGenerateImageDataByFied}
+            ttsUrl={ttsUrl}
+            setTtsUrl={setCreateVideoDataByField}
+          />
           <Button className="bg-white text-black mt-5 w-full cursor-pointer">
             <WandSparkles /> Generate Video Prompt
           </Button>

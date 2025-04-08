@@ -7,10 +7,13 @@ interface VideoStyleProps {
   setVideoStyle: (fieldName: string, fieldValue: string) => void;
 }
 
-export default function VideoStyle({ videoStyle, setVideoStyle }: VideoStyleProps) {
+export default function VideoStyle({
+  videoStyle,
+  setVideoStyle,
+}: VideoStyleProps) {
   return (
-    <div className="mt-5">
-      <h2>Video Styles</h2>
+    <div className="mt-5 border-b border-gray-200 pb-5">
+      <h2 className="text-xl">Video Styles</h2>
       <p className="text-sm text-gray-400">Select Video Style</p>
 
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 mt-3">
@@ -32,7 +35,9 @@ export default function VideoStyle({ videoStyle, setVideoStyle }: VideoStyleProp
                 videoStyle === option.name && "border-2 border-gray-300"
               )}
             />
-            <h2 className="absolute bottom-1 text-center w-full text-white">{option.name}</h2>
+            <h2 className="absolute bottom-1 text-center w-full text-white">
+              {option.name}
+            </h2>
           </div>
         ))}
       </div>

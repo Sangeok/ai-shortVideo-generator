@@ -7,4 +7,5 @@ export type CreateVideoField =
   | "imageUrl"
   | "generateImageStyle"
   | "generateImageScript"
+  | "ttsUrl"
   | "";

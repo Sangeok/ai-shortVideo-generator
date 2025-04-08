@@ -41,7 +41,12 @@ function ImageGenerateButton({
   }
 
   return (
-    <Button className={buttonStyle} disabled={isLoading} size={"sm"} onClick={onClick}>
+    <Button
+      className={buttonStyle}
+      disabled={isLoading}
+      size={"sm"}
+      onClick={onClick}
+    >
       {buttonContent}
     </Button>
   );
@@ -56,12 +61,17 @@ export default function GenImage({
   imageUrl: ImageUrlType[];
   videoStyle: string;
   videoScript: string;
-  setImageUrl: (fieldName: CreateVideoField, fieldValue: ImageUrlType[]) => void;
+  setImageUrl: (
+    fieldName: CreateVideoField,
+    fieldValue: ImageUrlType[]
+  ) => void;
 }) {
   console.log("imageUrl");
   console.log(imageUrl);
 
-  const [isDoneCreateImage, setIsDoneCreateImage] = useState<Record<number, boolean>>({});
+  const [isDoneCreateImage, setIsDoneCreateImage] = useState<
+    Record<number, boolean>
+  >({});
   const [loading, setLoading] = useState<boolean>(false);
 
   // const [style, setStyle] = useState<string>("");
@@ -75,12 +85,17 @@ export default function GenImage({
   const GenerateScript = async () => {
     setLoading(true);
     try {
-      const result = await axios.post("/api/generate-videoScript", { style: videoStyle, script: videoScript });
+      const result = await axios.post("/api/generate-videoScript", {
+        style: videoStyle,
+        script: videoScript,
+      });
       console.log(result.data);
       setResVideoScript(result?.data);
 
       // 새 스크립트가 생성되면 이미지 생성 상태 초기화
-      const initialImageStatus = Object.fromEntries(Array.from({ length: result?.data.length }, (_, i) => [i, false]));
+      const initialImageStatus = Object.fromEntries(
+        Array.from({ length: result?.data.length }, (_, i) => [i, false])
+      );
       setIsDoneCreateImage(initialImageStatus);
     } catch (error) {
       console.log(error);
@@ -95,7 +110,9 @@ export default function GenImage({
 
     setLoading(true);
     try {
-      const result = await axios.post("/api/generate-videoImage", { imagePrompt: imagePrompt });
+      const result = await axios.post("/api/generate-videoImage", {
+        imagePrompt: imagePrompt,
+      });
       console.log("result");
       console.log(result.data);
       console.log("imageUrl");
@@ -137,10 +154,12 @@ export default function GenImage({
   };
 
   return (
-    <div className="mt-5">
+    <div className="mt-5 border-b border-gray-200 pb-5">
       <header>
-        <h2>Generate Image Script</h2>
-        <p className="text-sm text-gray-400">Generate image scripts from selected video style and script.</p>
+        <h2 className="text-xl">Generate Image Script</h2>
+        <p className="text-sm text-gray-400">
+          Generate image scripts from selected video style and script.
+        </p>
       </header>
 
       <div className="flex w-full justify-between gap-2">
@@ -150,7 +169,11 @@ export default function GenImage({
           size={"sm"}
           onClick={GenerateScript}
         >
-          {loading ? <Loader2Icon className="w-4 h-4 mr-2 animate-spin" /> : <SparklesIcon className="w-4 h-4 mr-2" />}
+          {loading ? (
+            <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            <SparklesIcon className="w-4 h-4 mr-2" />
+          )}
           Generate Script
         </Button>
       </div>
@@ -161,7 +184,9 @@ export default function GenImage({
           <div className="flex flex-col gap-y-4">
             {resVideoScript?.map((item: any, index: number) => (
               <div className="flex flex-col gap-2" key={item.imagePrompt}>
-                <div className="border border-gray-300 rounded-md p-2">{item.imagePrompt}</div>
+                <div className="border border-gray-300 rounded-md p-2">
+                  {item.imagePrompt}
+                </div>
                 <ImageGenerateButton
                   index={index}
                   isDone={isDoneCreateImage[index]}

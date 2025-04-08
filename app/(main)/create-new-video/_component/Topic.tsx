@@ -10,7 +10,12 @@ import { useState } from "react";
 import axios from "axios";
 import { CreateVideoField } from "@/type/CreateVideoField";
 import { videoScriptType } from "@/type/videoScriptType";
-const suggestion = ["Historic Story", "Kids Story", "Movie Story", "AI Innovation"] as const;
+const suggestion = [
+  "Historic Story",
+  "Kids Story",
+  "Movie Story",
+  "AI Innovation",
+] as const;
 
 interface TopicProps {
   topic: string;
@@ -27,7 +32,9 @@ export default function Topic({
   setSelectedVideoScript,
   videoScript,
 }: TopicProps) {
-  const [selectedScriptIndex, setSelectedScriptIndex] = useState<number | null>(0);
+  const [selectedScriptIndex, setSelectedScriptIndex] = useState<number | null>(
+    0
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -57,9 +64,9 @@ export default function Topic({
   };
 
   return (
-    <div>
+    <div className="border-b border-gray-200 pb-5">
       <div className="mt-6">
-        <h2>Video Topic</h2>
+        <h2 className="text-xl">Video Topic</h2>
         <p className="text-sm text-gray-400">Select topic for you video</p>
         <Tabs defaultValue="Suggestions" className="w-full mt-2">
           <TabsList className="bg-zinc-800">
@@ -128,7 +135,9 @@ export default function Topic({
                       selectedScriptIndex === index && "bg-zinc-700"
                     )}
                   >
-                    <h2 className="line-clamp-3 text-sm text-gray-500">{script.content}</h2>
+                    <h2 className="line-clamp-3 text-sm text-gray-500">
+                      {script.content}
+                    </h2>
                   </div>
 
                   {hoveredIndex === index && (
@@ -148,7 +157,11 @@ export default function Topic({
         size={"sm"}
         onClick={GenerateScript}
       >
-        {loading ? <Loader2Icon className="w-4 h-4 mr-2 animate-spin" /> : <SparklesIcon className="w-4 h-4 mr-2" />}
+        {loading ? (
+          <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
+        ) : (
+          <SparklesIcon className="w-4 h-4 mr-2" />
+        )}
         {videoScript?.length > 0 ? "Generate New Script" : "Generate Script"}
       </Button>
     </div>
