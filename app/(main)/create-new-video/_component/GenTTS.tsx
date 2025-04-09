@@ -53,7 +53,7 @@ export default function GenTTS({
       const response = await axios.post(
         "/api/generate-voide",
         {
-          text: "안녕하세요.",
+          text: "안녕.",
           // text: selectedVideoScript,
           voice: voice,
         },

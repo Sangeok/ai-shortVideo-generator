@@ -13,7 +13,11 @@ interface GenCaptionsProps {
   setCaptions: (fieldName: CreateVideoField, captions: string) => void;
 }
 
-export default function GenCaptions({ ttsUrl }: GenCaptionsProps) {
+export default function GenCaptions({
+  ttsUrl,
+  captions,
+  setCaptions,
+}: GenCaptionsProps) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const GenerateCaptions = async () => {
@@ -24,9 +28,8 @@ export default function GenCaptions({ ttsUrl }: GenCaptionsProps) {
 
     setLoading(true);
     try {
+      // 1. Blob URL에서 오디오 파일 가져오기
       const response = await fetch(ttsUrl);
-
-      console.log(response);
 
       if (!response.ok) {
         throw new Error(
@@ -36,42 +39,43 @@ export default function GenCaptions({ ttsUrl }: GenCaptionsProps) {
 
       const blob = await response.blob();
 
-      console.log(blob);
+      // 2. 파일명 생성
+      const fileName = "audio.mp3";
 
-      // 3. 파일명 추출 또는 생성
-      let fileName = "audio.mp3";
-      try {
-        const urlParts = ttsUrl.split("/");
-        const lastPart = urlParts[urlParts.length - 1].split("?")[0];
-        if (lastPart) fileName = lastPart;
-      } catch (e) {
-        console.warn("파일명을 추출할 수 없습니다. 기본값을 사용합니다.", e);
-      }
-
-      // 4. Blob을 File 객체로 변환
+      // 3. Blob을 File 객체로 변환
       const fileType = blob.type || "audio/mpeg";
       const audioFile = new File([blob], fileName, { type: fileType });
 
-      // 5. FormData 생성 및 파일 추가
+      // 4. FormData 생성 및 파일 추가
       const formData = new FormData();
       formData.append("audio", audioFile);
       formData.append("language", "ko");
 
-      const captionResponse = await axios.post("/api/generate-captions", {
+      // 5. FormData를 서버로 전송
+      const captionResponse = await axios.post(
+        "/api/generate-captions",
         formData,
-      });
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-      // Axios는 ok 속성이 없으므로 status 코드로 확인
       if (captionResponse.status < 200 || captionResponse.status >= 300) {
         throw new Error(`변환 요청이 실패했습니다: ${captionResponse.status}`);
       }
 
-      //   const response = await fetch("/api/captions", {
-      //     method: "POST",
-      //     body: JSON.stringify({ ttsUrl }),
-      //   });
-      //   const data = await response.json();
-      //   console.log(data);
+      // 6. 결과 처리
+      const result = captionResponse.data;
+      const transcription =
+        result.results?.channels[0]?.alternatives[0]?.transcript || "";
+
+      console.log("잘 왔나");
+      console.log(transcription);
+
+      // 7. 자막 설정
+      // setCaptions(CreateVideoField.CAPTIONS, transcription);
     } catch (error) {
       console.error("Error generating captions:", error);
     } finally {

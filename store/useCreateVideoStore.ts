@@ -15,6 +15,7 @@ type CreateVideoType = {
     generateImageScript: string;
   };
   ttsUrl: string;
+  captions: string;
 };
 
 const initialCreateVideoData: CreateVideoType = {
@@ -28,6 +29,7 @@ const initialCreateVideoData: CreateVideoType = {
     generateImageScript: "",
   },
   ttsUrl: "",
+  captions: "",
 };
 
 interface CreateVideoStore {
