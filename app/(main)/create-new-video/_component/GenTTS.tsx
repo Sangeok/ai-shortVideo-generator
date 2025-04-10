@@ -53,7 +53,7 @@ export default function GenTTS({
       const response = await axios.post(
         "/api/generate-voide",
         {
-          text: "안녕.",
+          text: "안녕하세요. 12월 3일 비상 계엄을 선포함에 따라 나라가 뒤숭숭해졌습니다. 이에 대해 대통령이 발표한 입장을 전하고자 합니다. 대통령은 다음과 같이 말했습니다.",
           // text: selectedVideoScript,
           voice: voice,
         },

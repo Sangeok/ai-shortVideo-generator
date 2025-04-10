@@ -2,8 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { CreateVideoField } from "@/type/CreateVideoField";
+import { convertToSRT } from "@/utils/convertToSRT";
 import axios from "axios";
-import { Loader2Icon } from "lucide-react";
+import { DownloadIcon, Loader2Icon } from "lucide-react";
 import { SparklesIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -18,7 +19,11 @@ export default function GenCaptions({
   captions,
   setCaptions,
 }: GenCaptionsProps) {
+  console.log("captions");
+  console.log(captions);
+
   const [loading, setLoading] = useState<boolean>(false);
+  const [srtContent, setSrtContent] = useState<string>("");
 
   const GenerateCaptions = async () => {
     if (!ttsUrl) {
@@ -72,7 +77,12 @@ export default function GenCaptions({
         result.results?.channels[0]?.alternatives[0]?.transcript || "";
 
       console.log("잘 왔나");
+      console.log(result);
       console.log(transcription);
+
+      const generatedSrtContent = convertToSRT(result);
+      setSrtContent(generatedSrtContent);
+      setCaptions("captions", generatedSrtContent);
 
       // 7. 자막 설정
       // setCaptions(CreateVideoField.CAPTIONS, transcription);
@@ -81,6 +91,32 @@ export default function GenCaptions({
     } finally {
       setLoading(false);
     }
+  };
+
+  const downloadSRT = () => {
+    if (!srtContent) {
+      alert("먼저 자막을 생성해주세요.");
+      return;
+    }
+
+    // Blob 객체 생성
+    const blob = new Blob([srtContent], { type: "text/plain;charset=utf-8" });
+
+    // 다운로드 URL 생성
+    const url = URL.createObjectURL(blob);
+
+    // 다운로드 링크 생성
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    downloadLink.download = "captions.srt"; // 파일명 설정
+
+    // 링크를 DOM에 추가하고 클릭 이벤트 발생시켜 다운로드
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+
+    // 링크 제거 및 URL 해제
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -106,6 +142,17 @@ export default function GenCaptions({
           )}
           Generate Captions
         </Button>
+
+        {srtContent && (
+          <Button
+            className="bg-blue-500 hover:bg-blue-600 text-white mt-4 cursor-pointer"
+            size={"sm"}
+            onClick={downloadSRT}
+          >
+            <DownloadIcon className="w-4 h-4 mr-2" />
+            Download SRT
+          </Button>
+        )}
       </div>
     </div>
   );
