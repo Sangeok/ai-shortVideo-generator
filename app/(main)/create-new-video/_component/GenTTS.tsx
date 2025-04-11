@@ -20,15 +20,18 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { CreateVideoField } from "@/type/CreateVideoField";
+import { videoScriptType } from "@/type/videoScriptType";
 
 interface GenTTSProps {
-  selectedVideoScript: string;
-  setSelectedVideoScript: (field: string, data: string) => void;
+  language: "English" | "Korean";
+  selectedVideoScript: videoScriptType | null;
+  setSelectedVideoScript: (field: string, data: videoScriptType) => void;
   ttsUrl: string;
   setTtsUrl: (field: CreateVideoField, data: string) => void;
 }
 
 export default function GenTTS({
+  language,
   selectedVideoScript,
   setSelectedVideoScript,
   ttsUrl,
@@ -53,8 +56,11 @@ export default function GenTTS({
       const response = await axios.post(
         "/api/generate-voide",
         {
-          text: "안녕하세요. 12월 3일 비상 계엄을 선포함에 따라 나라가 뒤숭숭해졌습니다. 이에 대해 대통령이 발표한 입장을 전하고자 합니다. 대통령은 다음과 같이 말했습니다.",
-          // text: selectedVideoScript,
+          // text: "안녕하세요. 12월 3일 비상 계엄을 선포함에 따라 나라가 뒤숭숭해졌습니다. 이에 대해 대통령이 발표한 입장을 전하고자 합니다. 대통령은 다음과 같이 말했습니다.",
+          text:
+            language === "English"
+              ? selectedVideoScript?.content
+              : selectedVideoScript?.translatedContent,
           voice: voice,
         },
         {
@@ -89,10 +95,15 @@ export default function GenTTS({
       <div className="mt-5">
         <h2>Check the TTS Script</h2>
         <Textarea
-          value={selectedVideoScript}
-          onChange={(event) => {
-            setSelectedVideoScript("generateImageScript", event.target.value);
-          }}
+          value={
+            language === "English"
+              ? selectedVideoScript?.content
+              : selectedVideoScript?.translatedContent
+          }
+          disabled={true}
+          // onChange={(event) => {
+          //   setSelectedVideoScript("generateImageScript", event.target.value);
+          // }}
           className="mt-2"
           placeholder="Check the TTS Script..."
         />

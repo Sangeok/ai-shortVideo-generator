@@ -10,6 +10,15 @@ import { useState } from "react";
 import axios from "axios";
 import { CreateVideoField } from "@/type/CreateVideoField";
 import { videoScriptType } from "@/type/videoScriptType";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 const suggestion = [
   "Historic Story",
   "Kids Story",
@@ -19,17 +28,24 @@ const suggestion = [
 
 interface TopicProps {
   topic: string;
+  language: "English" | "Korean";
   setVideoTopic: (fieldName: CreateVideoField, fieldValue: string) => void;
-  setSelectedVideoScript: (fieldName: string, fieldValue: string) => void;
+  setSelectedVideoScript: (
+    fieldName: string,
+    fieldValue: videoScriptType
+  ) => void;
   setVideoScript: (fieldName1: CreateVideoField, fieldValue: string) => void;
+  setLanguage: (fieldName: CreateVideoField, fieldValue: string) => void;
   videoScript: videoScriptType[];
 }
 
 export default function Topic({
   topic,
+  language,
   setVideoTopic,
   setVideoScript,
   setSelectedVideoScript,
+  setLanguage,
   videoScript,
 }: TopicProps) {
   const [selectedScriptIndex, setSelectedScriptIndex] = useState<number | null>(
@@ -39,8 +55,11 @@ export default function Topic({
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const handleSelectVideoScript = (index: number) => {
+    console.log("videoScript[index]");
+    console.log(videoScript[index]);
+
     setSelectedScriptIndex(index);
-    setSelectedVideoScript("generateImageScript", videoScript[index].content);
+    setSelectedVideoScript("generateImageScript", videoScript[index]);
   };
 
   console.log("videoScript");
@@ -52,6 +71,7 @@ export default function Topic({
     try {
       const result = await axios.post("/api/generate-script", {
         topic,
+        language,
       });
       console.log(result.data);
       setVideoScript("videoScript", result?.data?.scripts);
@@ -117,6 +137,25 @@ export default function Topic({
           </TabsContent>
         </Tabs>
 
+        <div className="mt-4">
+          <h2>Select the Language</h2>
+          <Select
+            value={language}
+            onValueChange={(value) => setLanguage("language", value)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select a language" />
+            </SelectTrigger>
+            <SelectContent className="bg-white text-black">
+              <SelectGroup>
+                <SelectLabel>Language</SelectLabel>
+                <SelectItem value="English">English</SelectItem>
+                <SelectItem value="Korean">Korean</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+
         {videoScript?.length > 0 && (
           <div className="mt-4">
             <h2>Select the Script</h2>
@@ -136,13 +175,17 @@ export default function Topic({
                     )}
                   >
                     <h2 className="line-clamp-3 text-sm text-gray-500">
-                      {script.content}
+                      {language === "English"
+                        ? script.content
+                        : script.translatedContent}
                     </h2>
                   </div>
 
                   {hoveredIndex === index && (
                     <div className="absolute z-50 p-3 bg-zinc-800 border border-zinc-600 rounded-lg shadow-lg text-sm text-white max-h-60 overflow-y-auto left-0 right-0 top-full mt-1 w-full">
-                      {script.content}
+                      {language === "English"
+                        ? script.content
+                        : script.translatedContent}
                     </div>
                   )}
                 </div>

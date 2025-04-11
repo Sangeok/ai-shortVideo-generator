@@ -27,6 +27,7 @@ export default function CreateNewVideo() {
     imageUrl,
     ttsUrl,
     captions,
+    language,
   } = initialCreateVideoData;
   const { generateImageStyle, generateImageScript } = generateImage;
 
@@ -51,8 +52,10 @@ export default function CreateNewVideo() {
           {/* Topic & Script */}
           <Topic
             topic={topic}
+            language={language}
             setVideoTopic={setCreateVideoDataByField}
             setVideoScript={setCreateVideoDataByField}
+            setLanguage={setCreateVideoDataByField}
             setSelectedVideoScript={setGenerateImageDataByFied}
             videoScript={videoScript}
           />
@@ -62,6 +65,7 @@ export default function CreateNewVideo() {
             setVideoStyle={setGenerateImageDataByFied}
           />
           <GenImage
+            language={language}
             imageUrl={imageUrl}
             videoStyle={generateImageStyle}
             videoScript={generateImageScript}
@@ -69,6 +73,7 @@ export default function CreateNewVideo() {
           />
           {/* Gen TTS */}
           <GenTTS
+            language={language}
             selectedVideoScript={generateImageScript}
             setSelectedVideoScript={setGenerateImageDataByFied}
             ttsUrl={ttsUrl}
@@ -76,6 +81,7 @@ export default function CreateNewVideo() {
           />
           {/* Gen Captions */}
           <GenCaptions
+            language={language}
             ttsUrl={ttsUrl}
             captions={captions}
             setCaptions={setCreateVideoDataByField}

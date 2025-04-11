@@ -9,12 +9,14 @@ import { SparklesIcon } from "lucide-react";
 import { useState } from "react";
 
 interface GenCaptionsProps {
+  language: "English" | "Korean";
   ttsUrl: string;
   captions: string;
   setCaptions: (fieldName: CreateVideoField, captions: string) => void;
 }
 
 export default function GenCaptions({
+  language,
   ttsUrl,
   captions,
   setCaptions,
@@ -54,7 +56,7 @@ export default function GenCaptions({
       // 4. FormData 생성 및 파일 추가
       const formData = new FormData();
       formData.append("audio", audioFile);
-      formData.append("language", "ko");
+      formData.append("language", language);
 
       // 5. FormData를 서버로 전송
       const captionResponse = await axios.post(

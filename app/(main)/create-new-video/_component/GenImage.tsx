@@ -6,6 +6,7 @@ import axios from "axios";
 import { Download, Loader2Icon, SparklesIcon } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
+import { videoScriptType } from "@/type/videoScriptType";
 
 // 이미지 생성 버튼 컴포넌트
 function ImageGenerateButton({
@@ -54,14 +55,16 @@ function ImageGenerateButton({
 }
 
 export default function GenImage({
+  language,
   imageUrl,
   videoStyle,
   videoScript,
   setImageUrl,
 }: {
+  language: "English" | "Korean";
   imageUrl: ImageUrlType[];
   videoStyle: string;
-  videoScript: string;
+  videoScript: videoScriptType | null;
   setImageUrl: (
     fieldName: CreateVideoField,
     fieldValue: ImageUrlType[]
@@ -98,9 +101,11 @@ export default function GenImage({
   const GenerateScript = async () => {
     setLoading(true);
     try {
+      // 여기서 무조건 영어로 넘겨줘야 함.
       const result = await axios.post("/api/generate-videoScript", {
         style: videoStyle,
-        script: videoScript,
+        script: videoScript?.content || "",
+        language: language,
       });
       console.log(result.data);
       setResVideoScript(result?.data);

@@ -1,7 +1,7 @@
 import { CreateVideoField } from "@/type/CreateVideoField";
 import { ImageUrlType } from "@/type/ImageUrlType";
 import { videoScriptType } from "@/type/videoScriptType";
-import { VideoStyleOptions } from "@/type/VideoStyleOptions";
+import { VideoStyleOptionsType } from "@/type/VideoStyleOptions";
 import { create } from "zustand";
 
 type CreateVideoType = {
@@ -10,9 +10,10 @@ type CreateVideoType = {
   videoScript: videoScriptType[];
   videoCaption: string;
   imageUrl: ImageUrlType[];
+  language: "English" | "Korean";
   generateImage: {
-    generateImageStyle: VideoStyleOptions;
-    generateImageScript: string;
+    generateImageStyle: VideoStyleOptionsType;
+    generateImageScript: videoScriptType | null;
   };
   ttsUrl: string;
   captions: string;
@@ -24,9 +25,10 @@ const initialCreateVideoData: CreateVideoType = {
   videoScript: [],
   videoCaption: "",
   imageUrl: [],
+  language: "English",
   generateImage: {
     generateImageStyle: "",
-    generateImageScript: "",
+    generateImageScript: null,
   },
   ttsUrl: "",
   captions: "",
@@ -40,9 +42,10 @@ interface CreateVideoStore {
   ) => void;
   setGenerateImageDataByFied: (
     field1: string,
-    data: string | VideoStyleOptions
+    data: VideoStyleOptionsType | videoScriptType
   ) => void;
-  setGenerateImageDataByField: (field: CreateVideoField, data: string) => void;
+  // setSelectedVideoScript: (field: string, data: string) => void;
+  // setGenerateImageDataByField: (field: CreateVideoField, data: string) => void;
 }
 
 const useCreateVideoStore = create<CreateVideoStore>((set) => ({
@@ -61,7 +64,7 @@ const useCreateVideoStore = create<CreateVideoStore>((set) => ({
 
   setGenerateImageDataByFied: (
     field: string,
-    data: string | VideoStyleOptions
+    data: VideoStyleOptionsType | videoScriptType
   ) =>
     set((state) => ({
       initialCreateVideoData: {
@@ -73,16 +76,23 @@ const useCreateVideoStore = create<CreateVideoStore>((set) => ({
       },
     })),
 
-  setGenerateImageDataByField: (field: CreateVideoField, data: string) =>
-    set((state) => ({
-      initialCreateVideoData: {
-        ...state.initialCreateVideoData,
-        generateImage: {
-          ...state.initialCreateVideoData.generateImage,
-          [field]: data,
-        },
-      },
-    })),
+  // setSelectedVideoScript: (field: string, data: string) =>
+  //   set((state) => ({
+  //     initialCreateVideoData: {
+  //       ...state.initialCreateVideoData,
+  //       generateImage: {
+  //         ...state.initialCreateVideoData.generateImage,
+  //         generateImageScript: {
+  //           ...state.initialCreateVideoData,
+  //         },
+  //       },
+  //     },
+  //   })),
+  //         ...state.initialCreateVideoData.generateImage,
+  //         [field]: data,
+  //       },
+  //     },
+  //   })),
 }));
 
 export default useCreateVideoStore;

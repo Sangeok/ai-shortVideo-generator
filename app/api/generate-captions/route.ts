@@ -8,6 +8,8 @@ export async function POST(request: NextRequest) {
     const audioFile = formData.get("audio") as File;
     const language = formData.get("language") as string;
 
+    const languageCode = language === "English" ? "en" : "ko";
+
     if (!audioFile) {
       return NextResponse.json(
         { error: "오디오 파일이 없습니다" },
@@ -28,7 +30,7 @@ export async function POST(request: NextRequest) {
     const { result, error } =
       await deepgramClient.listen.prerecorded.transcribeFile(buffer, {
         model: "2-general",
-        language,
+        language: languageCode,
         tier: "nova",
         smart_format: true,
       });

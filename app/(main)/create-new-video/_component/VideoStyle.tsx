@@ -1,10 +1,11 @@
 import clsx from "clsx";
 import Image from "next/image";
 import { VideoStyleOptions } from "@/constants/VideoStyleOptions";
+import { VideoStyleOptionsType } from "@/type/VideoStyleOptions";
 
 interface VideoStyleProps {
   videoStyle: string;
-  setVideoStyle: (fieldName: string, fieldValue: string) => void;
+  setVideoStyle: (fieldName: string, fieldValue: VideoStyleOptionsType) => void;
 }
 
 export default function VideoStyle({

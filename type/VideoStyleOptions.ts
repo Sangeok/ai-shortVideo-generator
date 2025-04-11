@@ -1,4 +1,4 @@
-export type VideoStyleOptions =
+export type VideoStyleOptionsType =
   | "Cartoon"
   | "Realistic"
   | "Cyberpunk"
