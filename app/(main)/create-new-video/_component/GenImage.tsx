@@ -3,8 +3,9 @@ import { Input } from "@/components/ui/input";
 import { CreateVideoField } from "@/type/CreateVideoField";
 import { ImageUrlType } from "@/type/ImageUrlType";
 import axios from "axios";
-import { Loader2Icon, SparklesIcon } from "lucide-react";
+import { Download, Loader2Icon, SparklesIcon } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 // 이미지 생성 버튼 컴포넌트
 function ImageGenerateButton({
@@ -81,6 +82,18 @@ export default function GenImage({
 
   console.log("resVideoScript");
   console.log(resVideoScript);
+
+  const handleDownloadImage = (index: number) => {
+    const imgItem = imageUrl.find((img) => img.imageId === index);
+    if (imgItem) {
+      const a = document.createElement("a");
+      a.href = imgItem.imageUrl;
+      a.download = `생성된_이미지_${index + 1}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  };
 
   const GenerateScript = async () => {
     setLoading(true);
@@ -183,7 +196,7 @@ export default function GenImage({
         {resVideoScript?.length > 0 && (
           <div className="flex flex-col gap-y-4">
             {resVideoScript?.map((item: any, index: number) => (
-              <div className="flex flex-col gap-2" key={item.imagePrompt}>
+              <div className="flex flex-col gap-1 mb-8" key={item.imagePrompt}>
                 <div className="border border-gray-300 rounded-md p-2">
                   {item.imagePrompt}
                 </div>
@@ -193,6 +206,17 @@ export default function GenImage({
                   isLoading={loading}
                   onClick={() => GenerateImage(index)}
                 />
+                {imageUrl.some((img) => img.imageId === index) && (
+                  <Button
+                    size="sm"
+                    variant="default"
+                    className="mt-2 w-full bg-gray-100 hover:bg-gray-200 text-black font-medium shadow-sm transition-colors"
+                    onClick={() => handleDownloadImage(index)}
+                  >
+                    <Download />
+                    Image Download
+                  </Button>
+                )}
               </div>
             ))}
           </div>
