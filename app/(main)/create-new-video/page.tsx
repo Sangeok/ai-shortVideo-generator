@@ -11,24 +11,12 @@ import useCreateVideoStore from "@/store/useCreateVideoStore";
 import GenTTS from "./_component/GenTTS";
 import VideoStyle from "./_component/VideoStyle";
 import GenCaptions from "./_component/GenCaptions";
+import Link from "next/link";
 
 export default function CreateNewVideo() {
-  const {
-    initialCreateVideoData,
-    setCreateVideoDataByField,
-    setGenerateImageDataByFied,
-  } = useCreateVideoStore();
+  const { initialCreateVideoData, setCreateVideoDataByField, setGenerateImageDataByFied } = useCreateVideoStore();
 
-  const {
-    title,
-    topic,
-    videoScript,
-    generateImage,
-    imageUrl,
-    ttsUrl,
-    captions,
-    language,
-  } = initialCreateVideoData;
+  const { title, topic, videoScript, generateImage, imageUrl, ttsUrl, captions, language } = initialCreateVideoData;
   const { generateImageStyle, generateImageScript } = generateImage;
 
   // const onHandleInputChange = (fieldName: string, fieldValue: string) => {
@@ -60,10 +48,7 @@ export default function CreateNewVideo() {
             videoScript={videoScript}
           />
           {/* Video Image Style */}
-          <VideoStyle
-            videoStyle={generateImageStyle}
-            setVideoStyle={setGenerateImageDataByFied}
-          />
+          <VideoStyle videoStyle={generateImageStyle} setVideoStyle={setGenerateImageDataByFied} />
           <GenImage
             language={language}
             imageUrl={imageUrl}
@@ -86,9 +71,11 @@ export default function CreateNewVideo() {
             captions={captions}
             setCaptions={setCreateVideoDataByField}
           />
-          <Button className="bg-white text-black mt-5 w-full cursor-pointer">
-            <WandSparkles /> Generate Video Prompt
-          </Button>
+          <Link href={`/play-video/${title || "test"}`}>
+            <Button className="bg-white text-black mt-5 w-full cursor-pointer">
+              <WandSparkles /> Generate Video
+            </Button>
+          </Link>
         </div>
         <div>
           <Preview imageUrl={imageUrl} />
