@@ -1,6 +1,6 @@
 "use client";
 
-import RemotionComposition from "@/app/_components/RemotionComposition";
+import { RemotionComposition } from "@/app/_components/RemotionComposition";
 import useCreateVideoStore from "@/store/useCreateVideoStore";
 import { Player } from "@remotion/player";
 import { useState } from "react";

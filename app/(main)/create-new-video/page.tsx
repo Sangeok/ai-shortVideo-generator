@@ -12,12 +12,24 @@ import GenTTS from "./_component/GenTTS";
 import VideoStyle from "./_component/VideoStyle";
 import GenCaptions from "./_component/GenCaptions";
 import Link from "next/link";
+import axios from "axios";
 
 export default function CreateNewVideo() {
   const { initialCreateVideoData, setCreateVideoDataByField, setGenerateImageDataByFied } = useCreateVideoStore();
 
   const { title, topic, videoScript, generateImage, imageUrl, ttsUrl, captions, language } = initialCreateVideoData;
   const { generateImageStyle, generateImageScript } = generateImage;
+
+  const handleGenerateVideo = async () => {
+    const response = await axios.post("/api/generate-video", {
+      ttsUrl,
+      imageUrl,
+      captions,
+    });
+
+    console.log("kkkkkkkkkk");
+    console.log(response);
+  };
 
   // const onHandleInputChange = (fieldName: string, fieldValue: string) => {
   //   setFormData((prev: any) => ({
@@ -72,7 +84,7 @@ export default function CreateNewVideo() {
             setCaptions={setCreateVideoDataByField}
           />
           <Link href={`/play-video/${title || "test"}`}>
-            <Button className="bg-white text-black mt-5 w-full cursor-pointer">
+            <Button className="bg-white text-black mt-5 w-full cursor-pointer" onClick={handleGenerateVideo}>
               <WandSparkles /> Generate Video
             </Button>
           </Link>
