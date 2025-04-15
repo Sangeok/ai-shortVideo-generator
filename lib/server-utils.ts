@@ -4,7 +4,7 @@ import path from "path";
 import crypto from "crypto";
 
 // 이미지 및 메타데이터 디렉토리 경로 정의
-const imagesDir = path.join(process.cwd(), "public", "generated-images");
+const imagesDir = path.join(process.cwd(), "public");
 const metadataDir = path.join(process.cwd(), "data", "metadata");
 
 // 디렉토리가 존재하는지 확인하고 없으면 생성하는 함수
@@ -52,7 +52,7 @@ export async function saveImage(
     filename,
     mimeType,
     size: buffer.length,
-    url: `/generated-images/${filename}`,
+    url: `${filename}`,
   };
 
   // Save metadata to disk

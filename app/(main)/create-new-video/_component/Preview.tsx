@@ -42,7 +42,7 @@ export default function Preview({ imageUrl }: PreviewProps) {
       {imageUrl?.length > 0 ? (
         <div className="relative mt-1">
           <Image
-            src={imageUrl[currentImageIndex].imageUrl}
+            src={"/" + imageUrl[currentImageIndex].imageUrl}
             alt={`preview-image-${currentImageIndex}`}
             width={1000}
             height={300}

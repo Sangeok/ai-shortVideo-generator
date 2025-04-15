@@ -11,7 +11,7 @@ import { RemotionComposition } from "../app/_components/RemotionComposition";
 import useCreateVideoStore from "@/store/useCreateVideoStore";
 
 const videoData = {
-  ttsUrl: "",
+  ttsUrl: "tts-audio-9b4deaae-7b24-4b6c-885b-65cba5fbd182.mp3",
   captions: {
     metadata: {
       transaction_key: "deprecated",

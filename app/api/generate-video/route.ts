@@ -3,7 +3,7 @@ import { getServices, renderMediaOnCloudrun } from "@remotion/cloudrun/client";
 
 export async function POST(req: Request) {
   try {
-    const { ttsUrl, imageUrl, captions } = await req.json();
+    const { ttsFileUrl, imageUrl, captions } = await req.json();
 
     const imageUrlArr = imageUrl.map((item: any) => {
       const fileName = item.imageUrl.startsWith("/") ? item.imageUrl.substring(1) : item.imageUrl;
@@ -33,7 +33,13 @@ export async function POST(req: Request) {
       region: "us-east1",
       serveUrl: serveUrl,
       composition: "Empty",
-      inputProps: {},
+      inputProps: {
+        videoData: {
+          ttsFileUrl: ttsFileUrl,
+          imageUrl: imageUrlArr,
+          captions: captions,
+        },
+      },
       codec: "h264",
     });
 
