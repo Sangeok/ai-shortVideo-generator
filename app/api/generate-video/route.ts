@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       composition: "Empty",
       inputProps: {
         videoData: {
-          ttsFileUrl: ttsFileUrl,
+          ttsUrl: ttsFileUrl,
           imageUrl: imageUrl,
           captions: captions,
         },
