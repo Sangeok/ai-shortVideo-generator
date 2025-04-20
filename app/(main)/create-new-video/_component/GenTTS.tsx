@@ -62,14 +62,51 @@ export default function GenTTS({ language, selectedVideoScript, setSelectedVideo
       const url = URL.createObjectURL(audioBlob);
       const result = await saveTtsAudioToPublic(url);
 
+      // Cloudinary에 오디오 파일 업로드
+      const cloudinaryUrl = await uploadToCloudinary(audioBlob);
+
       console.log("audio Path");
       console.log(result);
+
+      console.log("cloudinaryUrl");
+      console.log(cloudinaryUrl);
       // setAudioUrl(url);
       setTts(url, result);
     } catch (error) {
       console.error("TTS 생성 중 오류:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Cloudinary에 오디오 파일 업로드하는 함수
+  const uploadToCloudinary = async (audioBlob: Blob) => {
+    try {
+      // Cloudinary에 업로드
+      const formData = new FormData();
+      formData.append("file", audioBlob, "audio.mp3");
+      formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ""); // Cloudinary upload preset 설정
+      formData.append("resource_type", "video"); // 오디오 파일은 Cloudinary에서 "video" 리소스 타입으로 처리됨
+
+      const cloudinaryResponse = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const cloudinaryData = await cloudinaryResponse.json();
+
+      if (cloudinaryData.url) {
+        console.log("Cloudinary 업로드 성공:", cloudinaryData);
+        return cloudinaryData.url;
+      } else {
+        throw new Error("Cloudinary 업로드에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("Cloudinary 업로드 오류:", error);
+      return null;
     }
   };
 

@@ -3,10 +3,13 @@ import { Input } from "@/components/ui/input";
 import { CreateVideoField } from "@/type/CreateVideoField";
 import { ImageUrlType } from "@/type/ImageUrlType";
 import axios from "axios";
-import { Download, Loader2Icon, SparklesIcon } from "lucide-react";
+import { Download, Loader2Icon, SparklesIcon, Upload } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import { videoScriptType } from "@/type/videoScriptType";
+import { uploadBytesResumable } from "firebase/storage";
+import { ref } from "firebase/storage";
+import { storage } from "@/app/configs/firebase";
 
 // 이미지 생성 버튼 컴포넌트
 function ImageGenerateButton({
@@ -43,12 +46,7 @@ function ImageGenerateButton({
   }
 
   return (
-    <Button
-      className={buttonStyle}
-      disabled={isLoading}
-      size={"sm"}
-      onClick={onClick}
-    >
+    <Button className={buttonStyle} disabled={isLoading} size={"sm"} onClick={onClick}>
       {buttonContent}
     </Button>
   );
@@ -65,17 +63,12 @@ export default function GenImage({
   imageUrl: ImageUrlType[];
   videoStyle: string;
   videoScript: videoScriptType | null;
-  setImageUrl: (
-    fieldName: CreateVideoField,
-    fieldValue: ImageUrlType[]
-  ) => void;
+  setImageUrl: (fieldName: CreateVideoField, fieldValue: ImageUrlType[]) => void;
 }) {
   console.log("imageUrl");
   console.log(imageUrl);
 
-  const [isDoneCreateImage, setIsDoneCreateImage] = useState<
-    Record<number, boolean>
-  >({});
+  const [isDoneCreateImage, setIsDoneCreateImage] = useState<Record<number, boolean>>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   // const [style, setStyle] = useState<string>("");
@@ -98,6 +91,73 @@ export default function GenImage({
     }
   };
 
+  const handleUploadImage = async (index: number) => {
+    setLoading(true);
+    const imgItem = imageUrl.find((img) => img.imageId === index);
+
+    if (!imgItem) {
+      alert("이미지를 찾을 수 없습니다.");
+      return;
+    }
+
+    try {
+      // 이미지 URL에서 Blob으로 변환
+      const response = await fetch(imgItem.imageUrl);
+      const blob = await response.blob();
+
+      // Cloudinary에 업로드
+      const formData = new FormData();
+      formData.append("file", blob);
+      formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ""); // Cloudinary upload preset 설정
+
+      const cloudinaryResponse = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const cloudinaryData = await cloudinaryResponse.json();
+
+      if (cloudinaryData.url) {
+        const updatedImageUrl: ImageUrlType[] = imageUrl.map((item) =>
+          item.imageId === index
+            ? {
+                imageId: index,
+                imageUrl: imgItem.imageUrl,
+                cloudinaryUrl: cloudinaryData.url,
+              }
+            : item
+        );
+        setImageUrl("imageUrl", updatedImageUrl);
+      }
+
+      console.log("cloudinaryData");
+      console.log(cloudinaryData);
+
+      // if (cloudinaryResponse.ok) {
+      //   // Cloudinary 업로드 성공 후 URL 업데이트
+      //   const updatedImageUrl: ImageUrlType[] = imageUrl.map((item) =>
+      //     item.imageId === index
+      //       ? {
+      //           imageId: index,
+      //           imageUrl: cloudinaryData.secure_url,
+      //         }
+      //       : item
+      //   );
+
+      //   setImageUrl("imageUrl", updatedImageUrl);
+      // } else {
+      //   throw new Error("Cloudinary 업로드에 실패했습니다.");
+      // }
+    } catch (error) {
+      console.error("이미지 업로드 오류:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const GenerateScript = async () => {
     setLoading(true);
     try {
@@ -111,9 +171,7 @@ export default function GenImage({
       setResVideoScript(result?.data);
 
       // 새 스크립트가 생성되면 이미지 생성 상태 초기화
-      const initialImageStatus = Object.fromEntries(
-        Array.from({ length: result?.data.length }, (_, i) => [i, false])
-      );
+      const initialImageStatus = Object.fromEntries(Array.from({ length: result?.data.length }, (_, i) => [i, false]));
       setIsDoneCreateImage(initialImageStatus);
     } catch (error) {
       console.log(error);
@@ -142,6 +200,7 @@ export default function GenImage({
             ? {
                 imageId: index,
                 imageUrl: result?.data.data.imageUrl,
+                cloudinaryUrl: "",
               }
             : item
         );
@@ -152,6 +211,7 @@ export default function GenImage({
         const imageUrlData = {
           imageId: index,
           imageUrl: result?.data.data.imageUrl,
+          cloudinaryUrl: "",
         };
         const updatedImageUrl: ImageUrlType[] = [...imageUrl, imageUrlData];
         setImageUrl("imageUrl", updatedImageUrl);
@@ -175,9 +235,7 @@ export default function GenImage({
     <div className="mt-5 border-b border-gray-200 pb-5">
       <header>
         <h2 className="text-xl">Generate Image Script</h2>
-        <p className="text-sm text-gray-400">
-          Generate image scripts from selected video style and script.
-        </p>
+        <p className="text-sm text-gray-400">Generate image scripts from selected video style and script.</p>
       </header>
 
       <div className="flex w-full justify-between gap-2">
@@ -187,11 +245,7 @@ export default function GenImage({
           size={"sm"}
           onClick={GenerateScript}
         >
-          {loading ? (
-            <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
-          ) : (
-            <SparklesIcon className="w-4 h-4 mr-2" />
-          )}
+          {loading ? <Loader2Icon className="w-4 h-4 mr-2 animate-spin" /> : <SparklesIcon className="w-4 h-4 mr-2" />}
           Generate Script
         </Button>
       </div>
@@ -202,9 +256,7 @@ export default function GenImage({
           <div className="flex flex-col gap-y-4">
             {resVideoScript?.map((item: any, index: number) => (
               <div className="flex flex-col gap-1 mb-8" key={item.imagePrompt}>
-                <div className="border border-gray-300 rounded-md p-2">
-                  {item.imagePrompt}
-                </div>
+                <div className="border border-gray-300 rounded-md p-2">{item.imagePrompt}</div>
                 <ImageGenerateButton
                   index={index}
                   isDone={isDoneCreateImage[index]}
@@ -212,15 +264,26 @@ export default function GenImage({
                   onClick={() => GenerateImage(index)}
                 />
                 {imageUrl.some((img) => img.imageId === index) && (
-                  <Button
-                    size="sm"
-                    variant="default"
-                    className="mt-2 w-full bg-gray-100 hover:bg-gray-200 text-black font-medium shadow-sm transition-colors"
-                    onClick={() => handleDownloadImage(index)}
-                  >
-                    <Download />
-                    Image Download
-                  </Button>
+                  <>
+                    <Button
+                      size="sm"
+                      variant="default"
+                      className="mt-2 w-full bg-gray-100 hover:bg-gray-200 text-black font-medium shadow-sm transition-colors cursor-pointer"
+                      onClick={() => handleDownloadImage(index)}
+                    >
+                      <Download />
+                      Image Download
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="default"
+                      className="mt-2 w-full bg-gray-100 hover:bg-gray-200 text-black font-medium shadow-sm transition-colors cursor-pointer"
+                      onClick={() => handleUploadImage(index)}
+                    >
+                      <Upload />
+                      Upload Image
+                    </Button>
+                  </>
                 )}
               </div>
             ))}

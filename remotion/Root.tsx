@@ -11,7 +11,7 @@ import { RemotionComposition } from "../app/_components/RemotionComposition";
 import useCreateVideoStore from "@/store/useCreateVideoStore";
 
 const videoData = {
-  ttsUrl: "tts-audio-9b4deaae-7b24-4b6c-885b-65cba5fbd182.mp3",
+  ttsUrl: "http://res.cloudinary.com/dzdnn0bue/video/upload/v1745150370/mizvnkvck2qngtgw3wzq.mp3",
   captions: {
     metadata: {
       transaction_key: "deprecated",
@@ -122,16 +122,19 @@ const videoData = {
     {
       imageId: 0,
       imageUrl: "/Realistic.png",
+      cloudinaryUrl: "https://res.cloudinary.com/dzdnn0bue/image/upload/v1745147134/w0wlrrvuloiqw5t3teou.png",
       // imageUrl: "/generated-images/083f507097a934cfaee5bd9dbee6d87b.png",
     },
     {
       imageId: 1,
       imageUrl: "/Realistic.png",
+      cloudinaryUrl: "https://res.cloudinary.com/dzdnn0bue/image/upload/v1745148409/buwntddaowrqe3nczrun.png",
       // imageUrl: "/generated-images/7b559170c0e8819a63b79bf21e58d630.png",
     },
     {
       imageId: 2,
       imageUrl: "/Realistic.png",
+      cloudinaryUrl: "https://res.cloudinary.com/dzdnn0bue/image/upload/v1745149164/yysbwnsuhcu6z7xoig14.png",
     },
   ],
 };

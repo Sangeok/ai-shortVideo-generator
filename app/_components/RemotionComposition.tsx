@@ -67,7 +67,7 @@ export const RemotionComposition: React.FC<Props> = ({ videoData }) => {
               <Sequence key={index} from={startTime} durationInFrames={duration}>
                 <AbsoluteFill>
                   <Img
-                    src={staticFile(item)}
+                    src={imageList[index].cloudinaryUrl}
                     style={{ width: "100%", height: "100%", objectFit: "cover", transform: `scale(${scale(index)})` }}
                   />
                 </AbsoluteFill>
