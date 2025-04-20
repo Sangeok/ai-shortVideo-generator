@@ -39,11 +39,6 @@ export default function GenTTS({ language, selectedVideoScript, setSelectedVideo
   const GenerateTTS = async () => {
     setLoading(true);
     try {
-      if (ttsUrl) {
-        URL.revokeObjectURL(ttsUrl);
-        setTts("", "");
-      }
-
       const response = await axios.post(
         "/api/generate-voide",
         {
@@ -65,13 +60,11 @@ export default function GenTTS({ language, selectedVideoScript, setSelectedVideo
       // Cloudinary에 오디오 파일 업로드
       const cloudinaryUrl = await uploadToCloudinary(audioBlob);
 
-      console.log("audio Path");
-      console.log(result);
-
       console.log("cloudinaryUrl");
       console.log(cloudinaryUrl);
+      // cloudinaryUrl.url
       // setAudioUrl(url);
-      setTts(url, result);
+      setTts(url, cloudinaryUrl);
     } catch (error) {
       console.error("TTS 생성 중 오류:", error);
     } finally {

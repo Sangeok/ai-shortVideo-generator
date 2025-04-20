@@ -5,28 +5,14 @@ export async function POST(req: Request) {
   try {
     const { ttsFileUrl, imageUrl, captions } = await req.json();
 
-    const imageUrlArr = imageUrl
-      .map((item: any) => {
-        // 디버깅용 로그
-        console.log("API에서 처리 중인 아이템:", item);
+    console.log("ttsFileUrl");
+    console.log(ttsFileUrl);
 
-        // 객체 형태인 경우
-        if (item && typeof item === "object" && "imageUrl" in item) {
-          // Remotion의 staticFile 함수는 일반적으로 /로 시작하지 않는 경로를 예상합니다.
-          const path = item.imageUrl;
-          return typeof path === "string" ? (path.startsWith("/") ? path.substring(1) : path) : null;
-        }
+    console.log("imageUrl");
+    console.log(imageUrl);
 
-        // 문자열인 경우
-        if (typeof item === "string") {
-          return item.startsWith("/") ? item.substring(1) : item;
-        }
-
-        return null;
-      })
-      .filter(Boolean); // null, undefined 제거
-
-    console.log("API에서 최종 처리된 imageUrlArr:", imageUrlArr);
+    console.log("captions");
+    console.log(captions);
 
     const services = await getServices({
       region: "us-east1",
@@ -51,7 +37,7 @@ export async function POST(req: Request) {
       inputProps: {
         videoData: {
           ttsFileUrl: ttsFileUrl,
-          imageUrl: imageUrlArr,
+          imageUrl: imageUrl,
           captions: captions,
         },
       },

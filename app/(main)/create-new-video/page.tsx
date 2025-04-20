@@ -18,8 +18,12 @@ export default function CreateNewVideo() {
   const { initialCreateVideoData, setCreateVideoDataByField, setTts, setGenerateImageDataByFied } =
     useCreateVideoStore();
 
-  const { title, topic, videoScript, generateImage, imageUrl, ttsUrl, captions, language } = initialCreateVideoData;
+  const { title, topic, videoScript, generateImage, imageUrl, ttsUrl, captions, ttsFileUrl, language } =
+    initialCreateVideoData;
   const { generateImageStyle, generateImageScript } = generateImage;
+
+  console.log("ttsFileUrl");
+  console.log(ttsFileUrl);
 
   // const onHandleInputChange = (fieldName: string, fieldValue: string) => {
   //   setFormData((prev: any) => ({

@@ -3,28 +3,18 @@
 import { useEffect } from "react";
 import { AbsoluteFill, Audio, Img, interpolate, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 
-// interface RemotionCompositionProps {
-//   videoData: {
-//     captions: any;
-//     ttsUrl: string;
-//     imageUrl: any;
-//   };
-//   setDurationInFrames: (frames: number) => void;
-// }
-
 type Props = {
   videoData: {
     captions: any;
     ttsUrl: string;
     imageUrl: any;
   };
-  // setDurationInFrames: (frames: number) => void;
 };
 
 export const RemotionComposition: React.FC<Props> = ({ videoData }) => {
   const { captions, ttsUrl, imageUrl } = videoData;
   const { fps } = useVideoConfig();
-  const imageList = imageUrl.map((img: any) => img.imageUrl);
+  const imageList = imageUrl.map((img: any) => img.cloudinaryUrl);
   const frame = useCurrentFrame();
 
   useEffect(() => {
@@ -67,7 +57,7 @@ export const RemotionComposition: React.FC<Props> = ({ videoData }) => {
               <Sequence key={index} from={startTime} durationInFrames={duration}>
                 <AbsoluteFill>
                   <Img
-                    src={imageList[index].cloudinaryUrl}
+                    src={item}
                     style={{ width: "100%", height: "100%", objectFit: "cover", transform: `scale(${scale(index)})` }}
                   />
                 </AbsoluteFill>

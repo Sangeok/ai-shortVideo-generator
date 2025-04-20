@@ -6,7 +6,7 @@ import VideoInfo from "./_components/VideoInfo";
 
 export default function PlayVideo() {
   const { initialCreateVideoData } = useCreateVideoStore();
-  const { captions, ttsUrl, imageUrl, title, generateImage } = initialCreateVideoData;
+  const { captions, ttsUrl, imageUrl, title, generateImage, ttsFileUrl } = initialCreateVideoData;
   const { generateImageStyle } = generateImage;
 
   const videoData = {
@@ -15,6 +15,7 @@ export default function PlayVideo() {
     imageUrl: imageUrl,
     title: title,
     videoStyle: generateImageStyle,
+    ttsFileUrl: ttsFileUrl,
   };
 
   return (

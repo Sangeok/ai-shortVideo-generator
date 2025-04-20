@@ -8,7 +8,7 @@
 
 import { Composition } from "remotion";
 import { RemotionComposition } from "../app/_components/RemotionComposition";
-import useCreateVideoStore from "@/store/useCreateVideoStore";
+import useCreateVideoStore from "../store/useCreateVideoStore";
 
 const videoData = {
   ttsUrl: "http://res.cloudinary.com/dzdnn0bue/video/upload/v1745150370/mizvnkvck2qngtgw3wzq.mp3",

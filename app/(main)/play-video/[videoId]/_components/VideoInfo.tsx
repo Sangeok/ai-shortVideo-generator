@@ -8,6 +8,9 @@ export default function VideoInfo({ videoData }: { videoData: any }) {
 
   const script = captions?.results?.channels[0]?.alternatives[0]?.transcript;
 
+  console.log("ttsFileUrl");
+  console.log(ttsFileUrl);
+
   const handleGenerateVideo = async () => {
     const response = await axios.post("/api/generate-video", {
       ttsFileUrl,
@@ -15,7 +18,7 @@ export default function VideoInfo({ videoData }: { videoData: any }) {
       captions,
     });
 
-    console.log("kkkkkkkkkk");
+    console.log("response");
     console.log(response);
   };
 
