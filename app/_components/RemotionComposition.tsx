@@ -53,12 +53,12 @@ export const RemotionComposition: React.FC<Props> = ({ videoData }) => {
             );
 
           return (
-            <div key={item}>
+            <div key={item + index}>
               <Sequence key={index} from={startTime} durationInFrames={duration}>
                 <AbsoluteFill>
                   <Img
                     src={item}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", transform: `scale(${scale(index)})` }}
+                    style={{ width: "100%", height: "100%", objectFit: "contain", transform: `scale(${scale(index)})` }}
                   />
                 </AbsoluteFill>
               </Sequence>

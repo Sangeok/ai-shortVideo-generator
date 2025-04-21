@@ -13,10 +13,10 @@ import { NextResponse } from "next/server";
 //     }
 // ]`;
 
-const SCRIPT_PROMPT_EN = `Generate detailed image prompts in {style} style for a 20-second video script: {script}
+const SCRIPT_PROMPT_EN = `Generate detailed image prompts in {style} style for a 40-second video script: {script}
 Instructions:
 
-Analyze the script and identify 2-3 key scenes.
+Analyze the script and identify 4-5 key scenes.
 For each scene, create a detailed image prompt that includes:
 
 Environmental background (location, time, weather, etc.)
@@ -46,10 +46,10 @@ Please return the results in the following JSON format:
 }
 ]`;
 
-const SCRIPT_PROMPT_KO = `Generate image prompt of {style} style with all details for each scene for 20 seconds video script: {script}
+const SCRIPT_PROMPT_KO = `Generate image prompt of {style} style with all details for each scene for 40 seconds video script: {script}
 
 Instructions:
-1. Analyze the script and identify 2-3 key scenes.
+1. Analyze the script and identify 4-5 key scenes.
 2. For each scene, create a detailed image prompt that includes:
    - Environmental background (location, time, weather, etc.)
    - Detailed descriptions of main characters/objects
@@ -62,7 +62,7 @@ Important notes:
 - If language is {language}, return translated script using {language} in translatedSceneContent
 - Do not mention what language is being used in the response
 
-Follow the Following schema and return JSON data (Max 2-3 images):
+Follow the Following schema and return JSON data (Max 4-5 images):
 [
     {
         "imagePrompt": "",
