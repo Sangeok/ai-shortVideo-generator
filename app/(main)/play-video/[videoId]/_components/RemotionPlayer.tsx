@@ -10,7 +10,13 @@ export default function RemotionPlayer({ videoData }: { videoData: any }) {
   return (
     <Player
       component={RemotionComposition}
-      durationInFrames={Number(durationInFrames.toFixed(0)) + 100}
+      durationInFrames={Number(
+        (
+          videoData?.captions.results.channels[0].alternatives[0].words[
+            videoData?.captions.results.channels[0].alternatives[0].words.length - 1
+          ]?.end * 30
+        ).toFixed(0)
+      )}
       compositionWidth={720}
       compositionHeight={1280}
       fps={30}
