@@ -35,6 +35,7 @@ export default function GenTTS({ language, selectedVideoScript, setSelectedVideo
   const audioRef = useRef(null);
   // const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [voice, setVoice] = useState<string>("alloy");
+  const [translateLanguage, setTranslateLanguage] = useState<string>("Korean");
 
   const GenerateTTS = async () => {
     setLoading(true);
