@@ -53,6 +53,7 @@ export default function Topic({
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [speakerPersona, setSpeakerPersona] = useState<string>("Teacher");
 
   const handleSelectVideoScript = (index: number) => {
     console.log("videoScript[index]");
@@ -72,6 +73,7 @@ export default function Topic({
       const result = await axios.post("/api/generate-script", {
         topic,
         language,
+        speakerPersona,
       });
       console.log(result.data);
       setVideoScript("videoScript", result?.data?.scripts);
@@ -137,23 +139,46 @@ export default function Topic({
           </TabsContent>
         </Tabs>
 
-        <div className="mt-4">
-          <h2>Select the Language</h2>
-          <Select
-            value={language}
-            onValueChange={(value) => setLanguage("language", value)}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select a language" />
-            </SelectTrigger>
-            <SelectContent className="bg-white text-black">
-              <SelectGroup>
-                <SelectLabel>Language</SelectLabel>
-                <SelectItem value="English">English</SelectItem>
-                <SelectItem value="Korean">Korean</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+        <div className="mt-4 flex gap-8">
+          <div>
+            <h2>Select the Language</h2>
+            <Select
+              value={language}
+              onValueChange={(value) => setLanguage("language", value)}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a language" />
+              </SelectTrigger>
+              <SelectContent className="bg-white text-black">
+                <SelectGroup>
+                  <SelectLabel>Language</SelectLabel>
+                  <SelectItem value="English">English</SelectItem>
+                  <SelectItem value="Korean">Korean</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <h2>Select the Speaker personas.</h2>
+            <Select
+              value={speakerPersona}
+              onValueChange={(value) => setSpeakerPersona(value)}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a Speaker persona" />
+              </SelectTrigger>
+              <SelectContent className="bg-white text-black">
+                <SelectGroup>
+                  <SelectLabel>Speaker persona</SelectLabel>
+                  <SelectItem value="Teacher">Teacher</SelectItem>
+                  <SelectItem value="Doctor">Doctor</SelectItem>
+                  <SelectItem value="Scientist">Scientist</SelectItem>
+                  <SelectItem value="Artist">Artist</SelectItem>
+                  <SelectItem value="Philosopher">Philosopher</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {videoScript?.length > 0 && (
