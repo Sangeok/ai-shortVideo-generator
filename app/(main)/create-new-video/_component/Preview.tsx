@@ -21,11 +21,15 @@ export default function Preview({ imageUrl }: PreviewProps) {
   }, [imageUrl]);
 
   const handleNext = () => {
-    setCurrentImageIndex((prev) => (prev === imageUrl.length - 1 ? 0 : prev + 1));
+    setCurrentImageIndex((prev) =>
+      prev === imageUrl.length - 1 ? 0 : prev + 1
+    );
   };
 
   const handlePrevious = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? imageUrl.length - 1 : prev - 1));
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? imageUrl.length - 1 : prev - 1
+    );
   };
 
   if (imageUrl?.length === 0) {
@@ -42,7 +46,7 @@ export default function Preview({ imageUrl }: PreviewProps) {
       {imageUrl?.length > 0 ? (
         <div className="relative mt-1">
           <Image
-            src={"/" + imageUrl[currentImageIndex].imageUrl}
+            src={"/generated-images/" + imageUrl[currentImageIndex].imageUrl}
             alt={`preview-image-${currentImageIndex}`}
             width={1000}
             height={300}
@@ -71,7 +75,9 @@ export default function Preview({ imageUrl }: PreviewProps) {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-2 h-2 rounded-full ${index === currentImageIndex ? "bg-white" : "bg-white/50"}`}
+                    className={`w-2 h-2 rounded-full ${
+                      index === currentImageIndex ? "bg-white" : "bg-white/50"
+                    }`}
                     aria-label={`Go to image ${index + 1}`}
                   />
                 ))}

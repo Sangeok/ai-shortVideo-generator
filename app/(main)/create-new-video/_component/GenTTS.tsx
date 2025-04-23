@@ -83,7 +83,7 @@ export default function GenTTS({
 
       const audioBlob = response.data;
       const url = URL.createObjectURL(audioBlob);
-      const result = await saveTtsAudioToPublic(url);
+      // const result = await saveTtsAudioToPublic(url);
 
       // Cloudinary에 오디오 파일 업로드
       const cloudinaryUrl = await uploadToCloudinary(audioBlob);
