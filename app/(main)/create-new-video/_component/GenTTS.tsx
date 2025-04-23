@@ -16,7 +16,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { CreateVideoField } from "@/type/CreateVideoField";
 import { videoScriptType } from "@/type/videoScriptType";
 import { saveTtsAudioToPublic } from "@/lib/client-utils";
@@ -30,12 +34,32 @@ interface GenTTSProps {
   // setTtsUrl: (field: CreateVideoField, data: string) => void;
 }
 
-export default function GenTTS({ language, selectedVideoScript, setSelectedVideoScript, ttsUrl, setTts }: GenTTSProps) {
+export default function GenTTS({
+  language,
+  selectedVideoScript,
+  setSelectedVideoScript,
+  ttsUrl,
+  setTts,
+}: GenTTSProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const audioRef = useRef(null);
   // const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [voice, setVoice] = useState<string>("alloy");
   const [translateLanguage, setTranslateLanguage] = useState<string>("Korean");
+  const [translatedVideoScript, setTranslatedVideoScript] =
+    useState<string>("");
+
+  const TranslateScript = async () => {
+    const response = await axios.post("/api/translate", {
+      text: selectedVideoScript?.content,
+      targetLanguage: translateLanguage,
+    });
+
+    console.log("translated script");
+    console.log(response.data);
+
+    setTranslatedVideoScript(response.data.translatedText);
+  };
 
   const GenerateTTS = async () => {
     setLoading(true);
@@ -44,7 +68,10 @@ export default function GenTTS({ language, selectedVideoScript, setSelectedVideo
         "/api/generate-voide",
         {
           // text: "안녕하세요. 12월 3일 비상 계엄을 선포함에 따라 나라가 뒤숭숭해졌습니다. 이에 대해 대통령이 발표한 입장을 전하고자 합니다. 대통령은 다음과 같이 말했습니다.",
-          text: language === "English" ? selectedVideoScript?.content : selectedVideoScript?.translatedContent,
+          text:
+            language === "English"
+              ? selectedVideoScript?.content
+              : selectedVideoScript?.translatedContent,
           voice: voice,
         },
         {
@@ -79,7 +106,10 @@ export default function GenTTS({ language, selectedVideoScript, setSelectedVideo
       // Cloudinary에 업로드
       const formData = new FormData();
       formData.append("file", audioBlob, "audio.mp3");
-      formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ""); // Cloudinary upload preset 설정
+      formData.append(
+        "upload_preset",
+        process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ""
+      ); // Cloudinary upload preset 설정
       formData.append("resource_type", "video"); // 오디오 파일은 Cloudinary에서 "video" 리소스 타입으로 처리됨
 
       const cloudinaryResponse = await fetch(
@@ -111,13 +141,18 @@ export default function GenTTS({ language, selectedVideoScript, setSelectedVideo
     <div className="mt-5 border-b border-gray-200 pb-5">
       <h2 className="text-xl">Generate TTS</h2>
       <p className="text-sm text-gray-400">
-        If you fine with the video style and script, click the button below to generate TTS.
+        If you fine with the video style and script, click the button below to
+        generate TTS.
       </p>
 
       <div className="mt-5">
         <h2>Check the TTS Script</h2>
         <Textarea
-          value={language === "English" ? selectedVideoScript?.content : selectedVideoScript?.translatedContent}
+          value={
+            language === "English"
+              ? selectedVideoScript?.content
+              : selectedVideoScript?.translatedContent
+          }
           disabled={true}
           // onChange={(event) => {
           //   setSelectedVideoScript("generateImageScript", event.target.value);
@@ -128,34 +163,79 @@ export default function GenTTS({ language, selectedVideoScript, setSelectedVideo
       </div>
 
       <div className="mt-5">
+        <h2>Translate the TTS Script</h2>
+        <Textarea
+          value={translatedVideoScript}
+          disabled={true}
+          // onChange={(event) => {
+          //   setSelectedVideoScript("generateImageScript", event.target.value);
+          // }}
+          className="mt-2"
+          placeholder="Translate the TTS Script..."
+        />
+      </div>
+
+      <div className="mt-5">
+        <h2>Select the Translate Language</h2>
+        <Select
+          value={translateLanguage}
+          onValueChange={(value) => setTranslateLanguage(value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a language" />
+          </SelectTrigger>
+          <SelectContent className="bg-white text-black">
+            <SelectGroup>
+              <SelectLabel>Language</SelectLabel>
+              <SelectItem value="English">English</SelectItem>
+              <SelectItem value="Korean">Korean</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Button
+          className="bg-white text-black mt-4 cursor-pointer"
+          size={"sm"}
+          onClick={TranslateScript}
+        >
+          Translate
+        </Button>
+      </div>
+
+      <div className="mt-5">
         <div className="flex gap-2 items-center">
           <h2>Select the Voice</h2>
           <Tooltip>
             <TooltipTrigger asChild>
               <Info size={20} className="cursor-help" />
             </TooltipTrigger>
-            <TooltipContent side="right" className="bg-white text-black max-w-sm">
+            <TooltipContent
+              side="right"
+              className="bg-white text-black max-w-sm"
+            >
               <div className="space-y-2 p-1">
                 <p>
-                  <strong>alloy:</strong> 중성적이고 균형 잡힌 음성입니다. 전문적이고 중립적인 톤을 가지고 있어 다양한
-                  상황에 적합합니다.
+                  <strong>alloy:</strong> 중성적이고 균형 잡힌 음성입니다.
+                  전문적이고 중립적인 톤을 가지고 있어 다양한 상황에 적합합니다.
                 </p>
                 <p>
-                  <strong>echo:</strong> 깊고 차분한 음성입니다. 더 깊은 음역대로 안정감 있는 느낌을 줍니다.
+                  <strong>echo:</strong> 깊고 차분한 음성입니다. 더 깊은
+                  음역대로 안정감 있는 느낌을 줍니다.
                 </p>
                 <p>
-                  <strong>fable:</strong> 따뜻하고 친근한 음성입니다. 부드러운 톤으로 이야기나 콘텐츠 낭독에 적합합니다.
+                  <strong>fable:</strong> 따뜻하고 친근한 음성입니다. 부드러운
+                  톤으로 이야기나 콘텐츠 낭독에 적합합니다.
                 </p>
                 <p>
-                  <strong>onyx:</strong> 강력하고 권위 있는 음성입니다. 확신에 찬 톤으로 발표나 공식적인 내용에
-                  어울립니다.
+                  <strong>onyx:</strong> 강력하고 권위 있는 음성입니다. 확신에
+                  찬 톤으로 발표나 공식적인 내용에 어울립니다.
                 </p>
                 <p>
-                  <strong>nova:</strong> 친근하고 명확한 음성입니다. 선명하고 활기찬 느낌으로 교육 콘텐츠나 안내에
-                  효과적입니다.
+                  <strong>nova:</strong> 친근하고 명확한 음성입니다. 선명하고
+                  활기찬 느낌으로 교육 콘텐츠나 안내에 효과적입니다.
                 </p>
                 <p>
-                  <strong>shimmer:</strong> 밝고 긍정적인 음성입니다. 경쾌하고 유쾌한 톤으로 밝은 분위기를 만듭니다.
+                  <strong>shimmer:</strong> 밝고 긍정적인 음성입니다. 경쾌하고
+                  유쾌한 톤으로 밝은 분위기를 만듭니다.
                 </p>
               </div>
             </TooltipContent>
@@ -181,8 +261,17 @@ export default function GenTTS({ language, selectedVideoScript, setSelectedVideo
       </div>
 
       {/* openai tts 연결 */}
-      <Button className="bg-white text-black mt-8 cursor-pointer" disabled={loading} size={"sm"} onClick={GenerateTTS}>
-        {loading ? <Loader2Icon className="w-4 h-4 mr-2 animate-spin" /> : <SparklesIcon className="w-4 h-4 mr-2" />}
+      <Button
+        className="bg-white text-black mt-8 cursor-pointer"
+        disabled={loading}
+        size={"sm"}
+        onClick={GenerateTTS}
+      >
+        {loading ? (
+          <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
+        ) : (
+          <SparklesIcon className="w-4 h-4 mr-2" />
+        )}
         Generate TTS
       </Button>
 
