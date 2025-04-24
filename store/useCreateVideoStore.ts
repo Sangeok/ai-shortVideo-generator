@@ -7,6 +7,7 @@ import { create } from "zustand";
 type CreateVideoType = {
   title: string;
   topic: string;
+  topicDetail: string;
   videoScript: videoScriptType[];
   videoCaption: string;
   imageUrl: ImageUrlType[];
@@ -23,6 +24,7 @@ type CreateVideoType = {
 const initialCreateVideoData: CreateVideoType = {
   title: "",
   topic: "",
+  topicDetail: "",
   videoScript: [],
   videoCaption: "",
   imageUrl: [],
@@ -38,8 +40,14 @@ const initialCreateVideoData: CreateVideoType = {
 
 interface CreateVideoStore {
   initialCreateVideoData: CreateVideoType;
-  setCreateVideoDataByField: (field: CreateVideoField, data: string | ImageUrlType[] | any) => void;
-  setGenerateImageDataByFied: (field1: string, data: VideoStyleOptionsType | videoScriptType) => void;
+  setCreateVideoDataByField: (
+    field: CreateVideoField,
+    data: string | ImageUrlType[] | any
+  ) => void;
+  setGenerateImageDataByFied: (
+    field1: string,
+    data: VideoStyleOptionsType | videoScriptType
+  ) => void;
   setTts: (data1: string, data2: string) => void;
   // setSelectedVideoScript: (field: string, data: string) => void;
   // setGenerateImageDataByField: (field: CreateVideoField, data: string) => void;
@@ -48,7 +56,10 @@ interface CreateVideoStore {
 const useCreateVideoStore = create<CreateVideoStore>((set) => ({
   initialCreateVideoData: initialCreateVideoData,
 
-  setCreateVideoDataByField: (field: CreateVideoField, data: string | ImageUrlType[]) =>
+  setCreateVideoDataByField: (
+    field: CreateVideoField,
+    data: string | ImageUrlType[]
+  ) =>
     set((state) => ({
       initialCreateVideoData: {
         ...state.initialCreateVideoData,
@@ -56,7 +67,10 @@ const useCreateVideoStore = create<CreateVideoStore>((set) => ({
       },
     })),
 
-  setGenerateImageDataByFied: (field: string, data: VideoStyleOptionsType | videoScriptType) =>
+  setGenerateImageDataByFied: (
+    field: string,
+    data: VideoStyleOptionsType | videoScriptType
+  ) =>
     set((state) => ({
       initialCreateVideoData: {
         ...state.initialCreateVideoData,

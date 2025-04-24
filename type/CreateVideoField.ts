@@ -11,4 +11,5 @@ export type CreateVideoField =
   | "captions"
   | "language"
   | "cloudinaryTtsUrl"
+  | "topicDetail"
   | "";
