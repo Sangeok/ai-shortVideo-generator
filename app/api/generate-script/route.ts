@@ -4,17 +4,6 @@ import { NextResponse } from "next/server";
 const SCRIPT_PROMPT_Philosophy_EN = `
 You are an expert in creating engaging YouTube Shorts scripts focused on philosophy. Your task is to craft compelling, motivational scripts that reinterpret famous philosophical quotes for modern audiences.
 Write two different scripts for a 50-second video.
-Topic: Philosophy quotes reinterpreted for modern motivation
-Guidelines:
-
-The philosopher name is {philosopherName}
-Reinterpret the quote to provide motivation in today's context
-Do not add scene descriptions
-Do not add anything in braces
-Do not include greetings or introductions
-You are an expert at creating engaging YouTube Shorts scripts based on philosophical quotes. When given a philosophical quote, you will create motivational content that reinterprets the wisdom for modern audiences.
-
-Write two different scripts for a 45-second video.
 Topic: {philosophical quote}
 Guidelines:
 - Do not add scene descriptions
@@ -44,7 +33,7 @@ Response format (JSON):
 const SCRIPT_PROMPT_Philosophy_KO = `
 You are an expert at creating engaging YouTube Shorts scripts based on philosophical quotes. When given a philosophical quote, you will create motivational content that reinterprets the wisdom for modern audiences.
 
-Write two different scripts for a 45-second video.
+Write two different scripts for a 50second video.
 Topic: {philosophical quote}
 Guidelines:
 - Do not add scene descriptions
@@ -75,7 +64,7 @@ Response format (JSON):
 `;
 
 const SCRIPT_PROMPT_EN = `
-Write two different scripts for a 50-second video.
+Write two different scripts for a 50 second video.
 
 Topic: {topic}
 
@@ -83,8 +72,9 @@ Guidelines:
 - Do not add scene descriptions
 - Do not add anything in braces
 - Do not include greetings or introductions
-- Do not add Narrator
+- Do not add "Narrator:" or similar speaker indicators
 - Return plain text stories
+- Each script should be 50 seconds in length (approximately 100-125 words)
 
 Response format (JSON):
 {
@@ -100,7 +90,7 @@ Response format (JSON):
 `;
 
 const SCRIPT_PROMPT_KO = `
-Write two different scripts for a 50-second video.
+Write two different scripts for a 50 second video.
 
 Topic: {topic}
 
@@ -110,6 +100,7 @@ Guidelines:
 - Do not add Narrator
 - Do not include greetings or introductions
 - Return plain text stories
+- Each script should be 50 seconds in length (approximately 100-125 words)
 - Translate each script to {language}
 
 Response format (JSON):
@@ -120,7 +111,7 @@ Response format (JSON):
       "translatedContent": "First script translated to {language}"
     },
     {
-      "content": "Second script content here", 
+      "content": "Second script content here",
       "translatedContent": "Second script translated to {language}"
     }
   ]
@@ -139,15 +130,9 @@ export async function POST(req: Request) {
 
   if (topic === "Philosophy") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace(
-        "{philosopherName}",
-        topicDetail
-      );
+      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace("{philosophical quote}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace(
-        "{philosopherName}",
-        topicDetail
-      );
+      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace("{philosophical quote}", topicDetail);
     }
   } else if (topic === "History") {
     if (language === "English") {
