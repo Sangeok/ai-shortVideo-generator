@@ -19,17 +19,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-const suggestion = [
-  "Historic Story",
-  "Kids Story",
-  "Movie Story",
-  "AI Innovation",
-] as const;
+const MainTopic = ["Philosophy", "History"] as const;
 
 interface TopicProps {
   topic: string;
+  topicDetail: string;
   language: "English" | "Korean";
   setVideoTopic: (fieldName: CreateVideoField, fieldValue: string) => void;
+  setTopicDetail: (fieldName: CreateVideoField, fieldValue: string) => void;
   setSelectedVideoScript: (
     fieldName: string,
     fieldValue: videoScriptType
@@ -39,10 +36,17 @@ interface TopicProps {
   videoScript: videoScriptType[];
 }
 
+const DetailsPlaceHolder = {
+  Philosophy: "Enter the philosophical quotes...",
+  History: "Enter the historical event name...",
+} as const;
+
 export default function Topic({
   topic,
+  topicDetail,
   language,
   setVideoTopic,
+  setTopicDetail,
   setVideoScript,
   setSelectedVideoScript,
   setLanguage,
@@ -53,7 +57,7 @@ export default function Topic({
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [speakerPersona, setSpeakerPersona] = useState<string>("Teacher");
+  // const [speakerPersona, setSpeakerPersona] = useState<string>("Teacher");
 
   const handleSelectVideoScript = (index: number) => {
     console.log("videoScript[index]");
@@ -73,7 +77,8 @@ export default function Topic({
       const result = await axios.post("/api/generate-script", {
         topic,
         language,
-        speakerPersona,
+        topicDetail,
+        // speakerPersona,
       });
       console.log(result.data);
       setVideoScript("videoScript", result?.data?.scripts);
@@ -82,6 +87,7 @@ export default function Topic({
     } finally {
       setLoading(false);
       setVideoTopic("topic", "");
+      setTopicDetail("topicDetail", "");
     }
   };
 
@@ -90,50 +96,51 @@ export default function Topic({
       <div className="mt-6">
         <h2 className="text-xl">Video Topic</h2>
         <p className="text-sm text-gray-400">Select topic for you video</p>
-        <Tabs defaultValue="Suggestions" className="w-full mt-2">
+        <Tabs defaultValue="MainTopics" className="w-full mt-2">
           <TabsList className="bg-zinc-800">
             <TabsTrigger
-              value="Suggestions"
-              onChange={() => setVideoTopic("topic", "")}
+              value="MainTopics"
               className="data-[state=active]:bg-black data-[state=active]:text-white"
             >
-              Suggestions
+              Main Topics
             </TabsTrigger>
             <TabsTrigger
-              value="My_Topics"
-              onChange={() => setVideoTopic("topic", "")}
+              value="Details"
               className="data-[state=active]:bg-black data-[state=active]:text-white"
             >
-              My Topics
+              Details
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="Suggestions">
+          <TabsContent value="MainTopics">
             <div className="">
-              {suggestion.map((suggestion, index) => (
+              {MainTopic.map((mainTopicItem, index) => (
                 <Button
                   onClick={() => {
-                    setVideoTopic("topic", suggestion);
+                    setVideoTopic("topic", mainTopicItem);
                   }}
                   className={clsx(
                     "border border-zinc-700 hover:bg-zinc-800 cursor-pointer m-1",
-                    topic === suggestion && "bg-gray-700"
+                    topic === mainTopicItem && "bg-gray-700"
                   )}
                   key={index}
                 >
-                  {suggestion}
+                  {mainTopicItem}
                 </Button>
               ))}
             </div>
           </TabsContent>
-          <TabsContent value="My_Topics">
+          <TabsContent value="Details">
             <div>
               <h2>Enter your own topic</h2>
               <Textarea
+                value={topicDetail}
                 onChange={(event) => {
-                  setVideoTopic("topic", event.target.value);
+                  setTopicDetail("topicDetail", event.target.value);
                 }}
                 className="mt-2"
-                placeholder="Enter your own topic..."
+                placeholder={
+                  DetailsPlaceHolder[topic as keyof typeof DetailsPlaceHolder]
+                }
               />
             </div>
           </TabsContent>
@@ -158,7 +165,7 @@ export default function Topic({
               </SelectContent>
             </Select>
           </div>
-          <div>
+          {/* <div>
             <h2>Select the Speaker personas.</h2>
             <Select
               value={speakerPersona}
@@ -178,7 +185,7 @@ export default function Topic({
                 </SelectGroup>
               </SelectContent>
             </Select>
-          </div>
+          </div> */}
         </div>
 
         {videoScript?.length > 0 && (

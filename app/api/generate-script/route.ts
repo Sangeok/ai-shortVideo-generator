@@ -1,51 +1,89 @@
 import { generateScript } from "@/app/configs/AiModel";
 import { NextResponse } from "next/server";
 
-// const SCRIPT_PROMPT_EN = `
-//     Write a two different script for 45 Seconds video on Topic:{topic},
-//     Speaker persona: {speakerPersona}
+const SCRIPT_PROMPT_Philosophy_EN = `
+You are an expert in creating engaging YouTube Shorts scripts focused on philosophy. Your task is to craft compelling, motivational scripts that reinterpret famous philosophical quotes for modern audiences.
+Write two different scripts for a 50-second video.
+Topic: Philosophy quotes reinterpreted for modern motivation
+Guidelines:
 
-//     Do not add Scene description
-//     Do not add anything in Braces, Just return the plain story in text
+The philosopher name is {philosopherName}
+Reinterpret the quote to provide motivation in today's context
+Do not add scene descriptions
+Do not add anything in braces
+Do not include greetings or introductions
+You are an expert at creating engaging YouTube Shorts scripts based on philosophical quotes. When given a philosophical quote, you will create motivational content that reinterprets the wisdom for modern audiences.
 
-//     Give me response in JSON format and follow the schema
-//     {
-//     scripts: [
-//     {
-//     content:""
-//     }
-//     ]
-//     }
-// `;
-
-// const SCRIPT_PROMPT_KO = `
-//     Write a two different script for 45 Seconds video on Topic:{topic},
-//     Speaker persona: {speakerPersona}
-
-//     Do not add Scene description
-//     Do not add anything in Braces, Just return the plain story in text
-
-//     Give me response in JSON format and follow the schema
-//     translatedContent is the translated script in {language}
-//     {
-//     scripts: [
-//     {
-//     content:"",
-//     translatedContent:""
-//     },
-//     ]
-//     }
-// `;
-const SCRIPT_PROMPT_EN = `
 Write two different scripts for a 45-second video.
+Topic: {philosophical quote}
+Guidelines:
+- Do not add scene descriptions
+- Do not add anything in braces
+- Do not include greetings or introductions
+- Don't add 'Philosophical Quote' as a heading.
+- you add the philosopher name in the script
+- Each script should reinterpret the philosophical quote for contemporary viewers
+- Connect the philosophical concept to current challenges or aspirations
+- Craft a motivational message that inspires viewers to reflect and take action
+- Script length should fit within 45 seconds (approximately 120-150 words)
+- Keep language clear, concise, and impactful
+
+Response format (JSON):
+{
+  "scripts": [
+    {
+      "content": "First script content here"
+    },
+    {
+      "content": "Second script content here"
+    }
+  ]
+}
+`;
+
+const SCRIPT_PROMPT_Philosophy_KO = `
+You are an expert at creating engaging YouTube Shorts scripts based on philosophical quotes. When given a philosophical quote, you will create motivational content that reinterprets the wisdom for modern audiences.
+
+Write two different scripts for a 45-second video.
+Topic: {philosophical quote}
+Guidelines:
+- Do not add scene descriptions
+- Do not add anything in braces
+- Do not include greetings or introductions
+- Don't add 'Philosophical Quote' as a heading.
+- you add the philosopher name in the script
+- Each script should reinterpret the philosophical quote for contemporary viewers
+- Connect the philosophical concept to current challenges or aspirations
+- Craft a motivational message that inspires viewers to reflect and take action
+- Script length should fit within 45 seconds (approximately 120-150 words)
+- Keep language clear, concise, and impactful
+- Translate each script to {language}
+
+Response format (JSON):
+{
+  "scripts": [
+    {
+      "content": "First script content here",
+      "translatedContent": "First script translated to {language}"
+    },
+    {
+      "content": "Second script content here",
+      "translatedContent": "Second script translated to {language}"
+    }
+  ]
+}
+`;
+
+const SCRIPT_PROMPT_EN = `
+Write two different scripts for a 50-second video.
 
 Topic: {topic}
-Speaker persona: {speakerPersona}
 
 Guidelines:
 - Do not add scene descriptions
 - Do not add anything in braces
 - Do not include greetings or introductions
+- Do not add Narrator
 - Return plain text stories
 
 Response format (JSON):
@@ -62,14 +100,14 @@ Response format (JSON):
 `;
 
 const SCRIPT_PROMPT_KO = `
-Write two different scripts for a 45-second video.
+Write two different scripts for a 50-second video.
 
 Topic: {topic}
-Speaker persona: {speakerPersona}
 
 Guidelines:
 - Do not add scene descriptions
 - Do not add anything in braces
+- Do not add Narrator
 - Do not include greetings or introductions
 - Return plain text stories
 - Translate each script to {language}
@@ -90,26 +128,41 @@ Response format (JSON):
 `;
 
 export async function POST(req: Request) {
-  const { topic, language, speakerPersona } = await req.json();
+  const { topic, language, topicDetail } = await req.json();
   console.log("topic");
   console.log(topic);
-  console.log("language");
-  console.log(language);
-  console.log("speakerPersona");
-  console.log(speakerPersona);
+
+  console.log("topicDetail");
+  console.log(topicDetail);
 
   let PROMPT;
 
-  if (language === "English") {
-    PROMPT = SCRIPT_PROMPT_EN.replace("{topic}", topic).replace(
-      "{speakerPersona}",
-      speakerPersona
-    );
-  } else {
-    PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topic)
-      .replace("{language}", language)
-      .replace("{speakerPersona}", speakerPersona);
+  if (topic === "Philosophy") {
+    if (language === "English") {
+      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace(
+        "{philosopherName}",
+        topicDetail
+      );
+    } else {
+      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace(
+        "{philosopherName}",
+        topicDetail
+      );
+    }
+  } else if (topic === "History") {
+    if (language === "English") {
+      PROMPT = SCRIPT_PROMPT_EN.replace("{topic}", topicDetail);
+    } else {
+      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail);
+    }
   }
+
+  // if (language === "English") {
+  //   PROMPT = SCRIPT_PROMPT_EN.replace("{topic}", topic);
+  // } else {
+  //   PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topic)
+  //     .replace("{language}", language)
+  // }
 
   const result = await generateScript.sendMessage(PROMPT);
 

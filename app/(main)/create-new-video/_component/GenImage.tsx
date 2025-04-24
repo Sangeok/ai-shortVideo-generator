@@ -46,7 +46,12 @@ function ImageGenerateButton({
   }
 
   return (
-    <Button className={buttonStyle} disabled={isLoading} size={"sm"} onClick={onClick}>
+    <Button
+      className={buttonStyle}
+      disabled={isLoading}
+      size={"sm"}
+      onClick={onClick}
+    >
       {buttonContent}
     </Button>
   );
@@ -63,12 +68,17 @@ export default function GenImage({
   imageUrl: ImageUrlType[];
   videoStyle: string;
   videoScript: videoScriptType | null;
-  setImageUrl: (fieldName: CreateVideoField, fieldValue: ImageUrlType[]) => void;
+  setImageUrl: (
+    fieldName: CreateVideoField,
+    fieldValue: ImageUrlType[]
+  ) => void;
 }) {
   console.log("imageUrl");
   console.log(imageUrl);
 
-  const [isDoneCreateImage, setIsDoneCreateImage] = useState<Record<number, boolean>>({});
+  const [isDoneCreateImage, setIsDoneCreateImage] = useState<
+    Record<number, boolean>
+  >({});
   const [loading, setLoading] = useState<boolean>(false);
 
   // const [style, setStyle] = useState<string>("");
@@ -83,7 +93,7 @@ export default function GenImage({
     const imgItem = imageUrl.find((img) => img.imageId === index);
     if (imgItem) {
       const a = document.createElement("a");
-      a.href = imgItem.imageUrl;
+      a.href = `/generated-images/${imgItem.imageUrl}`;
       a.download = `생성된_이미지_${index + 1}.png`;
       document.body.appendChild(a);
       a.click();
@@ -108,7 +118,10 @@ export default function GenImage({
       // Cloudinary에 업로드
       const formData = new FormData();
       formData.append("file", blob);
-      formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ""); // Cloudinary upload preset 설정
+      formData.append(
+        "upload_preset",
+        process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ""
+      ); // Cloudinary upload preset 설정
 
       const cloudinaryResponse = await fetch(
         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -171,7 +184,9 @@ export default function GenImage({
       setResVideoScript(result?.data);
 
       // 새 스크립트가 생성되면 이미지 생성 상태 초기화
-      const initialImageStatus = Object.fromEntries(Array.from({ length: result?.data.length }, (_, i) => [i, false]));
+      const initialImageStatus = Object.fromEntries(
+        Array.from({ length: result?.data.length }, (_, i) => [i, false])
+      );
       setIsDoneCreateImage(initialImageStatus);
     } catch (error) {
       console.log(error);
@@ -235,7 +250,9 @@ export default function GenImage({
     <div className="mt-5 border-b border-gray-200 pb-5">
       <header>
         <h2 className="text-xl">Generate Image Script</h2>
-        <p className="text-sm text-gray-400">Generate image scripts from selected video style and script.</p>
+        <p className="text-sm text-gray-400">
+          Generate image scripts from selected video style and script.
+        </p>
       </header>
 
       <div className="flex w-full justify-between gap-2">
@@ -245,7 +262,11 @@ export default function GenImage({
           size={"sm"}
           onClick={GenerateScript}
         >
-          {loading ? <Loader2Icon className="w-4 h-4 mr-2 animate-spin" /> : <SparklesIcon className="w-4 h-4 mr-2" />}
+          {loading ? (
+            <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            <SparklesIcon className="w-4 h-4 mr-2" />
+          )}
           Generate Script
         </Button>
       </div>
@@ -256,7 +277,9 @@ export default function GenImage({
           <div className="flex flex-col gap-y-4">
             {resVideoScript?.map((item: any, index: number) => (
               <div className="flex flex-col gap-1 mb-8" key={item.imagePrompt}>
-                <div className="border border-gray-300 rounded-md p-2">{item.imagePrompt}</div>
+                <div className="border border-gray-300 rounded-md p-2">
+                  {item.imagePrompt}
+                </div>
                 <ImageGenerateButton
                   index={index}
                   isDone={isDoneCreateImage[index]}
