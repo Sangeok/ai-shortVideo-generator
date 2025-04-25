@@ -13,10 +13,10 @@ import { NextResponse } from "next/server";
 //     }
 // ]`;
 
-const SCRIPT_PROMPT_EN = `Generate detailed image prompts in {style} style for a 45-second video script: {script}
+const SCRIPT_PROMPT_EN = `Generate detailed image prompts in {style} style for a 50-second video script: {script}
 Instructions:
 
-Analyze the script and identify 5-6 key scenes.
+Analyze the script and identify 6-7 key scenes.
 For each scene, create a detailed image prompt that includes:
 
 Environmental background (location, time, weather, etc.)
@@ -46,10 +46,10 @@ Please return the results in the following JSON format:
 }
 ]`;
 
-const SCRIPT_PROMPT_KO = `Generate image prompt of {style} style with all details for each scene for 45 seconds video script: {script}
+const SCRIPT_PROMPT_KO = `Generate image prompt of {style} style with all details for each scene for 50 seconds video script: {script}
 
 Instructions:
-1. Analyze the script and identify 5-6 key scenes.
+1. Analyze the script and identify 6-7 key scenes.
 2. For each scene, create a detailed image prompt that includes:
    - Environmental background (location, time, weather, etc.)
    - Detailed descriptions of main characters/objects
@@ -125,14 +125,9 @@ export async function POST(req: Request) {
 
   let PROMPT;
   if (language === "English") {
-    PROMPT = SCRIPT_PROMPT_EN.replace("{style}", style).replace(
-      "{script}",
-      script
-    );
+    PROMPT = SCRIPT_PROMPT_EN.replace("{style}", style).replace("{script}", script);
   } else {
-    PROMPT = SCRIPT_PROMPT_KO.replace("{style}", style)
-      .replace("{script}", script)
-      .replace("{language}", language);
+    PROMPT = SCRIPT_PROMPT_KO.replace("{style}", style).replace("{script}", script).replace("{language}", language);
   }
 
   const result = await generateImageScript.sendMessage(PROMPT);
