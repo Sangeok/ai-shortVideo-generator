@@ -132,7 +132,10 @@ export async function POST(req: Request) {
     if (language === "English") {
       PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace("{philosophical quote}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace("{philosophical quote}", topicDetail);
+      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace("{philosophical quote}", topicDetail).replace(
+        "{language}",
+        language
+      );
     }
   } else if (topic === "History") {
     if (language === "English") {
@@ -152,6 +155,9 @@ export async function POST(req: Request) {
   const result = await generateScript.sendMessage(PROMPT);
 
   const response = result?.response?.text();
+
+  console.log("response");
+  console.log(response);
 
   return NextResponse.json(JSON.parse(response));
 }

@@ -15,25 +15,11 @@ import Link from "next/link";
 import axios from "axios";
 
 export default function CreateNewVideo() {
-  const {
-    initialCreateVideoData,
-    setCreateVideoDataByField,
-    setTts,
-    setGenerateImageDataByFied,
-  } = useCreateVideoStore();
+  const { initialCreateVideoData, setCreateVideoDataByField, setTts, setGenerateImageDataByFied } =
+    useCreateVideoStore();
 
-  const {
-    title,
-    topic,
-    videoScript,
-    generateImage,
-    imageUrl,
-    ttsUrl,
-    captions,
-    ttsFileUrl,
-    language,
-    topicDetail,
-  } = initialCreateVideoData;
+  const { title, topic, videoScript, generateImage, imageUrl, ttsUrl, captions, ttsFileUrl, language, topicDetail } =
+    initialCreateVideoData;
   const { generateImageStyle, generateImageScript } = generateImage;
 
   console.log("ttsFileUrl");
@@ -70,11 +56,10 @@ export default function CreateNewVideo() {
             videoScript={videoScript}
           />
           {/* Video Image Style */}
-          <VideoStyle
-            videoStyle={generateImageStyle}
-            setVideoStyle={setGenerateImageDataByFied}
-          />
+          <VideoStyle videoStyle={generateImageStyle} setVideoStyle={setGenerateImageDataByFied} />
           <GenImage
+            topic={topic}
+            topicDetail={topicDetail}
             language={language}
             imageUrl={imageUrl}
             videoStyle={generateImageStyle}
