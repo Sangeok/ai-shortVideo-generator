@@ -39,6 +39,7 @@ Guidelines:
 - Do not add scene descriptions
 - Do not add anything in braces
 - Do not include greetings or introductions
+- Do not add marks that is "*".
 - Don't add 'Philosophical Quote' as a heading.
 - you add the philosopher name in the script
 - Each script should reinterpret the philosophical quote for contemporary viewers
