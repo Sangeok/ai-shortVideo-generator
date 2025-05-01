@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 const SCRIPT_PROMPT_Philosophy_EN = `
 You are an expert in creating engaging YouTube Shorts scripts focused on philosophy. Your task is to craft compelling, motivational scripts that reinterpret famous philosophical quotes for modern audiences.
-Write two different scripts for a 50-second video.
+Write two different scripts for a 35-second video.
 Topic: {philosophical quote}
 Guidelines:
 - Do not add scene descriptions
@@ -33,12 +33,13 @@ Response format (JSON):
 const SCRIPT_PROMPT_Philosophy_KO = `
 You are an expert at creating engaging YouTube Shorts scripts based on philosophical quotes. When given a philosophical quote, you will create motivational content that reinterprets the wisdom for modern audiences.
 
-Write two different scripts for a 50second video.
+Write two different scripts for a 35 second video.
 Topic: {philosophical quote}
 Guidelines:
 - Do not add scene descriptions
 - Do not add anything in braces
 - Do not include greetings or introductions
+- Do not add marks that is "*".
 - Don't add 'Philosophical Quote' as a heading.
 - you add the philosopher name in the script
 - Each script should reinterpret the philosophical quote for contemporary viewers

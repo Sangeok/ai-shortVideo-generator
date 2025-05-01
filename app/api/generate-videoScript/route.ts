@@ -61,10 +61,11 @@ Important notes:
 - Do not include camera angle directions
 - If language is {language}, return translated script using {language} in translatedSceneContent
 - Do not mention what language is being used in the response
+- Use only periods (.) and commas (,) in sentences. No other makrs allowed.
 
 Follow the Following schema and return JSON data (Max 5-6 images):
 [
-    {
+    { 
         "imagePrompt": "",
         "sceneContent": "<Script Content>",
         "translatedSceneContent": "<Translated Script Content>"
@@ -89,7 +90,7 @@ Instructions:
    - Historical context or references within the quote
    - If uncertain about the exact philosopher, determine the philosophical tradition or era
 
-2. Based on your identification, create 5-6 detailed image prompts that include:
+2. Based on your identification, create 4-5 detailed image prompts that include:
    - Detailed description of the identified philosopher (clothing, expression, posture, period features)
    - Environmental background (location, time, atmosphere, elements related to the philosopher's era or ideas)
    - Color tone and overall mood (appropriate to the quote's content)
@@ -121,7 +122,7 @@ Please return the results in the following JSON format:
     "identifiedPhilosopher": "",
     "reasonForIdentification": "",
     "imagePrompt": "",
-    "quoteContent": ""
+    "quoteContent": "",
   }
 ]`;
 
