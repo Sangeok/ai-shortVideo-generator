@@ -142,7 +142,7 @@ export async function POST(req: Request) {
     if (language === "English") {
       PROMPT = SCRIPT_PROMPT_EN.replace("{topic}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail);
+      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace("{language}", language);
     }
   }
 
