@@ -12,27 +12,32 @@ import GenTTS from "./_component/GenTTS";
 import VideoStyle from "./_component/VideoStyle";
 import GenCaptions from "./_component/GenCaptions";
 import Link from "next/link";
-import axios from "axios";
+import GenExplanation from "./_component/GenExplanation";
 
 export default function CreateNewVideo() {
-  const { initialCreateVideoData, setCreateVideoDataByField, setTts, setGenerateImageDataByFied } =
-    useCreateVideoStore();
+  const {
+    initialCreateVideoData,
+    setCreateVideoDataByField,
+    setTts,
+    setGenerateImageDataByFied,
+  } = useCreateVideoStore();
 
-  const { title, topic, videoScript, generateImage, imageUrl, ttsUrl, captions, ttsFileUrl, language, topicDetail } =
-    initialCreateVideoData;
+  const {
+    title,
+    topic,
+    videoScript,
+    generateImage,
+    imageUrl,
+    ttsUrl,
+    captions,
+    ttsFileUrl,
+    language,
+    topicDetail,
+  } = initialCreateVideoData;
   const { generateImageStyle, generateImageScript } = generateImage;
 
   console.log("ttsFileUrl");
   console.log(ttsFileUrl);
-
-  // const onHandleInputChange = (fieldName: string, fieldValue: string) => {
-  //   setFormData((prev: any) => ({
-  //     ...prev,
-  //     [fieldName]: fieldValue,
-  //   }));
-
-  //   console.log(formData);
-  // };
 
   return (
     <div>
@@ -55,8 +60,18 @@ export default function CreateNewVideo() {
             setSelectedVideoScript={setGenerateImageDataByFied}
             videoScript={videoScript}
           />
+          {/* Gen Explanation */}
+          <GenExplanation
+            topic={topic}
+            topicDetail={topicDetail}
+            language={language}
+          />
+
           {/* Video Image Style */}
-          <VideoStyle videoStyle={generateImageStyle} setVideoStyle={setGenerateImageDataByFied} />
+          <VideoStyle
+            videoStyle={generateImageStyle}
+            setVideoStyle={setGenerateImageDataByFied}
+          />
           <GenImage
             topic={topic}
             topicDetail={topicDetail}
