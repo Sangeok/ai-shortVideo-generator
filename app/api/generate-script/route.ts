@@ -120,33 +120,42 @@ Response format (JSON):
 `;
 
 const SCRIPT_PROMPT_DarkPsychology_KO = `
-You are a dual expert in psychological insights and YouTube Shorts scriptwriting. Your mission is to create captivating educational content that reveals psychological principles and human behavior patterns based on the dark psychology topic I provide.
+Create a YouTube Shorts script about the {dark psychology concept}. 
+Write two different scripts. 
+The script should explain how this psychological effect influences human behavior in human relationships. Write in a conversational, engaging style that would capture viewer attention in the first few seconds.
 
-Write two different scripts for 45 second videos about the following topic: {dark psychology concept}
+IMPORTANT: The script must be precisely 40-45 seconds in length when read aloud. This is approximately 100-120 words for English or 500-700 characters for Korean. Please time yourself reading the script to ensure it fits exactly within the 40-45 second timeframe.
 
-# Script Structure Requirements
-- Begin with a powerful hook that immediately grabs viewer attention (5-7 seconds)
-- Explain the core psychological principle in simple, accessible language (20-30 seconds)
-- End with a practical application or thought-provoking conclusion (5-7 seconds)
-- Total length: 80-120 words per script (fits 45 second video)
+Format guidelines:
+- Use minimal punctuation (similar to spoken language)
+- Keep sentences short and impactful
+- Avoid academic jargon - explain complex concepts in simple terms
+- Don't use paragraph breaks
+- Write with a quick-paced delivery in mind
 
-# Content Guidelines
-- Focus on providing practical knowledge for self-awareness, communication improvement, or understanding human interactions
-- Translate complex psychological concepts into everyday language
-- Include interesting or incentive examples
-- Incorporate emotionally evocative scenarios that highlight psychological vulnerabilities
-- Present controversial perspectives that challenge conventional thinking
-- Include tension-building elements like real-life consequences of these psychological techniques
-- Use strategic "shock value" information that remains educational while capturing immediate attention
+Structure the script to follow this flow:
+1. Start with an attention-grabbing claim or question about human behavior
+2. Explain how people typically think about this aspect of psychology
+3. Reveal the psychological effect and how it actually works
+4. Provide 1-2 relationship examples that demonstrate this effect
+5. Explain why this happens (the underlying mechanism)
+6. End with an insightful observation that makes people reflect on their own behavior
 
-# Style Guidelines
-- Use clear, concise sentences with direct, conversational tone
-- Address viewers directly to create engagement
-- Employ short sentences and accessible vocabulary
-- Include thought-provoking questions or challenges to increase viewer engagement
-- Use visually descriptive language that creates mental images
-- Maintain a balance between educational content and engaging delivery
-- Do not add marks like "*", ":"
+Examples of psychological effects you can choose from:
+- Approval Addiction (seeking validation from others)
+- Inception Persuasion (planting ideas so others think they're their own)
+- Social Proof (following what others do)
+- Cognitive Dissonance (mental discomfort from contradictory beliefs)
+- Dunning-Kruger Effect (overestimating abilities when knowledge is limited)
+- Confirmation Bias (seeking information that confirms existing beliefs)
+- Scarcity Effect (valuing things more when they're limited)
+- Hedonic Adaptation (getting used to positive or negative changes)
+- Spotlight Effect (overestimating how much others notice about us)
+- Sunk Cost Fallacy (continuing something due to previous investment)
+
+The tone should be slightly provocative but insightful, similar to channels that share "psychology secrets" or "mind hacks" in short-form content.
+
+Please time yourself reading the final script aloud to verify it can be delivered within exactly 40-45 seconds before submitting.
 
 # Response Format (JSON):
 {
@@ -166,7 +175,7 @@ Important Instructions:
 - Do not add scene descriptions
 - Do not add anything in braces
 - Do not include greetings or introductions
-- Do not add marks like "*"
+- Use marks only ".", "!", "?", ",", "...".
 - Don't add headings such as 'Dark Psychology Technique'
 - Keep language clear, concise, and impactful
 - Translate each script to {language}
@@ -180,37 +189,34 @@ export async function POST(req: Request) {
   console.log("topicDetail");
   console.log(topicDetail);
 
+  console.log("language");
+  console.log(language);
+
   let PROMPT;
 
   if (topic === "Philosophy") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace(
-        "{philosophical quote}",
-        topicDetail
-      );
+      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace("{philosophical quote}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace(
-        "{philosophical quote}",
-        topicDetail
-      ).replace("{language}", language);
+      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace("{philosophical quote}", topicDetail).replace(
+        "{language}",
+        language
+      );
     }
   } else if (topic === "Dark Psychology") {
     if (language === "English") {
       // PROMPT = SCRIPT_PROMPT_DarkPsychology_EN.replace("{dark psychology concept}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_DarkPsychology_KO.replace(
-        "{dark psychology concept}",
-        topicDetail
-      ).replace("{language}", language);
+      PROMPT = SCRIPT_PROMPT_DarkPsychology_KO.replace("{dark psychology concept}", topicDetail).replace(
+        "{language}",
+        language
+      );
     }
   } else if (topic === "History") {
     if (language === "English") {
       PROMPT = SCRIPT_PROMPT_EN.replace("{topic}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace(
-        "{language}",
-        language
-      );
+      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace("{language}", language);
     }
   }
 
