@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-const MainTopic = ["Philosophy", "History"] as const;
+const MainTopic = ["Philosophy", "History", "Dark Psychology"] as const;
 
 interface TopicProps {
   topic: string;
@@ -27,7 +27,10 @@ interface TopicProps {
   language: "English" | "Korean";
   setVideoTopic: (fieldName: CreateVideoField, fieldValue: string) => void;
   setTopicDetail: (fieldName: CreateVideoField, fieldValue: string) => void;
-  setSelectedVideoScript: (fieldName: string, fieldValue: videoScriptType) => void;
+  setSelectedVideoScript: (
+    fieldName: string,
+    fieldValue: videoScriptType
+  ) => void;
   setVideoScript: (fieldName1: CreateVideoField, fieldValue: string) => void;
   setLanguage: (fieldName: CreateVideoField, fieldValue: string) => void;
   videoScript: videoScriptType[];
@@ -36,6 +39,7 @@ interface TopicProps {
 const DetailsPlaceHolder = {
   Philosophy: "Enter the philosophical quotes...",
   History: "Enter the historical event name...",
+  DarkPsychology: "Enter the dark psychology concept...",
 } as const;
 
 export default function Topic({
@@ -49,7 +53,9 @@ export default function Topic({
   setLanguage,
   videoScript,
 }: TopicProps) {
-  const [selectedScriptIndex, setSelectedScriptIndex] = useState<number | null>(0);
+  const [selectedScriptIndex, setSelectedScriptIndex] = useState<number | null>(
+    0
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   // const [speakerPersona, setSpeakerPersona] = useState<string>("Teacher");
@@ -91,10 +97,16 @@ export default function Topic({
         <p className="text-sm text-gray-400">Select topic for you video</p>
         <Tabs defaultValue="MainTopics" className="w-full mt-2">
           <TabsList className="bg-zinc-800">
-            <TabsTrigger value="MainTopics" className="data-[state=active]:bg-black data-[state=active]:text-white">
+            <TabsTrigger
+              value="MainTopics"
+              className="data-[state=active]:bg-black data-[state=active]:text-white"
+            >
               Main Topics
             </TabsTrigger>
-            <TabsTrigger value="Details" className="data-[state=active]:bg-black data-[state=active]:text-white">
+            <TabsTrigger
+              value="Details"
+              className="data-[state=active]:bg-black data-[state=active]:text-white"
+            >
               Details
             </TabsTrigger>
           </TabsList>
@@ -125,7 +137,9 @@ export default function Topic({
                   setTopicDetail("topicDetail", event.target.value);
                 }}
                 className="mt-2"
-                placeholder={DetailsPlaceHolder[topic as keyof typeof DetailsPlaceHolder]}
+                placeholder={
+                  DetailsPlaceHolder[topic as keyof typeof DetailsPlaceHolder]
+                }
               />
             </div>
           </TabsContent>
@@ -134,7 +148,10 @@ export default function Topic({
         <div className="mt-4 flex gap-8">
           <div>
             <h2>Select the Language</h2>
-            <Select value={language} onValueChange={(value) => setLanguage("language", value)}>
+            <Select
+              value={language}
+              onValueChange={(value) => setLanguage("language", value)}
+            >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select a language" />
               </SelectTrigger>
@@ -189,13 +206,17 @@ export default function Topic({
                     )}
                   >
                     <h2 className="line-clamp-3 text-sm text-gray-500">
-                      {language === "English" ? script.content : script.translatedContent}
+                      {language === "English"
+                        ? script.content
+                        : script.translatedContent}
                     </h2>
                   </div>
 
                   {hoveredIndex === index && (
                     <div className="absolute z-50 p-3 bg-zinc-800 border border-zinc-600 rounded-lg shadow-lg text-sm text-white max-h-60 overflow-y-auto left-0 right-0 top-full mt-1 w-full">
-                      {language === "English" ? script.content : script.translatedContent}
+                      {language === "English"
+                        ? script.content
+                        : script.translatedContent}
                     </div>
                   )}
                 </div>
@@ -210,7 +231,11 @@ export default function Topic({
         size={"sm"}
         onClick={GenerateScript}
       >
-        {loading ? <Loader2Icon className="w-4 h-4 mr-2 animate-spin" /> : <SparklesIcon className="w-4 h-4 mr-2" />}
+        {loading ? (
+          <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
+        ) : (
+          <SparklesIcon className="w-4 h-4 mr-2" />
+        )}
         {videoScript?.length > 0 ? "Generate New Script" : "Generate Script"}
       </Button>
     </div>

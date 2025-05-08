@@ -119,6 +119,59 @@ Response format (JSON):
 }
 `;
 
+const SCRIPT_PROMPT_DarkPsychology_KO = `
+You are a dual expert in psychological insights and YouTube Shorts scriptwriting. Your mission is to create captivating educational content that reveals psychological principles and human behavior patterns based on the dark psychology topic I provide.
+
+Write two different scripts for 45 second videos about the following topic: {dark psychology concept}
+
+# Script Structure Requirements
+- Begin with a powerful hook that immediately grabs viewer attention (5-7 seconds)
+- Explain the core psychological principle in simple, accessible language (20-30 seconds)
+- End with a practical application or thought-provoking conclusion (5-7 seconds)
+- Total length: 80-120 words per script (fits 45 second video)
+
+# Content Guidelines
+- Focus on providing practical knowledge for self-awareness, communication improvement, or understanding human interactions
+- Translate complex psychological concepts into everyday language
+- Include interesting or incentive examples
+- Incorporate emotionally evocative scenarios that highlight psychological vulnerabilities
+- Present controversial perspectives that challenge conventional thinking
+- Include tension-building elements like real-life consequences of these psychological techniques
+- Use strategic "shock value" information that remains educational while capturing immediate attention
+
+# Style Guidelines
+- Use clear, concise sentences with direct, conversational tone
+- Address viewers directly to create engagement
+- Employ short sentences and accessible vocabulary
+- Include thought-provoking questions or challenges to increase viewer engagement
+- Use visually descriptive language that creates mental images
+- Maintain a balance between educational content and engaging delivery
+- Do not add marks like "*", ":"
+
+# Response Format (JSON):
+{
+  "scripts": [
+    {
+      "content": "First script content here",
+      "translatedContent": "First script translated to {language}"
+    },
+    {
+      "content": "Second script content here",
+      "translatedContent": "Second script translated to {language}"
+    }
+  ]
+}
+
+Important Instructions:
+- Do not add scene descriptions
+- Do not add anything in braces
+- Do not include greetings or introductions
+- Do not add marks like "*"
+- Don't add headings such as 'Dark Psychology Technique'
+- Keep language clear, concise, and impactful
+- Translate each script to {language}
+`;
+
 export async function POST(req: Request) {
   const { topic, language, topicDetail } = await req.json();
   console.log("topic");
@@ -131,18 +184,33 @@ export async function POST(req: Request) {
 
   if (topic === "Philosophy") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace("{philosophical quote}", topicDetail);
-    } else {
-      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace("{philosophical quote}", topicDetail).replace(
-        "{language}",
-        language
+      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace(
+        "{philosophical quote}",
+        topicDetail
       );
+    } else {
+      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace(
+        "{philosophical quote}",
+        topicDetail
+      ).replace("{language}", language);
+    }
+  } else if (topic === "Dark Psychology") {
+    if (language === "English") {
+      // PROMPT = SCRIPT_PROMPT_DarkPsychology_EN.replace("{dark psychology concept}", topicDetail);
+    } else {
+      PROMPT = SCRIPT_PROMPT_DarkPsychology_KO.replace(
+        "{dark psychology concept}",
+        topicDetail
+      ).replace("{language}", language);
     }
   } else if (topic === "History") {
     if (language === "English") {
       PROMPT = SCRIPT_PROMPT_EN.replace("{topic}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace("{language}", language);
+      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace(
+        "{language}",
+        language
+      );
     }
   }
 
