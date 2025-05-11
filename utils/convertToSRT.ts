@@ -33,23 +33,15 @@ type TranscriptionResult = {
   };
 };
 
-export const convertToSRT = (result: TranscriptionResult) => {
-  if (
-    !result.results ||
-    !result.results.channels ||
-    !result.results.channels[0]?.alternatives?.[0]
-  ) {
+export const convertToSRT = (result: TranscriptionResult, language: string) => {
+  if (!result.results || !result.results.channels || !result.results.channels[0]?.alternatives?.[0]) {
     return "";
   }
 
   const words = result.results.channels[0].alternatives[0].words;
   const paragraphs = result.results.channels[0].alternatives[0].paragraphs;
 
-  if (
-    !paragraphs ||
-    !paragraphs.paragraphs ||
-    paragraphs.paragraphs.length === 0
-  ) {
+  if (!paragraphs || !paragraphs.paragraphs || paragraphs.paragraphs.length === 0) {
     // 문장 정보가 없는 경우, 단어 정보를 사용하여 SRT 생성
     return convertFromWords(words);
   }
@@ -67,9 +59,7 @@ const convertWithSentences = (words: Word[], paragraphs: Paragraph[]) => {
   paragraphs.forEach((paragraph) => {
     paragraph.sentences.forEach((sentence) => {
       // 이 문장에 포함된 단어들 찾기
-      const sentenceWords = words.filter(
-        (word) => word.start >= sentence.start && word.end <= sentence.end
-      );
+      const sentenceWords = words.filter((word) => word.start >= sentence.start && word.end <= sentence.end);
 
       // 문장이 너무 길면 분할하기
       if (sentenceWords.length > 7 || sentence.end - sentence.start > 3) {
@@ -95,12 +85,7 @@ const convertWithSentences = (words: Word[], paragraphs: Paragraph[]) => {
               word.punctuated_word.endsWith("-"));
 
           // 문장의 마지막 단어이거나 분할 조건 충족 시 새 자막 생성
-          if (
-            wordCount >= 7 ||
-            endTime - startTime > 3 ||
-            isPunctuated ||
-            index === sentenceWords.length - 1
-          ) {
+          if (wordCount >= 7 || endTime - startTime > 3 || isPunctuated || index === sentenceWords.length - 1) {
             const formattedStartTime = formatSRTTime(startTime);
             const formattedEndTime = formatSRTTime(endTime);
 
@@ -158,19 +143,10 @@ const convertFromWords = (words: Word[]) => {
         word.punctuated_word.endsWith("-"));
 
     // 특정 접속사에서 분할하지 않도록 방지
-    const nextWord =
-      index < words.length - 1 ? words[index + 1].word.toLowerCase() : "";
-    const isConnectionWord = [
-      "and",
-      "or",
-      "but",
-      "so",
-      "because",
-      "if",
-      "when",
-      "while",
-      "although",
-    ].includes(nextWord);
+    const nextWord = index < words.length - 1 ? words[index + 1].word.toLowerCase() : "";
+    const isConnectionWord = ["and", "or", "but", "so", "because", "if", "when", "while", "although"].includes(
+      nextWord
+    );
 
     if (
       // 다음 단어가 접속사가 아니고, 단어 수 또는 시간 조건을 만족할 때만 분할
@@ -205,7 +181,7 @@ const formatSRTTime = (seconds: number) => {
   const h = Math.floor(totalMinutes / 60);
 
   // 시:분:초,밀리초 형식으로 포맷팅 (SRT 표준)
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(
-    s
-  ).padStart(2, "0")},${String(ms).padStart(3, "0")}`;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")},${String(
+    ms
+  ).padStart(3, "0")}`;
 };
