@@ -126,6 +126,52 @@ Please return the results in the following JSON format:
   }
 ]`;
 
+const PSYCHOLOGY_SCRIPT_PROMPT_KO = `Generate image prompt of {style} style with all details for each scene for 45 seconds video script: {script}
+
+Instructions:
+
+1. Analyze the script and identify 5-6 key scenes based on emotional transitions, plot developments, or significant moments.
+2. For each scene, create a detailed image prompt that includes:
+   - Environmental background (dark background required: pitch-black night settings, deep shadows, oppressive darkness, moonless skies, fog-covered environments, abandoned dark interiors, minimal light sources, silhouette-focused compositions, underground locations, etc.)
+   - Detailed descriptions of main characters/objects (appearance, expressions, poses, partially obscured by shadows)
+   - Color tone or atmosphere (dark tones, low saturation, high contrast, limited color palette with dominant blacks and deep blues/purples, chiaroscuro lighting, negative space, vignette effects, desaturated colors, etc.)
+   - Characteristics of the {style} style (specific elements that make this style recognizable)
+
+Important notes:
+- Generate specific image prompts that accurately reflect the storyline and emotional tone
+- All image backgrounds must be depicted as extremely dark (pitch-black night scenes, heavy shadows, dark foggy environments, near-complete darkness with minimal light sources, etc.)
+- Emphasize dramatic lighting with single light sources against overwhelming darkness
+- Use negative space and shadows to create psychological tension
+- Consider noir-inspired lighting techniques with strong contrast between light and dark
+- Focus on silhouettes and partially obscured elements to enhance mystery and darkness
+- Limit the use of bright colors to only small, focal elements if necessary
+- Even with bright elements, the overall background and atmosphere must maintain a deeply oppressive dark tone
+- Keep each image prompt between 30-100 words for optimal results
+- Do not include camera angle directions or technical filming instructions
+- If language is {language}, return translated script using {language} in translatedSceneContent
+- If no language parameter is provided, default to English with empty translatedSceneContent
+- Do not mention what language is being used in the response
+
+Follow the Following schema and return JSON data (generate exactly 5-6 images):
+[
+    {
+        "imagePrompt": "",
+        "sceneContent": "<Script Content>",
+        "translatedSceneContent": "<Translated Script Content>"
+    }
+]
+
+Example output:
+[
+    {
+        "imagePrompt": "Pitch-black midnight beach, abyss-like ocean merging with the night sky, heavy shadows engulfing the sand, barely visible palm trees as silhouettes against the darkness, a solitary figure holding a surfboard visible only by the faint moonlight cutting across their face, rendered in watercolor style with deep blacks and minimal highlights only on essential elements",
+        "sceneContent": "The protagonist Minji is standing on the beach, holding a surfboard while looking at the ocean",
+        "translatedSceneContent": "주인공 민지가 해변에서 서핑보드를 들고 바다를 바라보고 있다"
+    }
+]
+
+If the script is too short or ambiguous for generating 4-5 meaningful scenes, create at least 3 distinct image prompts focusing on the most important elements available.`;
+
 // const SCRIPT_PROMPT_KO = `Generate image prompt of {style} style with all details for each scene for 30 seconds video script: {script}
 
 // Instructions:
@@ -181,6 +227,8 @@ export async function POST(req: Request) {
     PROMPT = PHILOSOPHY_SCRIPT_PROMPT.replace("{style}", style)
       .replace("{script}", script)
       .replace("{quote}", topicDetail);
+  } else if (topic === "Dark Psychology") {
+    PROMPT = PSYCHOLOGY_SCRIPT_PROMPT_KO.replace("{style}", style).replace("{script}", script);
   } else if (topic === "History") {
     if (language === "English") {
       PROMPT = SCRIPT_PROMPT_EN.replace("{style}", style).replace("{script}", script);

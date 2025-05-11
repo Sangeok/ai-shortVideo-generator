@@ -70,7 +70,7 @@ export default function GenCaptions({ language, ttsUrl, captions, setCaptions }:
       console.log(result);
       console.log(transcription);
 
-      const generatedSrtContent = convertToSRT(result);
+      const generatedSrtContent = convertToSRT(result, language);
       setSrtContent(generatedSrtContent);
       setCaptions("captions", result);
 
