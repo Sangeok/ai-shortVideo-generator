@@ -75,7 +75,7 @@ export default function Topic({
     setLoading(true);
     setSelectedScriptIndex(null);
     try {
-      const result = await axios.post("/api/generate-script", {
+      const result = await axios.post("/api/generate-youtubeScript", {
         topic,
         language,
         topicDetail,

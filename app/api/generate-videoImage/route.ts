@@ -89,7 +89,6 @@
 //   }
 // }
 import { imageGeneratorModel } from "@/app/configs/AiModel";
-import { ImageOptions } from "@/lib/type";
 import { saveImage } from "@/lib/server-utils";
 import { ApiResponse } from "@/lib/type";
 import { NextResponse } from "next/server";
@@ -103,7 +102,10 @@ export async function POST(req: Request) {
 
     // 프롬프트가 없는 경우 오류 반환
     if (!imagePrompt) {
-      return NextResponse.json({ error: "이미지 프롬프트가 필요합니다." }, { status: 400 });
+      return NextResponse.json(
+        { error: "이미지 프롬프트가 필요합니다." },
+        { status: 400 }
+      );
     }
 
     // 배열인지 확인
@@ -111,7 +113,10 @@ export async function POST(req: Request) {
 
     // 배열이 아니고 문자열이 비어있는 경우 오류 반환
     if (!isArray && imagePrompt.trim() === "") {
-      return NextResponse.json({ error: "이미지 프롬프트가 필요합니다." }, { status: 400 });
+      return NextResponse.json(
+        { error: "이미지 프롬프트가 필요합니다." },
+        { status: 400 }
+      );
     }
 
     // 프롬프트 배열 (단일 문자열인 경우 배열로 변환)

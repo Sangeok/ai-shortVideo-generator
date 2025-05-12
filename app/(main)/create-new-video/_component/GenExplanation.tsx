@@ -29,9 +29,6 @@ export default function GenExplanation({
         language,
       });
 
-      console.log("와우");
-      console.log(response.data);
-
       setExplanation(response.data.explanation);
     } catch (error) {
       console.log(error);
