@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DetailsPlaceHolder, MainTopic } from "../model/constants";
+import { DetailsPlaceHolder, MainTopic } from "./constants";
 
 interface TopicProps {
   topic: string;
