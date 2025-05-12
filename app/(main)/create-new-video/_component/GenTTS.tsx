@@ -21,9 +21,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { CreateVideoField } from "@/type/CreateVideoField";
 import { videoScriptType } from "@/type/videoScriptType";
-import { saveTtsAudioToPublic } from "@/lib/client-utils";
 
 interface GenTTSProps {
   language: "English" | "Korean";
@@ -50,7 +48,7 @@ export default function GenTTS({
     useState<string>("");
 
   const TranslateScript = async () => {
-    const response = await axios.post("/api/translate", {
+    const response = await axios.post("/api/generate-translatedScript", {
       text: selectedVideoScript?.content,
       targetLanguage: translateLanguage,
     });
@@ -65,9 +63,8 @@ export default function GenTTS({
     setLoading(true);
     try {
       const response = await axios.post(
-        "/api/generate-voide",
+        "/api/generate-voice",
         {
-          // text: "안녕하세요. 12월 3일 비상 계엄을 선포함에 따라 나라가 뒤숭숭해졌습니다. 이에 대해 대통령이 발표한 입장을 전하고자 합니다. 대통령은 다음과 같이 말했습니다.",
           text:
             language === "English"
               ? selectedVideoScript?.content
@@ -83,15 +80,9 @@ export default function GenTTS({
 
       const audioBlob = response.data;
       const url = URL.createObjectURL(audioBlob);
-      // const result = await saveTtsAudioToPublic(url);
 
       // Cloudinary에 오디오 파일 업로드
       const cloudinaryUrl = await uploadToCloudinary(audioBlob);
-
-      console.log("cloudinaryUrl");
-      console.log(cloudinaryUrl);
-      // cloudinaryUrl.url
-      // setAudioUrl(url);
       setTts(url, cloudinaryUrl);
     } catch (error) {
       console.error("TTS 생성 중 오류:", error);
