@@ -50,6 +50,18 @@ Guidelines:
 - Translate each script to {language}
 Conclude with the call to action: "마지막까지 봤다면 구독 부탁드립니다." (For Korean) or "If you watched until the end, hit the subscribe button" (For English)
 
+# Punctuation Rules:
+- ONLY use these punctuation marks: ".", ",", "!", "?", "..."
+- DO NOT use any other punctuation or special characters including:
+  * No asterisks (*)
+  * No dashes (-)
+  * No colons (:)
+  * No semicolons (;)
+  * No parentheses ()
+  * No quotation marks ("")
+  * No brackets []
+  * No braces {}
+
 Response format (JSON):
 {
   "scripts": [
@@ -239,27 +251,33 @@ export async function POST(req: Request) {
 
   if (topic === "Philosophy") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace("{philosophical quote}", topicDetail);
-    } else {
-      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace("{philosophical quote}", topicDetail).replace(
-        "{language}",
-        language
+      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace(
+        "{philosophical quote}",
+        topicDetail
       );
+    } else {
+      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace(
+        "{philosophical quote}",
+        topicDetail
+      ).replace("{language}", language);
     }
   } else if (topic === "Dark Psychology") {
     if (language === "English") {
       // PROMPT = SCRIPT_PROMPT_DarkPsychology_EN.replace("{dark psychology concept}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_DarkPsychology_KO.replace("{dark psychology concept}", topicDetail).replace(
-        "{language}",
-        language
-      );
+      PROMPT = SCRIPT_PROMPT_DarkPsychology_KO.replace(
+        "{dark psychology concept}",
+        topicDetail
+      ).replace("{language}", language);
     }
   } else if (topic === "History") {
     if (language === "English") {
       PROMPT = SCRIPT_PROMPT_EN.replace("{topic}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace("{language}", language);
+      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace(
+        "{language}",
+        language
+      );
     }
   }
 
