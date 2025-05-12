@@ -30,6 +30,7 @@ Important notes:
 
 Do not include camera angle directions
 Focus on visual descriptions that are faithful to the storyline
+Do not create any images related to subscription requests
 
 Example output:
 [
@@ -62,6 +63,7 @@ Important notes:
 - If language is {language}, return translated script using {language} in translatedSceneContent
 - Do not mention what language is being used in the response
 - Use only periods (.) and commas (,) in sentences. No other makrs allowed.
+- Do not create any images related to subscription requests
 
 Follow the Following schema and return JSON data (Max 5-6 images):
 [
@@ -105,6 +107,7 @@ Important notes:
 - If the philosopher cannot be identified with certainty, create an archetypal philosopher figure that aligns with the quote's philosophical tradition (e.g., Ancient Greek, Enlightenment, Existentialist)
 - All images must be in black and white
 - The philosopher's physical appearance must be clearly depicted
+- Do not create any images related to subscription requests
 
 Example output:
 [
@@ -146,6 +149,7 @@ Important notes:
 - Focus on silhouettes and partially obscured elements to enhance mystery and darkness
 - Limit the use of bright colors to only small, focal elements if necessary
 - Even with bright elements, the overall background and atmosphere must maintain a deeply oppressive dark tone
+- Do not create any images related to subscription requests
 - Keep each image prompt between 30-100 words for optimal results
 - Do not include camera angle directions or technical filming instructions
 - If language is {language}, return translated script using {language} in translatedSceneContent
