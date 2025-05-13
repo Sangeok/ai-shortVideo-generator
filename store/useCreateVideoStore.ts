@@ -8,13 +8,13 @@ type CreateVideoType = {
   title: string;
   topic: string;
   topicDetail: string;
-  videoScript: videoScriptType[];
+  videoScript: videoScriptType[]; // 생성된 2개의 youtube script
   videoCaption: string;
   imageUrl: ImageUrlType[];
   language: "English" | "Korean";
   generateImage: {
     generateImageStyle: VideoStyleOptionsType;
-    generateImageScript: videoScriptType | null;
+    generateImageScript: videoScriptType | null; // 생성된 2개의 youtube script 중 하나
   };
   ttsUrl: string;
   captions: string;

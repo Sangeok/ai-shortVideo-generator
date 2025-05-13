@@ -1,25 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import { clsx } from "clsx";
-import { Loader2Icon, SparklesIcon } from "lucide-react";
 import { useState } from "react";
-
-import axios from "axios";
 import { CreateVideoField } from "@/type/CreateVideoField";
 import { videoScriptType } from "@/type/videoScriptType";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { DetailsPlaceHolder, MainTopic } from "./constants";
+import { useGenYoutubeScript } from "../model/hooks/useGenYoutubeScript";
+import { LoadingButton } from "@/shared/ui/molecule/LoadingButton";
+import { TopicTabs } from "./_components/TopicTabs";
+import { LanguageSelector } from "./_components/LanguageSelector";
+import { ScriptDisplay } from "./_components/ScriptDisplay";
 
 interface TopicProps {
   topic: string;
@@ -50,7 +38,7 @@ export default function Topic({
   const [selectedScriptIndex, setSelectedScriptIndex] = useState<number | null>(
     0
   );
-  const [loading, setLoading] = useState<boolean>(false);
+
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const handleSelectVideoScript = (index: number) => {
@@ -58,31 +46,46 @@ export default function Topic({
     setSelectedVideoScript("generateImageScript", videoScript[index]);
   };
 
-  const GenerateScript = async () => {
-    setLoading(true);
-    setSelectedScriptIndex(null);
-    try {
-      const result = await axios.post("/api/generate-youtubeScript", {
-        topic,
-        language,
-        topicDetail,
-        // speakerPersona,
-      });
-      console.log(result.data);
-      setVideoScript("videoScript", result?.data?.scripts);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { loading, GenerateScript } = useGenYoutubeScript({
+    topic,
+    language,
+    topicDetail,
+    setVideoScript,
+    setSelectedScriptIndex,
+  });
+  // const [loading, setLoading] = useState<boolean>(false);
+
+  // const GenerateScript = async () => {
+  //   setLoading(true);
+  //   setSelectedScriptIndex(null);
+  //   try {
+  //     const result = await axios.post("/api/generate-youtubeScript", {
+  //       topic,
+  //       language,
+  //       topicDetail,
+  //       // speakerPersona,
+  //     });
+  //     console.log(result.data);
+  //     setVideoScript("videoScript", result?.data?.scripts);
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="border-b border-gray-200 pb-5">
       <div className="mt-6">
         <h2 className="text-xl">Video Topic</h2>
         <p className="text-sm text-gray-400">Select topic for you video</p>
-        <Tabs defaultValue="MainTopics" className="w-full mt-2">
+        <TopicTabs
+          topic={topic}
+          topicDetail={topicDetail}
+          setVideoTopic={setVideoTopic}
+          setTopicDetail={setTopicDetail}
+        />
+        {/* <Tabs defaultValue="MainTopics" className="w-full mt-2">
           <TabsList className="bg-zinc-800">
             <TabsTrigger
               value="MainTopics"
@@ -130,9 +133,13 @@ export default function Topic({
               />
             </div>
           </TabsContent>
-        </Tabs>
+        </Tabs> */}
 
         <div className="mt-4 flex gap-8">
+          <LanguageSelector language={language} setLanguage={setLanguage} />
+        </div>
+
+        {/* <div className="mt-4 flex gap-8">
           <div>
             <h2>Select the Language</h2>
             <Select
@@ -151,9 +158,9 @@ export default function Topic({
               </SelectContent>
             </Select>
           </div>
-        </div>
+        </div> */}
 
-        {videoScript?.length > 0 && (
+        {/* {videoScript?.length > 0 && (
           <div className="mt-4">
             <h2>Select the Script</h2>
             <div className="grid grid-cols-2 gap-4 mt-4">
@@ -189,9 +196,27 @@ export default function Topic({
               ))}
             </div>
           </div>
+        )} */}
+        {videoScript?.length > 0 && (
+          <ScriptDisplay
+            videoScript={videoScript}
+            language={language}
+            selectedScriptIndex={selectedScriptIndex}
+            hoveredIndex={hoveredIndex}
+            setHoveredIndex={setHoveredIndex}
+            handleSelectVideoScript={handleSelectVideoScript}
+          />
         )}
       </div>
-      <Button
+      <LoadingButton
+        loading={loading}
+        onClick={GenerateScript}
+        Content={
+          videoScript?.length > 0 ? "Generate New Script" : "Generate Script"
+        }
+        className="mt-4"
+      />
+      {/* <Button
         className="bg-white text-black mt-4 cursor-pointer"
         disabled={loading}
         size={"sm"}
@@ -203,7 +228,7 @@ export default function Topic({
           <SparklesIcon className="w-4 h-4 mr-2" />
         )}
         {videoScript?.length > 0 ? "Generate New Script" : "Generate Script"}
-      </Button>
+      </Button> */}
     </div>
   );
 }
