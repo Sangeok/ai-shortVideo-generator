@@ -6,17 +6,17 @@ import { Loader2Icon } from "lucide-react";
 import { SparklesIcon } from "lucide-react";
 import { useState } from "react";
 
-interface GenExplanationProps {
+interface VideoExplanationProps {
   topic: string;
   topicDetail: string;
   language: "English" | "Korean";
 }
 
-export default function GenExplanation({
+export default function VideoExplanation({
   topic,
   topicDetail,
   language,
-}: GenExplanationProps) {
+}: VideoExplanationProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [explanation, setExplanation] = useState<string>("");
 
