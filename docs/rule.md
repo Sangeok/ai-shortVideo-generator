@@ -33,4 +33,5 @@ Entities는 비즈니스 엔티티(도메인 객체)를 관리하여야 한다.
 #### shared
 
 1. 전역변수는 shared의 store 내부에서 관리한다.
-2.
+2. shared의 ui는 atom, molecule 폴더를 가진다. (atom은 완전 순수한 ui component, molecule은 atom을 기반으로 만들어진 재사용 가능한 ui component)
+3. 기타 전역적으로 사용될 utils나 lib 및 types는 shared에서 정의한다.

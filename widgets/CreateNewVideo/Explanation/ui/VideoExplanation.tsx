@@ -1,10 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { LoadingButton } from "@/shared/ui/molecule/LoadingButton";
 import axios from "axios";
-import { Loader2Icon } from "lucide-react";
-import { SparklesIcon } from "lucide-react";
 import { useState } from "react";
+import ExplanationResult from "./_component/ExplanationResult";
+import { useGenExplanation } from "../model/hooks/useGenExplanation";
 
 interface VideoExplanationProps {
   topic: string;
@@ -17,26 +15,11 @@ export default function VideoExplanation({
   topicDetail,
   language,
 }: VideoExplanationProps) {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [explanation, setExplanation] = useState<string>("");
-
-  const GenerateExplanation = async () => {
-    setLoading(true);
-
-    try {
-      const response = await axios.post("/api/generate-explanation", {
-        topic,
-        topicDetail,
-        language,
-      });
-
-      setExplanation(response.data.explanation);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { loading, explanation, GenerateExplanation } = useGenExplanation({
+    topic,
+    topicDetail,
+    language,
+  });
 
   return (
     <div className="mt-5 border-b border-gray-200 pb-5">
@@ -53,29 +36,7 @@ export default function VideoExplanation({
         className="mt-8"
       />
 
-      {/* <Button
-        className="bg-white text-black mt-8 cursor-pointer"
-        size={"sm"}
-        onClick={GenerateExplanation}
-        disabled={loading}
-      >
-        {loading ? (
-          <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
-        ) : (
-          <SparklesIcon className="w-4 h-4 mr-2" />
-        )}
-        Generate Explanation
-      </Button> */}
-
-      <div className="mt-5 flex flex-col gap-2">
-        <label htmlFor="resExplanation">Explanation Result</label>
-        <Textarea
-          value={explanation}
-          disabled={true}
-          className="mt-2"
-          placeholder="Check the Explanation..."
-        />
-      </div>
+      <ExplanationResult explanation={explanation} />
     </div>
   );
 }
