@@ -53,20 +53,6 @@ export default function VideoExplanation({
         className="mt-8"
       />
 
-      {/* <Button
-        className="bg-white text-black mt-8 cursor-pointer"
-        size={"sm"}
-        onClick={GenerateExplanation}
-        disabled={loading}
-      >
-        {loading ? (
-          <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
-        ) : (
-          <SparklesIcon className="w-4 h-4 mr-2" />
-        )}
-        Generate Explanation
-      </Button> */}
-
       <div className="mt-5 flex flex-col gap-2">
         <label htmlFor="resExplanation">Explanation Result</label>
         <Textarea

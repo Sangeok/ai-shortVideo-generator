@@ -1,9 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { LoadingButton } from "@/shared/ui/molecule/LoadingButton";
+import ExplanationResult from "@/widgets/CreateNewVideo/Explanation/ui/_component/ExplanationResult";
 import axios from "axios";
-import { Loader2Icon } from "lucide-react";
-import { SparklesIcon } from "lucide-react";
 import { useState } from "react";
 
 interface GenExplanationProps {
@@ -67,7 +64,9 @@ export default function GenExplanation({
         Generate Explanation
       </Button> */}
 
-      <div className="mt-5 flex flex-col gap-2">
+      <ExplanationResult explanation={explanation} />
+
+      {/* <div className="mt-5 flex flex-col gap-2">
         <label htmlFor="resExplanation">Explanation Result</label>
         <Textarea
           value={explanation}
@@ -75,7 +74,7 @@ export default function GenExplanation({
           className="mt-2"
           placeholder="Check the Explanation..."
         />
-      </div>
+      </div> */}
     </div>
   );
 }
