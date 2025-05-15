@@ -2,6 +2,7 @@ import { LoadingButton } from "@/shared/ui/molecule/LoadingButton";
 import axios from "axios";
 import { useState } from "react";
 import ExplanationResult from "./_component/ExplanationResult";
+import { useGenExplanation } from "../model/hooks/useGenExplanation";
 
 interface VideoExplanationProps {
   topic: string;
@@ -14,26 +15,11 @@ export default function VideoExplanation({
   topicDetail,
   language,
 }: VideoExplanationProps) {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [explanation, setExplanation] = useState<string>("");
-
-  const GenerateExplanation = async () => {
-    setLoading(true);
-
-    try {
-      const response = await axios.post("/api/generate-explanation", {
-        topic,
-        topicDetail,
-        language,
-      });
-
-      setExplanation(response.data.explanation);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { loading, explanation, GenerateExplanation } = useGenExplanation({
+    topic,
+    topicDetail,
+    language,
+  });
 
   return (
     <div className="mt-5 border-b border-gray-200 pb-5">
