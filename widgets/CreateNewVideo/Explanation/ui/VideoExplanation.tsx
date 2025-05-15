@@ -1,10 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { LoadingButton } from "@/shared/ui/molecule/LoadingButton";
 import axios from "axios";
-import { Loader2Icon } from "lucide-react";
-import { SparklesIcon } from "lucide-react";
 import { useState } from "react";
+import ExplanationResult from "./_component/ExplanationResult";
 
 interface VideoExplanationProps {
   topic: string;
@@ -53,15 +50,7 @@ export default function VideoExplanation({
         className="mt-8"
       />
 
-      <div className="mt-5 flex flex-col gap-2">
-        <label htmlFor="resExplanation">Explanation Result</label>
-        <Textarea
-          value={explanation}
-          disabled={true}
-          className="mt-2"
-          placeholder="Check the Explanation..."
-        />
-      </div>
+      <ExplanationResult explanation={explanation} />
     </div>
   );
 }
