@@ -1,6 +1,4 @@
 import { LoadingButton } from "@/shared/ui/molecule/LoadingButton";
-import axios from "axios";
-import { useState } from "react";
 import ExplanationResult from "./_component/ExplanationResult";
 import { useGenExplanation } from "../model/hooks/useGenExplanation";
 
