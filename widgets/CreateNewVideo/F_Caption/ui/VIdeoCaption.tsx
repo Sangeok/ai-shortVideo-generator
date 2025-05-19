@@ -140,19 +140,6 @@ export default function VideoCaption({
           onClick={GenerateCaptions}
           className="mt-4"
         />
-        {/* <Button
-          className="bg-white text-black mt-4 cursor-pointer"
-          disabled={loading}
-          size={"sm"}
-          onClick={GenerateCaptions}
-        >
-          {loading ? (
-            <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
-          ) : (
-            <SparklesIcon className="w-4 h-4 mr-2" />
-          )}
-          Generate Captions
-        </Button> */}
 
         {srtContent && (
           <Button
