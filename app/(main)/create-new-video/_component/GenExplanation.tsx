@@ -1,5 +1,5 @@
 import { LoadingButton } from "@/shared/ui/molecule/LoadingButton";
-import ExplanationResult from "@/widgets/CreateNewVideo/B_Explanation/ui/_component/ExplanationResult";
+import ExplanationResult from "@/widgets/CreateNewVideo/C_Explanation/ui/_component/ExplanationResult";
 import axios from "axios";
 import { useState } from "react";
 

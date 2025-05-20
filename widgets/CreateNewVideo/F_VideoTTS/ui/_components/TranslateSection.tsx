@@ -37,7 +37,7 @@ export default function TranslateSection({
 
       <div className="space-y-2">
         <h2 className="font-medium">Select the Translate Language</h2>
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="mt-4">
           <Select
             value={translateLanguage}
             onValueChange={(value) => setTranslateLanguage(value)}
@@ -59,8 +59,8 @@ export default function TranslateSection({
           <LoadingButton
             loading={loading}
             onClick={TranslateScript}
-            Content="Translate"
-            className="bg-white text-black"
+            Content="Generate Translated Script"
+            className="mt-4"
           />
         </div>
       </div>

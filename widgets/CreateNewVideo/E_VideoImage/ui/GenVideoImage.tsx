@@ -273,7 +273,7 @@ export default function GenVideoImage({
         </Button>
       </div> */}
 
-      <div className="flex w-full justify-between gap-2">
+      <div className="flex w-full justify-between gap-2 mt-2">
         <LoadingButton
           loading={loading}
           Content="Generate Script"

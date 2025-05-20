@@ -159,12 +159,12 @@ export default function GenVideoTTS({
 
       <TTSPlayer ttsUrl={ttsUrl} />
 
-      <TitleTextArea
+      {/* <TitleTextArea
         title="Translate the TTS Script"
         value={translatedVideoScript}
         placeholder="Translate the TTS Script..."
         disabled={true}
-      />
+      /> */}
 
       <TranslateSection
         loading={loading}
