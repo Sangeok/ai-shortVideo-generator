@@ -75,8 +75,8 @@ export default function Topic({
   // };
 
   return (
-    <div className="border-b border-gray-200 pb-5">
-      <div className="mt-6">
+    <div>
+      <div>
         <h2 className="text-xl">Video Topic</h2>
         <p className="text-sm text-gray-400">Select topic for you video</p>
         <TopicTabs

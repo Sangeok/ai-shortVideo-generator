@@ -130,7 +130,7 @@ export default function GenVideoTTS({
   console.log(selectedVideoScript);
 
   return (
-    <div className="mt-5 border-b border-gray-200 pb-5">
+    <div>
       <h2 className="text-xl">Generate TTS</h2>
       <p className="text-sm text-gray-400">
         If you fine with the video style and script, click the button below to

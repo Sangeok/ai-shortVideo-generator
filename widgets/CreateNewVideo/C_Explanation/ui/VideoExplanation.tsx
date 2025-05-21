@@ -20,7 +20,7 @@ export default function VideoExplanation({
   });
 
   return (
-    <div className="mt-5 border-b border-gray-200 pb-5">
+    <div>
       <h2 className="text-xl">Generate Explanation</h2>
       <p className="text-sm text-gray-400">
         If you fine with the video topic and script, click the button below to

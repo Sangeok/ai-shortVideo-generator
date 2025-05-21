@@ -111,6 +111,11 @@ import CreateNewVideo from "@/pages/CreateNewVideo/ui/CreateNewVideo";
 //     </div>
 //   );
 // }
+
 export default function CreateNewVideoPage() {
-  return <CreateNewVideo />;
+  return (
+    <div>
+      <CreateNewVideo />
+    </div>
+  );
 }

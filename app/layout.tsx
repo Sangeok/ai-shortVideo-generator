@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "./provider";
+import { NextThemeProvider } from "./provider";
+import { ThemeProvider } from "@mui/material/styles";
 import { SidebarProvider } from "./context/SidebarContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import theme from "./theme";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -23,17 +26,21 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className={outfit.className}>
-        {" "}
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <TooltipProvider>
-            <SidebarProvider>{children}</SidebarProvider>
-          </TooltipProvider>
-        </ThemeProvider>
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={theme}>
+            {" "}
+            <NextThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <TooltipProvider>
+                <SidebarProvider>{children}</SidebarProvider>
+              </TooltipProvider>
+            </NextThemeProvider>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

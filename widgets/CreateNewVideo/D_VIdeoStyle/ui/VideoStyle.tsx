@@ -13,7 +13,7 @@ export default function VideoStyle({
   setVideoStyle,
 }: VideoStyleProps) {
   return (
-    <div className="mt-5 border-b border-gray-200 pb-5">
+    <div>
       <h2 className="text-xl">Video Styles</h2>
       <p className="text-sm text-gray-400">Select Video Style</p>
 

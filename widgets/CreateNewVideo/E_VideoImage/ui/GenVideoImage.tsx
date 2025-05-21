@@ -249,7 +249,7 @@ export default function GenVideoImage({
   // };
 
   return (
-    <div className="mt-5 border-b border-gray-200 pb-5">
+    <div>
       <header>
         <h2 className="text-xl">Generate Image Script</h2>
         <p className="text-sm text-gray-400">
