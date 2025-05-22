@@ -13,11 +13,15 @@ export default function ProjectTitle({ title, setTitle }: ProjectTitleProps) {
 
   return (
     <div>
-      <h2 className="mb-4 text-xl">Project Title</h2>
+      <h2 className="text-xl">Project Title</h2>
+      <p className="text-sm text-gray-400 mt-1">
+        Enter the title of your project.
+      </p>
       <Input
-        placeholder="Enter Proejct Title..."
+        placeholder="Enter Project Title..."
         value={title}
         onChange={(event) => handleTitleChange(event)}
+        className="mt-4"
       />
     </div>
   );

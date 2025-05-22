@@ -35,14 +35,14 @@ export function ScriptItem({
           isSelected && "bg-zinc-700"
         )}
       >
-        <h2 className="line-clamp-3 text-sm text-gray-500">{content}</h2>
+        <h2 className="text-sm text-gray-500">{content}</h2>
       </div>
 
-      {isHovered && (
+      {/* {isHovered && (
         <div className="absolute z-50 p-3 bg-zinc-800 border border-zinc-600 rounded-lg shadow-lg text-sm text-white max-h-60 overflow-y-auto left-0 right-0 top-full mt-1 w-full">
           {content}
         </div>
-      )}
+      )} */}
     </div>
   );
 }
