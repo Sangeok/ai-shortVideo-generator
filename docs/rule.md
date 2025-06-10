@@ -73,3 +73,7 @@ api 호출 및 그와 관련된 상태 관리를 여기서 관리.
 5. test
    말 그대로 test를 위함.
    해당 폴더 내부에 있는 파일의 test를 전체적으로 관리.
+
+# 수정이 필요한 사항
+
+- widgets에 ProjectTitle, Topic 이런 애들이 features에 들어가는 것이 적절.
