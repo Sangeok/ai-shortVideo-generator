@@ -20,7 +20,8 @@
 # production
 /build
 /public/generated-images
-/data/metadata
+/data
+/temp
 
 # misc
 .DS_Store
