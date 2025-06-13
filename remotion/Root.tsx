@@ -8,15 +8,17 @@
 
 import { Composition } from "remotion";
 import { RemotionComposition } from "../app/_components/RemotionComposition";
-import useCreateVideoStore from "../store/useCreateVideoStore";
+import useCreateVideoStore from "../entities/Video/useCreateVideoStore";
 
 const videoData = {
-  ttsUrl: "https://res.cloudinary.com/dzdnn0bue/video/upload/v1745214243/sy0pc2iix0zuft4wtgmm.mp3",
+  ttsUrl:
+    "https://res.cloudinary.com/dzdnn0bue/video/upload/v1745214243/sy0pc2iix0zuft4wtgmm.mp3",
   captions: {
     metadata: {
       transaction_key: "deprecated",
       request_id: "8a5910f3-2b58-4257-96d5-9ddd47467d6d",
-      sha256: "e1b71215352a0bfefe5daa3fc376f50246921c13ee9e5b5bfce41ae01cb4c742",
+      sha256:
+        "e1b71215352a0bfefe5daa3fc376f50246921c13ee9e5b5bfce41ae01cb4c742",
       created: "2025-04-21T05:25:30.100Z",
       duration: 15.167937,
       channels: 1,
@@ -357,26 +359,30 @@ const videoData = {
     {
       imageId: 0,
       imageUrl: "/Realistic.png",
-      cloudinaryUrl: "https://res.cloudinary.com/dzdnn0bue/image/upload/v1745213105/hw77ak0gdqwiobk1htfw.png",
+      cloudinaryUrl:
+        "https://res.cloudinary.com/dzdnn0bue/image/upload/v1745213105/hw77ak0gdqwiobk1htfw.png",
       // imageUrl: "/generated-images/083f507097a934cfaee5bd9dbee6d87b.png",
     },
     {
       imageId: 1,
       imageUrl: "/Realistic.png",
-      cloudinaryUrl: "https://res.cloudinary.com/dzdnn0bue/image/upload/v1745213116/turd1zze2i382btaozum.png",
+      cloudinaryUrl:
+        "https://res.cloudinary.com/dzdnn0bue/image/upload/v1745213116/turd1zze2i382btaozum.png",
       // imageUrl: "/generated-images/7b559170c0e8819a63b79bf21e58d630.png",
     },
     {
       imageId: 2,
       imageUrl: "/Realistic.png",
-      cloudinaryUrl: "https://res.cloudinary.com/dzdnn0bue/image/upload/v1745214210/nyk0yawwuujhbxrk3btl.png",
+      cloudinaryUrl:
+        "https://res.cloudinary.com/dzdnn0bue/image/upload/v1745214210/nyk0yawwuujhbxrk3btl.png",
     },
   ],
 };
 
 export const RemotionRoot = () => {
   const { initialCreateVideoData } = useCreateVideoStore();
-  const { captions, ttsUrl, imageUrl, title, generateImage } = initialCreateVideoData;
+  const { captions, ttsUrl, imageUrl, title, generateImage } =
+    initialCreateVideoData;
   const { generateImageStyle } = generateImage;
 
   // const videoData = {
@@ -393,7 +399,8 @@ export const RemotionRoot = () => {
         durationInFrames={Number(
           (
             videoData?.captions.results.channels[0].alternatives[0].words[
-              videoData?.captions.results.channels[0].alternatives[0].words.length - 1
+              videoData?.captions.results.channels[0].alternatives[0].words
+                .length - 1
             ]?.end * 30
           ).toFixed(0)
         )}
