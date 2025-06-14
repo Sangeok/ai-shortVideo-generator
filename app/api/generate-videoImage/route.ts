@@ -89,8 +89,8 @@
 //   }
 // }
 import { imageGeneratorModel } from "@/app/configs/AiModel";
-import { saveImage } from "@/lib/server-utils";
-import { ApiResponse } from "@/lib/type";
+import { saveImage } from "@/shared/lib/server-utils";
+import { ApiResponse } from "@/shared/lib/type/type";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {

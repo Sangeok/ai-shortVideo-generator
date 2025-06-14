@@ -1,18 +1,20 @@
 "use client";
 
 import ToggleSideBarButton from "@/app/_components/ToggleSideBarButton";
-import Topic from "./_component/Topic";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/atoms/Button";
 import { WandSparkles } from "lucide-react";
-import Preview from "./_component/Preview";
-import GenImage from "./_component/GenImage";
-import ProjectTitle from "./_component/ProjectTitle";
-import useCreateVideoStore from "@/store/useCreateVideoStore";
-import GenTTS from "./_component/GenTTS";
-import VideoStyle from "./_component/VideoStyle";
-import GenCaptions from "./_component/GenCaptions";
 import Link from "next/link";
-import GenExplanation from "./_component/GenExplanation";
+
+import useCreateVideoStore from "@/entities/Video/useCreateVideoStore";
+
+import ProjectTitle from "@/features/CreateNewVideo/A_ProjectTitle/ui/ProjectTitle";
+import Topic from "@/features/CreateNewVideo/B_Topic/ui/Topic";
+import VideoExplanation from "@/features/CreateNewVideo/C_Explanation/ui/VideoExplanation";
+import VideoStyle from "@/features/CreateNewVideo/D_VIdeoStyle/ui/VideoStyle";
+import GenVideoImage from "@/features/CreateNewVideo/E_VideoImage/ui/GenVideoImage";
+import GenVideoTTS from "@/features/CreateNewVideo/F_VideoTTS/ui/GenVideoTTS";
+import VideoCaption from "@/features/CreateNewVideo/G_Caption/ui/VIdeoCaption";
+import Preview from "@/features/CreateNewVideo/Preview/ui/Preview";
 
 export default function CreateNewVideo() {
   const {
@@ -29,15 +31,10 @@ export default function CreateNewVideo() {
     generateImage,
     imageUrl,
     ttsUrl,
-    captions,
-    ttsFileUrl,
     language,
     topicDetail,
   } = initialCreateVideoData;
   const { generateImageStyle, generateImageScript } = generateImage;
-
-  console.log("ttsFileUrl");
-  console.log(ttsFileUrl);
 
   return (
     <div>
@@ -48,6 +45,7 @@ export default function CreateNewVideo() {
         <div className="col-span-2 p-7 border rounded-xl h-[72vh] overflow-y-auto">
           {/* Project Title */}
           <ProjectTitle title={title} setTitle={setCreateVideoDataByField} />
+
           {/* Topic & Script */}
           <Topic
             topic={topic}
@@ -60,8 +58,9 @@ export default function CreateNewVideo() {
             setSelectedVideoScript={setGenerateImageDataByFied}
             videoScript={videoScript}
           />
+
           {/* Gen Explanation */}
-          <GenExplanation
+          <VideoExplanation
             topic={topic}
             topicDetail={topicDetail}
             language={language}
@@ -72,7 +71,7 @@ export default function CreateNewVideo() {
             videoStyle={generateImageStyle}
             setVideoStyle={setGenerateImageDataByFied}
           />
-          <GenImage
+          <GenVideoImage
             topic={topic}
             topicDetail={topicDetail}
             language={language}
@@ -81,19 +80,19 @@ export default function CreateNewVideo() {
             videoScript={generateImageScript}
             setImageUrl={setCreateVideoDataByField}
           />
+
           {/* Gen TTS */}
-          <GenTTS
+          <GenVideoTTS
             language={language}
             selectedVideoScript={generateImageScript}
-            setSelectedVideoScript={setGenerateImageDataByFied}
             ttsUrl={ttsUrl}
             setTts={setTts}
           />
+
           {/* Gen Captions */}
-          <GenCaptions
+          <VideoCaption
             language={language}
             ttsUrl={ttsUrl}
-            captions={captions}
             setCaptions={setCreateVideoDataByField}
           />
           <Link href={`/play-video/${title || "test"}`}>
