@@ -1,8 +1,4 @@
-const {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} = require("@google/generative-ai");
+const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
 
 import OpenAI from "openai";
 
@@ -25,7 +21,7 @@ const generationConfig = {
 };
 
 const model = genAI.getGenerativeModel({
-  model: "gemini-2.0-flash",
+  model: "gemini-2.5-flash",
 });
 
 const imageGeneratorModel_ID = "gemini-2.0-flash-exp";
