@@ -14,14 +14,17 @@ const SCRIPT_PROMPT = `
 export async function POST(req: Request) {
   const { text, targetLanguage } = await req.json();
 
-  const PROMPT = SCRIPT_PROMPT.replace("{text}", text).replace(
-    "{targetLanguage}",
-    targetLanguage
-  );
+  console.log("targetLanguage");
+  console.log(targetLanguage);
+
+  const PROMPT = SCRIPT_PROMPT.replace("{text}", text).replace("{targetLanguage}", targetLanguage);
 
   const result = await generateScript.sendMessage(PROMPT);
 
   const response = result?.response?.text();
+
+  console.log("response");
+  console.log(response);
 
   //   const result = await generateScript.sendMessage(PROMPT);
 
