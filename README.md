@@ -1,5 +1,16 @@
 # AI Short Video Generator
 
+<div align="center">
+
+### 🌐 Language / 언어
+
+[![English](https://img.shields.io/badge/Language-English-blue?style=for-the-badge)](README.md)
+[![한국어](https://img.shields.io/badge/Language-한국어-red?style=for-the-badge)](README.ko.md)
+
+</div>
+
+---
+
 🎬 **Create YouTube Shorts quickly with AI!**
 
 An AI-powered YouTube Shorts video generation web application. Users simply input their desired topic, and AI automatically creates scripts, images, voice, and captions.
