@@ -1,4 +1,4 @@
-# AI 쇼트 비디오 생성기
+# AI 쇼츠 비디오 생성기
 
 <div align="center">
 
