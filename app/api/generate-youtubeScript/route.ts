@@ -339,6 +339,51 @@ Please time yourself reading the final script aloud to verify it can be delivere
 }
 `;
 
+const SCRIPT_PROMPT_WhatIF_EN = `
+You are an expert viral YouTube Shorts scriptwriter specializing in "What If" series. Your task is to create compelling, viral-potential scripts around 45 seconds in length.
+
+Topic: {what if scenario}
+
+* Guidelines:
+- Do not add scene descriptions or directing instructions
+- Do not use curly braces or square brackets
+- Do not include greetings or introductions
+- Do not use "What If" as a title
+- Start with a powerful hook statement within the first 4 seconds
+- Use realistic basis or scientific estimates for hypothetical scenarios
+- Write convincing script content for the {what if scenario} that audiences can believe
+- Script content should be imagination-based but rational and logically convincing
+- Instead of talking abstractly, Create Script specifically to draw people's interest
+- When talking specifically, naturally discuss scenarios related to the {what if scenario}.
+- 
+- Script length should fit within 45 seconds (approximately 100-115 words)
+- Conclude with the call to action: "If you watched until the end, hit the subscribe button"
+
+* Punctuation Rules:
+- ONLY use these punctuation marks: ".", ",", "!", "?", "..."
+- DO NOT use any other punctuation or special characters including:
+  * No asterisks (*)
+  * No dashes (-)
+  * No colons (:)
+  * No semicolons (;)
+  * No parentheses ()
+  * No quotation marks ("")
+  * No brackets []
+  * No braces {}
+
+* Response format (JSON):
+{
+  "scripts": [
+    {
+      "content": "First script content"
+    },
+    {
+      "content": "Second script content"
+    }
+  ]
+}
+`;
+
 export async function POST(req: Request) {
   const { topic, language, topicDetail } = await req.json();
   console.log("topic");
@@ -354,30 +399,45 @@ export async function POST(req: Request) {
 
   if (topic === "Philosophy") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace("{philosophical quote}", topicDetail);
-    } else {
-      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace("{philosophical quote}", topicDetail).replace(
-        "{language}",
-        language
+      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace(
+        "{philosophical quote}",
+        topicDetail
       );
+    } else {
+      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace(
+        "{philosophical quote}",
+        topicDetail
+      ).replace("{language}", language);
     }
   } else if (topic === "Dark Psychology") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_DarkPsychology_EN.replace("{dark psychology concept}", topicDetail).replace(
-        "{language}",
-        language
-      );
+      PROMPT = SCRIPT_PROMPT_DarkPsychology_EN.replace(
+        "{dark psychology concept}",
+        topicDetail
+      ).replace("{language}", language);
     } else {
-      PROMPT = SCRIPT_PROMPT_DarkPsychology_KO.replace("{dark psychology concept}", topicDetail).replace(
-        "{language}",
-        language
-      );
+      PROMPT = SCRIPT_PROMPT_DarkPsychology_KO.replace(
+        "{dark psychology concept}",
+        topicDetail
+      ).replace("{language}", language);
     }
   } else if (topic === "History") {
     if (language === "English") {
       PROMPT = SCRIPT_PROMPT_EN.replace("{topic}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace("{language}", language);
+      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace(
+        "{language}",
+        language
+      );
+    }
+  } else if (topic === "What If") {
+    if (language === "English") {
+      PROMPT = SCRIPT_PROMPT_WhatIF_EN.replace(
+        "{what if scenario}",
+        topicDetail
+      );
+    } else {
+      // PROMPT = SCRIPT_PROMPT_WhatIF_KO.replace("{what if scenario}", topicDetail).replace("{language}", language);
     }
   }
 
