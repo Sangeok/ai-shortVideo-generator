@@ -164,6 +164,36 @@ Example output:
 
 If the script is too short or ambiguous for generating 4-5 meaningful scenes, create at least 3 distinct image prompts focusing on the most important elements available.`;
 
+const WHATIF_SCRIPT_PROMPT_EN = `Generate detailed image prompts in {style} style for a 45-second video script: {script}
+*Instructions:
+- Analyze the script and identify 5-6 key scenes.
+- For each scene, create a detailed image prompt that includes:
+  - Environmental background (location, time, weather, etc.)
+  - Detailed descriptions of main characters/objects
+  - Color tone or atmosphere
+  - Characteristics of the {style} style
+
+Important notes:
+- Do not include camera angle directions
+- Focus on visual descriptions that are faithful to the storyline
+- Do not create any images related to subscription requests
+- Focus on visual descriptions that are faithful to the storyline
+
+Example output:
+[
+{
+"imagePrompt": "Bright sunlight shining on a beach, blue ocean, fine sand, palm trees, a young woman with a happy expression preparing for surfing, rendered in {style} style",
+"sceneContent": "The protagonist Minji is standing on the beach, holding a surfboard while looking at the ocean"
+}
+]
+Please return the results in the following JSON format:
+[
+{
+"imagePrompt": "",
+"sceneContent": ""
+}
+`;
+
 export async function POST(req: Request) {
   const { style, script, language, topic, topicDetail } = await req.json();
 
@@ -186,21 +216,15 @@ export async function POST(req: Request) {
       .replace("{script}", script)
       .replace("{quote}", topicDetail);
   } else if (topic === "Dark Psychology") {
-    PROMPT = PSYCHOLOGY_SCRIPT_PROMPT_KO.replace("{style}", style).replace(
-      "{script}",
-      script
-    );
+    PROMPT = PSYCHOLOGY_SCRIPT_PROMPT_KO.replace("{style}", style).replace("{script}", script);
   } else if (topic === "History") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_EN.replace("{style}", style).replace(
-        "{script}",
-        script
-      );
+      PROMPT = SCRIPT_PROMPT_EN.replace("{style}", style).replace("{script}", script);
     } else {
-      PROMPT = SCRIPT_PROMPT_KO.replace("{style}", style)
-        .replace("{script}", script)
-        .replace("{language}", language);
+      PROMPT = SCRIPT_PROMPT_KO.replace("{style}", style).replace("{script}", script).replace("{language}", language);
     }
+  } else if (topic === "What If") {
+    PROMPT = WHATIF_SCRIPT_PROMPT_EN.replace("{style}", style).replace("{script}", script);
   }
 
   console.log("PROMPT");
@@ -209,6 +233,9 @@ export async function POST(req: Request) {
   const result = await generateImageScript.sendMessage(PROMPT);
 
   const response = result?.response?.text();
+
+  console.log("response");
+  console.log(response);
 
   return NextResponse.json(JSON.parse(response));
 }

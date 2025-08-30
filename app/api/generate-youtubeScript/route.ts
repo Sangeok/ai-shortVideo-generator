@@ -16,6 +16,7 @@ Guidelines:
 - Craft a motivational message that inspires viewers to reflect and take action
 - Script length should fit within 45 seconds (approximately 120-150 words)
 - Keep language clear, concise, and impactful
+- Conclude with the call to action: "If you watched until the end, hit the subscribe button"
 
 Response format (JSON):
 {
@@ -82,7 +83,7 @@ Response format (JSON):
 `;
 
 const SCRIPT_PROMPT_EN = `
-Write two different scripts for a 50 second video.
+Write two different scripts for a 45 second video.
 
 Topic: {topic}
 
@@ -92,7 +93,7 @@ Guidelines:
 - Do not include greetings or introductions
 - Do not add "Narrator:" or similar speaker indicators
 - Return plain text stories
-- Each script should be 50 seconds in length (approximately 100-125 words)
+- Each script should be 45 seconds in length (approximately 100-110 words)
 - Conclude with the call to action: "If you watched until the end, hit the subscribe button"
 
 Response format (JSON):
@@ -109,7 +110,7 @@ Response format (JSON):
 `;
 
 const SCRIPT_PROMPT_KO = `
-Write two different scripts for a 50 second video.
+Write two different scripts for a 45 second video.
 
 Topic: {topic}
 
@@ -119,7 +120,7 @@ Guidelines:
 - Do not add Narrator
 - Do not include greetings or introductions
 - Return plain text stories
-- Each script should be 50 seconds in length (approximately 100-125 words)
+- Each script should be 45 seconds in length (approximately 100-110 words)
 - Translate each script to {language}
 - Conclude with the call to action: "마지막까지 봤다면 구독 부탁드립니다."
 
@@ -245,7 +246,7 @@ Create a YouTube Shorts script about the {dark psychology concept} you choose fr
 Write two different scripts.
 The script should explain how this psychological effect influences human behavior in human relationships. Write in a conversational, engaging style that would capture viewer attention in the first few seconds.
 
-IMPORTANT: The script must be precisely 40-45 seconds in length when read aloud. This is approximately 100-120 words for English. Please time yourself reading the script to ensure it fits exactly within the 40-45 second timeframe.
+IMPORTANT: The script must be precisely 40 seconds in length when read aloud. This is approximately 95-100 words for English. Please time yourself reading the script to ensure it fits exactly within the 35-40 second timeframe.
 
 Format guidelines:
 - Use only these punctuation marks: ".", ",", "!", "?", "..."
@@ -324,7 +325,7 @@ Examples of applying psychological principles:
 
 The tone should be slightly provocative but insightful, similar to channels that share "psychology secrets" or "influence techniques" in short-form content.
 
-Please time yourself reading the final script aloud to verify it can be delivered within exactly 40-45 seconds before submitting.
+Please time yourself reading the final script aloud to verify it can be delivered within exactly 35-40 seconds before submitting.
 
 # Response Format (JSON):
 {
@@ -399,43 +400,34 @@ export async function POST(req: Request) {
 
   if (topic === "Philosophy") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace(
-        "{philosophical quote}",
-        topicDetail
-      );
+      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace("{philosophical quote}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace(
-        "{philosophical quote}",
-        topicDetail
-      ).replace("{language}", language);
+      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace("{philosophical quote}", topicDetail).replace(
+        "{language}",
+        language
+      );
     }
   } else if (topic === "Dark Psychology") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_DarkPsychology_EN.replace(
-        "{dark psychology concept}",
-        topicDetail
-      ).replace("{language}", language);
+      PROMPT = SCRIPT_PROMPT_DarkPsychology_EN.replace("{dark psychology concept}", topicDetail).replace(
+        "{language}",
+        language
+      );
     } else {
-      PROMPT = SCRIPT_PROMPT_DarkPsychology_KO.replace(
-        "{dark psychology concept}",
-        topicDetail
-      ).replace("{language}", language);
+      PROMPT = SCRIPT_PROMPT_DarkPsychology_KO.replace("{dark psychology concept}", topicDetail).replace(
+        "{language}",
+        language
+      );
     }
   } else if (topic === "History") {
     if (language === "English") {
       PROMPT = SCRIPT_PROMPT_EN.replace("{topic}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace(
-        "{language}",
-        language
-      );
+      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace("{language}", language);
     }
   } else if (topic === "What If") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_WhatIF_EN.replace(
-        "{what if scenario}",
-        topicDetail
-      );
+      PROMPT = SCRIPT_PROMPT_WhatIF_EN.replace("{what if scenario}", topicDetail);
     } else {
       // PROMPT = SCRIPT_PROMPT_WhatIF_KO.replace("{what if scenario}", topicDetail).replace("{language}", language);
     }
