@@ -5,9 +5,4 @@ export const DetailsPlaceHolder = {
   WhatIf: "Enter the what if scenario...",
 } as const;
 
-export const MainTopic = [
-  "Philosophy",
-  "History",
-  "Dark Psychology",
-  "What If",
-] as const;
+export const MainTopic = ["Philosophy", "History", "Dark Psychology", "What If"] as const;
