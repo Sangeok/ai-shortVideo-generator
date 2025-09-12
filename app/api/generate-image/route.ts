@@ -1,8 +1,9 @@
-import { saveImage } from "@/src/shared/lib/server-utils";
-import { InferenceClient } from "@huggingface/inference";
 import { NextResponse } from "next/server";
+import { Runware } from "@runware/sdk-js";
 
-const client = new InferenceClient(process.env.NEXT_PUBLIC_HF_TOKEN);
+const runware = new Runware({
+  apiKey: process.env.NEXT_PUBLIC_RUNWARE as string,
+});
 
 export async function POST(req: Request) {
   try {
@@ -12,34 +13,26 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
     }
 
-    // FLUX.1-schnell 모델 사용
-    const response = await client.textToImage({
-      model: "black-forest-labs/FLUX.1-schnell",
-      inputs: imagePrompt,
-      parameters: {
-        guidance_scale: 7.5,
-        num_inference_steps: 5,
-        width: 1024,
-        height: 1024,
-      },
+    const images = await runware.requestImages({
+      // 생성할 이미지에 대한 설명
+      positivePrompt: imagePrompt,
+
+      // 사용할 모델 식별자
+      model: "runware:100@1",
+
+      // 생성할 이미지 크기
+      width: 1024,
+      height: 1024,
+
+      // 생성할 이미지 개수
+      numberResults: 1,
     });
-
-    // 파일 저장 방식으로 변경
-    const arrayBuffer = await (response as unknown as Blob).arrayBuffer();
-    const base64 = Buffer.from(arrayBuffer).toString("base64");
-
-    // 이미지를 파일 시스템에 저장
-    const metadata = await saveImage(base64, imagePrompt, "image/jpeg");
-
-    // 공개 URL 반환
-    const imageUrl = `${metadata.url}`;
 
     return NextResponse.json(
       {
         success: true,
         data: {
-          imageUrl: imageUrl,
-          metadata: metadata,
+          imageUrl: images?.[0]?.imageURL,
         },
       },
       { status: 200 }

@@ -25,6 +25,8 @@ export const useGenVideoImage = ({
         imagePrompt: imagePrompt,
       });
 
+      console.log("result", result);
+
       if (imageUrl.length > 0 && imageUrl[index]?.imageUrl) {
         const updatedImageUrl: ImageUrlType[] = imageUrl.map((item, i) =>
           item.imageId === index

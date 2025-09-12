@@ -10,9 +10,6 @@ interface PreviewProps {
 }
 
 export default function Preview({ imageUrl }: PreviewProps) {
-  console.log("imageUrl");
-  console.log(imageUrl);
-
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // 이미지가 변경될 때 index 초기화
@@ -21,15 +18,11 @@ export default function Preview({ imageUrl }: PreviewProps) {
   }, [imageUrl]);
 
   const handleNext = () => {
-    setCurrentImageIndex((prev) =>
-      prev === imageUrl.length - 1 ? 0 : prev + 1
-    );
+    setCurrentImageIndex((prev) => (prev === imageUrl.length - 1 ? 0 : prev + 1));
   };
 
   const handlePrevious = () => {
-    setCurrentImageIndex((prev) =>
-      prev === 0 ? imageUrl.length - 1 : prev - 1
-    );
+    setCurrentImageIndex((prev) => (prev === 0 ? imageUrl.length - 1 : prev - 1));
   };
 
   if (imageUrl?.length === 0) {
@@ -46,7 +39,7 @@ export default function Preview({ imageUrl }: PreviewProps) {
       {imageUrl?.length > 0 ? (
         <div className="relative mt-1">
           <Image
-            src={"/generated-images/" + imageUrl[currentImageIndex].imageUrl}
+            src={imageUrl[currentImageIndex].imageUrl}
             alt={`preview-image-${currentImageIndex}`}
             width={1000}
             height={300}
@@ -75,9 +68,7 @@ export default function Preview({ imageUrl }: PreviewProps) {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-2 h-2 rounded-full ${
-                      index === currentImageIndex ? "bg-white" : "bg-white/50"
-                    }`}
+                    className={`w-2 h-2 rounded-full ${index === currentImageIndex ? "bg-white" : "bg-white/50"}`}
                     aria-label={`Go to image ${index + 1}`}
                   />
                 ))}
