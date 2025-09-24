@@ -13,13 +13,26 @@ interface ScriptItemProps {
   onGenerateImage: (index: number) => Promise<void>;
 }
 
-export function ScriptItem({ item, index, isDone, isLoading, imageUrl, onGenerateImage }: ScriptItemProps) {
+export function ScriptItem({
+  item,
+  index,
+  isDone,
+  isLoading,
+  imageUrl,
+  onGenerateImage,
+}: ScriptItemProps) {
   const { handleDownload } = useImageDownload();
 
   return (
     <div className="flex flex-col gap-1 mb-8" key={item.imagePrompt}>
-      <div className="border border-gray-300 rounded-md p-2">{item.imagePrompt}</div>
-      <ImageGenerateButton isDone={isDone} isLoading={isLoading} onClick={() => onGenerateImage(index)} />
+      <div className="border border-gray-300 rounded-md p-2">
+        {item.imagePrompt}
+      </div>
+      <ImageGenerateButton
+        isDone={isDone}
+        isLoading={isLoading}
+        onClick={() => onGenerateImage(index)}
+      />
       {imageUrl.some((img) => img.imageId === index) && (
         <>
           <Button
@@ -31,15 +44,6 @@ export function ScriptItem({ item, index, isDone, isLoading, imageUrl, onGenerat
             <Download />
             Image Download
           </Button>
-          {/* <Button
-                size="sm"
-                variant="default"
-                className="mt-2 w-full bg-gray-100 hover:bg-gray-200 text-black font-medium shadow-sm transition-colors cursor-pointer"
-                onClick={() => handleUploadImage(index)}
-            >
-                <Upload />
-                Upload Image
-            </Button> */}
         </>
       )}
     </div>

@@ -1,30 +1,35 @@
-import { videoScriptType } from "@/src/shared/lib/type/videoScriptType";
+"use client";
+
+import useCreateVideoStore from "@/src/entities/Video/useCreateVideoStore";
 import axios from "axios";
 import { useState } from "react";
 
 interface GenImageScriptProps {
-  videoStyle: string;
-  videoScript: videoScriptType;
-  language: "English" | "Korean";
-  topic: string;
-  topicDetail: string;
-  setResVideoScript: (videoScript: videoScriptType[]) => void;
   setIsDoneCreateImage: (isDoneCreateImage: Record<number, boolean>) => void;
   setLoading: (loading: boolean) => void;
 }
 
 export const useGenImageScript = ({
-  videoStyle,
-  videoScript,
-  language,
-  topic,
-  topicDetail,
-  setResVideoScript,
   setIsDoneCreateImage,
   setLoading,
 }: GenImageScriptProps) => {
-  //   const [loading, setLoading] = useState<boolean>(false);
-  //   const [imageScript, setImageScript] = useState<string>("");
+  const [resVideoScript, setResVideoScript] = useState<any[]>([]);
+
+  const topic = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.topic
+  );
+  const topicDetail = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.topicDetail
+  );
+  const language = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.language
+  );
+  const videoStyle = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.generateImage.generateImageStyle
+  );
+  const videoScript = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.generateImage.generateImageScript
+  );
 
   const GenerateScript = async () => {
     setLoading(true);
@@ -52,5 +57,5 @@ export const useGenImageScript = ({
     }
   };
 
-  return { GenerateScript };
+  return { resVideoScript, GenerateScript };
 };

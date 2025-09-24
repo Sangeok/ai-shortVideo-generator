@@ -1,15 +1,18 @@
+import useCreateVideoStore from "@/src/entities/Video/useCreateVideoStore";
 import axios from "axios";
 import { useState } from "react";
 
-export const useGenExplanation = ({
-  topic,
-  language,
-  topicDetail,
-}: {
-  topic: string;
-  language: "English" | "Korean";
-  topicDetail: string;
-}) => {
+export const useGenExplanation = () => {
+  const topic = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.topic
+  );
+  const language = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.language
+  );
+  const topicDetail = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.topicDetail
+  );
+
   const [loading, setLoading] = useState<boolean>(false);
   const [explanation, setExplanation] = useState<string>("");
 

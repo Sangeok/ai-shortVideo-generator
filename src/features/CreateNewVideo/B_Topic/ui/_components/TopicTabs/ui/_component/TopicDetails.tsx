@@ -1,11 +1,10 @@
 import { Textarea } from "@/components/ui/textarea";
-import { CreateVideoField } from "@/src/shared/lib/type/CreateVideoField";
 import { DetailsPlaceHolder } from "../../../constants/constants";
 
 interface TopicDetailsProps {
   topicDetail: string;
   topic: string;
-  setTopicDetail: (fieldName: CreateVideoField, fieldValue: string) => void;
+  setTopicDetail: (fieldValue: string) => void;
 }
 
 export function TopicDetails({
@@ -19,7 +18,7 @@ export function TopicDetails({
       <Textarea
         value={topicDetail}
         onChange={(event) => {
-          setTopicDetail("topicDetail", event.target.value);
+          setTopicDetail(event.target.value);
         }}
         className="mt-2"
         placeholder={

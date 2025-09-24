@@ -1,23 +1,28 @@
-import { videoScriptType } from "@/src/shared/lib/type/videoScriptType";
+import { useState } from "react";
 import { ScriptItem } from "./ScriptItem";
+import useCreateVideoStore from "@/src/entities/Video/useCreateVideoStore";
 
-interface ScriptDisplayProps {
-  videoScript: videoScriptType[];
-  language: string;
-  selectedScriptIndex: number | null;
-  hoveredIndex: number | null;
-  setHoveredIndex: (index: number | null) => void;
-  handleSelectVideoScript: (index: number) => void;
-}
+export function ScriptDisplay() {
+  const videoScript = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.videoScript
+  );
+  const language = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.language
+  );
 
-export function ScriptDisplay({
-  videoScript,
-  language,
-  selectedScriptIndex,
-  hoveredIndex,
-  setHoveredIndex,
-  handleSelectVideoScript,
-}: ScriptDisplayProps) {
+  const [selectedScriptIndex, setSelectedScriptIndex] = useState<number | null>(
+    0
+  );
+
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const handleSelectVideoScript = (index: number) => {
+    setSelectedScriptIndex(index);
+    useCreateVideoStore
+      .getState()
+      .setCreateVideoDataByField("generateImageScript", videoScript[index]);
+  };
+
   return (
     <div className="mt-4">
       <h2>Select the Script</h2>
