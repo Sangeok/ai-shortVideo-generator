@@ -1,14 +1,15 @@
 import { Input } from "@/components/ui/input";
-import { CreateVideoField } from "@/src/shared/lib/type/CreateVideoField";
+import useCreateVideoStore from "@/src/entities/Video/useCreateVideoStore";
 
-interface ProjectTitleProps {
-  title: string;
-  setTitle: (fieldName: CreateVideoField, fieldValue: string) => void;
-}
+export default function ProjectTitle() {
+  const title = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.title
+  );
 
-export default function ProjectTitle({ title, setTitle }: ProjectTitleProps) {
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle("title", event.target.value);
+    useCreateVideoStore
+      .getState()
+      .setCreateVideoDataByField("title", event.target.value);
   };
 
   return (
@@ -17,7 +18,7 @@ export default function ProjectTitle({ title, setTitle }: ProjectTitleProps) {
       <Input
         placeholder="Enter Proejct Title..."
         value={title}
-        onChange={(event) => handleTitleChange(event)}
+        onChange={(e) => handleTitleChange(e)}
       />
     </div>
   );

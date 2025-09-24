@@ -17,24 +17,9 @@ import VideoCaption from "@/src/features/CreateNewVideo/G_Caption/ui/VIdeoCaptio
 import Preview from "@/src/features/CreateNewVideo/Preview/ui/Preview";
 
 export default function CreateNewVideo() {
-  const {
-    initialCreateVideoData,
-    setCreateVideoDataByField,
-    setTts,
-    setGenerateImageDataByFied,
-  } = useCreateVideoStore();
+  const { initialCreateVideoData } = useCreateVideoStore();
 
-  const {
-    title,
-    topic,
-    videoScript,
-    generateImage,
-    imageUrl,
-    ttsUrl,
-    language,
-    topicDetail,
-  } = initialCreateVideoData;
-  const { generateImageStyle, generateImageScript } = generateImage;
+  const { title } = initialCreateVideoData;
 
   return (
     <div>
@@ -44,57 +29,24 @@ export default function CreateNewVideo() {
       <div className="grid grid-cols-1 md:grid-cols-3 p-4 gap-7">
         <div className="col-span-2 p-7 border rounded-xl h-[72vh] overflow-y-auto">
           {/* Project Title */}
-          <ProjectTitle title={title} setTitle={setCreateVideoDataByField} />
+          <ProjectTitle />
 
           {/* Topic & Script */}
-          <Topic
-            topic={topic}
-            topicDetail={topicDetail}
-            language={language}
-            setVideoTopic={setCreateVideoDataByField}
-            setTopicDetail={setCreateVideoDataByField}
-            setVideoScript={setCreateVideoDataByField}
-            setLanguage={setCreateVideoDataByField}
-            setSelectedVideoScript={setGenerateImageDataByFied}
-            videoScript={videoScript}
-          />
+          <Topic />
 
           {/* Gen Explanation */}
-          <VideoExplanation
-            topic={topic}
-            topicDetail={topicDetail}
-            language={language}
-          />
+          <VideoExplanation />
 
           {/* Video Image Style */}
-          <VideoStyle
-            videoStyle={generateImageStyle}
-            setVideoStyle={setGenerateImageDataByFied}
-          />
-          <GenVideoImage
-            topic={topic}
-            topicDetail={topicDetail}
-            language={language}
-            imageUrl={imageUrl}
-            videoStyle={generateImageStyle}
-            videoScript={generateImageScript}
-            setImageUrl={setCreateVideoDataByField}
-          />
+          <VideoStyle />
+          <GenVideoImage />
 
           {/* Gen TTS */}
-          <GenVideoTTS
-            language={language}
-            selectedVideoScript={generateImageScript}
-            ttsUrl={ttsUrl}
-            setTts={setTts}
-          />
+          <GenVideoTTS />
 
           {/* Gen Captions */}
-          <VideoCaption
-            language={language}
-            ttsUrl={ttsUrl}
-            setCaptions={setCreateVideoDataByField}
-          />
+          <VideoCaption />
+
           <Link href={`/play-video/${title || "test"}`}>
             <Button className="bg-white text-black mt-5 w-full cursor-pointer">
               <WandSparkles /> Generate Video
@@ -102,7 +54,7 @@ export default function CreateNewVideo() {
           </Link>
         </div>
         <div>
-          <Preview imageUrl={imageUrl} />
+          <Preview />
         </div>
       </div>
     </div>

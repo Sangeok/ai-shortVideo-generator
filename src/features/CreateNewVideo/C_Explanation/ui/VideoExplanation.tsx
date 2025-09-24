@@ -2,22 +2,8 @@ import { LoadingButton } from "@/src/shared/ui/molecule/LoadingButton";
 import ExplanationResult from "./_component/ExplanationResult";
 import { useGenExplanation } from "../model/hooks/useGenExplanation";
 
-interface VideoExplanationProps {
-  topic: string;
-  topicDetail: string;
-  language: "English" | "Korean";
-}
-
-export default function VideoExplanation({
-  topic,
-  topicDetail,
-  language,
-}: VideoExplanationProps) {
-  const { loading, explanation, GenerateExplanation } = useGenExplanation({
-    topic,
-    topicDetail,
-    language,
-  });
+export default function VideoExplanation() {
+  const { loading, explanation, GenerateExplanation } = useGenExplanation();
 
   return (
     <div className="mt-5 border-b border-gray-200 pb-5">

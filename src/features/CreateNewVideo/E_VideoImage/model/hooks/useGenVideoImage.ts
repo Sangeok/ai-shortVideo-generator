@@ -1,4 +1,6 @@
-import { CreateVideoField } from "@/src/shared/lib/type/CreateVideoField";
+"use client";
+
+import useCreateVideoStore from "@/src/entities/Video/useCreateVideoStore";
 import { ImageUrlType } from "@/src/shared/lib/type/ImageUrlType";
 import axios from "axios";
 import React from "react";
@@ -7,32 +9,29 @@ export const useGenVideoImage = ({
   resVideoScript,
   setLoading,
   imageUrl,
-  setImageUrl,
   setIsDoneCreateImage,
 }: {
   resVideoScript: any[];
   setLoading: (loading: boolean) => void;
   imageUrl: ImageUrlType[];
-  setImageUrl: (
-    fieldName: CreateVideoField,
-    fieldValue: ImageUrlType[]
-  ) => void;
   setIsDoneCreateImage: React.Dispatch<
     React.SetStateAction<Record<number, boolean>>
   >;
 }) => {
+  const setImageUrl = useCreateVideoStore(
+    (state) => state.setCreateVideoDataByField
+  );
+
   const GenerateImage = async (index: number) => {
     const imagePrompt = resVideoScript[index].imagePrompt;
 
     setLoading(true);
     try {
-      const result = await axios.post("/api/generate-videoImage", {
+      const result = await axios.post("/api/generate-image", {
         imagePrompt: imagePrompt,
       });
-      console.log("result");
-      console.log(result.data);
-      console.log("imageUrl");
-      console.log(result?.data.data.imageUrl);
+
+      console.log("result", result);
 
       if (imageUrl.length > 0 && imageUrl[index]?.imageUrl) {
         const updatedImageUrl: ImageUrlType[] = imageUrl.map((item, i) =>
@@ -44,8 +43,6 @@ export const useGenVideoImage = ({
               }
             : item
         );
-        console.log("updatedImageUrl");
-        console.log(updatedImageUrl);
         setImageUrl("imageUrl", updatedImageUrl);
       } else {
         const imageUrlData = {

@@ -1,22 +1,29 @@
 // components/TopicTabs/index.tsx
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CreateVideoField } from "@/src/shared/lib/type/CreateVideoField";
-import { MainTopicList } from "./MainTopicList";
-import { TopicDetails } from "./TopicDetails";
+import { MainTopicList } from "./_component/MainTopicList";
+import { TopicDetails } from "./_component/TopicDetails";
+import useCreateVideoStore from "@/src/entities/Video/useCreateVideoStore";
 
-interface TopicTabsProps {
-  topic: string;
-  topicDetail: string;
-  setVideoTopic: (fieldName: CreateVideoField, fieldValue: string) => void;
-  setTopicDetail: (fieldName: CreateVideoField, fieldValue: string) => void;
-}
+export function TopicTabs() {
+  const topic = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.topic
+  );
+  const topicDetail = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.topicDetail
+  );
 
-export function TopicTabs({
-  topic,
-  topicDetail,
-  setVideoTopic,
-  setTopicDetail,
-}: TopicTabsProps) {
+  const setVideoTopic = (fieldValue: string) => {
+    useCreateVideoStore
+      .getState()
+      .setCreateVideoDataByField("topic", fieldValue);
+  };
+
+  const setTopicDetail = (fieldValue: string) => {
+    useCreateVideoStore
+      .getState()
+      .setCreateVideoDataByField("topicDetail", fieldValue);
+  };
+
   return (
     <Tabs defaultValue="MainTopics" className="w-full mt-2">
       <TabsList className="bg-zinc-800">
