@@ -49,11 +49,7 @@ export default function CreateNewVideo() {
           <Topic />
 
           {/* Gen Explanation */}
-          <VideoExplanation
-            topic={topic}
-            topicDetail={topicDetail}
-            language={language}
-          />
+          <VideoExplanation />
 
           {/* Video Image Style */}
           <VideoStyle
