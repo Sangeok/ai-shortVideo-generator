@@ -7,17 +7,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CreateVideoField } from "@/src/shared/lib/type/CreateVideoField";
+import useCreateVideoStore from "@/src/entities/Video/useCreateVideoStore";
 
-interface LanguageSelectorProps {
-  language: string;
-  setLanguage: (fieldName: CreateVideoField, fieldValue: string) => void;
-}
+export function LanguageSelector() {
+  const language = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.language
+  );
 
-export function LanguageSelector({
-  language,
-  setLanguage,
-}: LanguageSelectorProps) {
+  const setLanguage = useCreateVideoStore(
+    (state) => state.setCreateVideoDataByField
+  );
+
   return (
     <div>
       <h2>Select the Language</h2>

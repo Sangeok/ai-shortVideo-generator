@@ -1,32 +1,34 @@
-import { CreateVideoField } from "@/src/shared/lib/type/CreateVideoField";
+"use client";
+
+import useCreateVideoStore from "@/src/entities/Video/useCreateVideoStore";
 import axios from "axios";
 import { useState } from "react";
 
-export const useGenYoutubeScript = ({
-  topic,
-  language,
-  topicDetail,
-  setVideoScript,
-  setSelectedScriptIndex,
-}: {
-  topic: string;
-  language: string;
-  topicDetail: string;
-  setVideoScript: (fieldName: CreateVideoField, fieldValue: string) => void;
-  setSelectedScriptIndex: (index: number | null) => void;
-}) => {
+export const useGenYoutubeScript = () => {
+  const topic = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.topic
+  );
+  const topicDetail = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.topicDetail
+  );
+  const language = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.language
+  );
+
+  const setVideoScript = useCreateVideoStore(
+    (state) => state.setCreateVideoDataByField
+  );
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const GenerateScript = async () => {
     setLoading(true);
-    setSelectedScriptIndex(null);
     try {
       const result = await axios.post("/api/generate-youtubeScript", {
         topic,
         language,
         topicDetail,
       });
-      console.log(result.data);
       setVideoScript("videoScript", result?.data?.scripts);
     } catch (error) {
       console.log(error);

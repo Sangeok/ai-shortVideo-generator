@@ -27,7 +27,6 @@ export default function CreateNewVideo() {
   const {
     title,
     topic,
-    videoScript,
     generateImage,
     imageUrl,
     ttsUrl,
@@ -47,17 +46,7 @@ export default function CreateNewVideo() {
           <ProjectTitle />
 
           {/* Topic & Script */}
-          <Topic
-            topic={topic}
-            topicDetail={topicDetail}
-            language={language}
-            setVideoTopic={setCreateVideoDataByField}
-            setTopicDetail={setCreateVideoDataByField}
-            setVideoScript={setCreateVideoDataByField}
-            setLanguage={setCreateVideoDataByField}
-            setSelectedVideoScript={setGenerateImageDataByFied}
-            videoScript={videoScript}
-          />
+          <Topic />
 
           {/* Gen Explanation */}
           <VideoExplanation
