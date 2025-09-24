@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./provider";
-import { SidebarProvider } from "./context/SidebarContext";
+import { SidebarProvider } from "./providers/SidebarContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 const outfit = Outfit({
