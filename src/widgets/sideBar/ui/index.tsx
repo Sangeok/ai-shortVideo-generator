@@ -19,7 +19,7 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
         } bg-[#202225] h-screen transition-all duration-300`}
       >
         {/* Header */}
-        <header className="h-16 w-full bg-[#202225] p-4">
+        <aside className="h-16 w-full bg-[#202225] p-4">
           <div className="flex gap-y-4 flex-col w-full justify-center">
             <div className="flex flex-col items-center">
               <div className="text-white text-2xl font-bold">AVG</div>
@@ -38,7 +38,7 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
             {/* Menu Items */}
             <MenuItem pathname={pathname || ""} />
           </div>
-        </header>
+        </aside>
       </nav>
       <main
         className={`${

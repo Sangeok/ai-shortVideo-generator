@@ -44,7 +44,7 @@ export default function CreateNewVideo() {
       <div className="grid grid-cols-1 md:grid-cols-3 p-4 gap-7">
         <div className="col-span-2 p-7 border rounded-xl h-[72vh] overflow-y-auto">
           {/* Project Title */}
-          <ProjectTitle title={title} setTitle={setCreateVideoDataByField} />
+          <ProjectTitle />
 
           {/* Topic & Script */}
           <Topic

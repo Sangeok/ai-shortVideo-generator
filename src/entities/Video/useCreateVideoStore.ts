@@ -49,8 +49,6 @@ interface CreateVideoStore {
     data: VideoStyleOptionsType | videoScriptType
   ) => void;
   setTts: (data1: string, data2: string) => void;
-  // setSelectedVideoScript: (field: string, data: string) => void;
-  // setGenerateImageDataByField: (field: CreateVideoField, data: string) => void;
 }
 
 const useCreateVideoStore = create<CreateVideoStore>((set) => ({
