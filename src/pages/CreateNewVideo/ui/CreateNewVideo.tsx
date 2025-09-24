@@ -20,16 +20,9 @@ export default function CreateNewVideo() {
   const { initialCreateVideoData, setCreateVideoDataByField, setTts } =
     useCreateVideoStore();
 
-  const {
-    title,
-    topic,
-    generateImage,
-    imageUrl,
-    ttsUrl,
-    language,
-    topicDetail,
-  } = initialCreateVideoData;
-  const { generateImageStyle, generateImageScript } = generateImage;
+  const { title, generateImage, imageUrl, ttsUrl, language } =
+    initialCreateVideoData;
+  const { generateImageScript } = generateImage;
 
   return (
     <div>
@@ -49,15 +42,7 @@ export default function CreateNewVideo() {
 
           {/* Video Image Style */}
           <VideoStyle />
-          <GenVideoImage
-            topic={topic}
-            topicDetail={topicDetail}
-            language={language}
-            imageUrl={imageUrl}
-            videoStyle={generateImageStyle}
-            videoScript={generateImageScript}
-            setImageUrl={setCreateVideoDataByField}
-          />
+          <GenVideoImage />
 
           {/* Gen TTS */}
           <GenVideoTTS

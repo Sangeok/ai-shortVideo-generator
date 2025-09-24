@@ -1,4 +1,6 @@
-import { CreateVideoField } from "@/src/shared/lib/type/CreateVideoField";
+"use client";
+
+import useCreateVideoStore from "@/src/entities/Video/useCreateVideoStore";
 import { ImageUrlType } from "@/src/shared/lib/type/ImageUrlType";
 import axios from "axios";
 import React from "react";
@@ -7,15 +9,19 @@ export const useGenVideoImage = ({
   resVideoScript,
   setLoading,
   imageUrl,
-  setImageUrl,
   setIsDoneCreateImage,
 }: {
   resVideoScript: any[];
   setLoading: (loading: boolean) => void;
   imageUrl: ImageUrlType[];
-  setImageUrl: (fieldName: CreateVideoField, fieldValue: ImageUrlType[]) => void;
-  setIsDoneCreateImage: React.Dispatch<React.SetStateAction<Record<number, boolean>>>;
+  setIsDoneCreateImage: React.Dispatch<
+    React.SetStateAction<Record<number, boolean>>
+  >;
 }) => {
+  const setImageUrl = useCreateVideoStore(
+    (state) => state.setCreateVideoDataByField
+  );
+
   const GenerateImage = async (index: number) => {
     const imagePrompt = resVideoScript[index].imagePrompt;
 
