@@ -17,12 +17,8 @@ import VideoCaption from "@/src/features/CreateNewVideo/G_Caption/ui/VIdeoCaptio
 import Preview from "@/src/features/CreateNewVideo/Preview/ui/Preview";
 
 export default function CreateNewVideo() {
-  const {
-    initialCreateVideoData,
-    setCreateVideoDataByField,
-    setTts,
-    setGenerateImageDataByFied,
-  } = useCreateVideoStore();
+  const { initialCreateVideoData, setCreateVideoDataByField, setTts } =
+    useCreateVideoStore();
 
   const {
     title,
@@ -52,10 +48,7 @@ export default function CreateNewVideo() {
           <VideoExplanation />
 
           {/* Video Image Style */}
-          <VideoStyle
-            videoStyle={generateImageStyle}
-            setVideoStyle={setGenerateImageDataByFied}
-          />
+          <VideoStyle />
           <GenVideoImage
             topic={topic}
             topicDetail={topicDetail}
