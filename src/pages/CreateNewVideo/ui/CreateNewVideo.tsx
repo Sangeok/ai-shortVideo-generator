@@ -17,12 +17,10 @@ import VideoCaption from "@/src/features/CreateNewVideo/G_Caption/ui/VIdeoCaptio
 import Preview from "@/src/features/CreateNewVideo/Preview/ui/Preview";
 
 export default function CreateNewVideo() {
-  const { initialCreateVideoData, setCreateVideoDataByField, setTts } =
+  const { initialCreateVideoData, setCreateVideoDataByField } =
     useCreateVideoStore();
 
-  const { title, generateImage, imageUrl, ttsUrl, language } =
-    initialCreateVideoData;
-  const { generateImageScript } = generateImage;
+  const { title, imageUrl, ttsUrl, language } = initialCreateVideoData;
 
   return (
     <div>
@@ -45,12 +43,7 @@ export default function CreateNewVideo() {
           <GenVideoImage />
 
           {/* Gen TTS */}
-          <GenVideoTTS
-            language={language}
-            selectedVideoScript={generateImageScript}
-            ttsUrl={ttsUrl}
-            setTts={setTts}
-          />
+          <GenVideoTTS />
 
           {/* Gen Captions */}
           <VideoCaption
