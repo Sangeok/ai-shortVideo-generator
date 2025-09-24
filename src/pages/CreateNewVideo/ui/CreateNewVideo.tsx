@@ -17,10 +17,9 @@ import VideoCaption from "@/src/features/CreateNewVideo/G_Caption/ui/VIdeoCaptio
 import Preview from "@/src/features/CreateNewVideo/Preview/ui/Preview";
 
 export default function CreateNewVideo() {
-  const { initialCreateVideoData, setCreateVideoDataByField } =
-    useCreateVideoStore();
+  const { initialCreateVideoData } = useCreateVideoStore();
 
-  const { title, imageUrl, ttsUrl, language } = initialCreateVideoData;
+  const { title } = initialCreateVideoData;
 
   return (
     <div>
@@ -46,11 +45,8 @@ export default function CreateNewVideo() {
           <GenVideoTTS />
 
           {/* Gen Captions */}
-          <VideoCaption
-            language={language}
-            ttsUrl={ttsUrl}
-            setCaptions={setCreateVideoDataByField}
-          />
+          <VideoCaption />
+
           <Link href={`/play-video/${title || "test"}`}>
             <Button className="bg-white text-black mt-5 w-full cursor-pointer">
               <WandSparkles /> Generate Video
@@ -58,7 +54,7 @@ export default function CreateNewVideo() {
           </Link>
         </div>
         <div>
-          <Preview imageUrl={imageUrl} />
+          <Preview />
         </div>
       </div>
     </div>

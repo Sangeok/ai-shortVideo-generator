@@ -3,13 +3,13 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ImageUrlType } from "@/src/shared/lib/type/ImageUrlType";
+import useCreateVideoStore from "@/src/entities/Video/useCreateVideoStore";
+import DontHaveImagePreview from "./_component/DontHaveImagePreview";
 
-interface PreviewProps {
-  imageUrl: ImageUrlType[];
-}
-
-export default function Preview({ imageUrl }: PreviewProps) {
+export default function Preview() {
+  const imageUrl = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.imageUrl
+  );
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // 이미지가 변경될 때 index 초기화
@@ -18,25 +18,25 @@ export default function Preview({ imageUrl }: PreviewProps) {
   }, [imageUrl]);
 
   const handleNext = () => {
-    setCurrentImageIndex((prev) => (prev === imageUrl.length - 1 ? 0 : prev + 1));
+    setCurrentImageIndex((prev) =>
+      prev === imageUrl.length - 1 ? 0 : prev + 1
+    );
   };
 
   const handlePrevious = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? imageUrl.length - 1 : prev - 1));
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? imageUrl.length - 1 : prev - 1
+    );
   };
 
-  if (imageUrl?.length === 0) {
-    return (
-      <div className="mt-1 w-full h-[68vh] bg-gray-200 rounded-xl flex items-center justify-center text-gray-500 text-center p-4">
-        If you want to see the preview, please generate the script first.
-      </div>
-    );
-  }
+  const hasImage = imageUrl?.length > 0;
+  const canTurnOverImage = imageUrl.length >= 2;
 
   return (
     <div>
       <h2 className="text-xl font-semibold">Preview</h2>
-      {imageUrl?.length > 0 ? (
+      {!hasImage && <DontHaveImagePreview />}
+      {hasImage && (
         <div className="relative mt-1">
           <Image
             src={imageUrl[currentImageIndex].imageUrl}
@@ -46,7 +46,7 @@ export default function Preview({ imageUrl }: PreviewProps) {
             className="w-full h-[68vh] object-cover rounded-xl"
           />
 
-          {imageUrl.length >= 2 && (
+          {canTurnOverImage && (
             <>
               <button
                 onClick={handlePrevious}
@@ -68,17 +68,15 @@ export default function Preview({ imageUrl }: PreviewProps) {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-2 h-2 rounded-full ${index === currentImageIndex ? "bg-white" : "bg-white/50"}`}
+                    className={`w-2 h-2 rounded-full ${
+                      index === currentImageIndex ? "bg-white" : "bg-white/50"
+                    }`}
                     aria-label={`Go to image ${index + 1}`}
                   />
                 ))}
               </div>
             </>
           )}
-        </div>
-      ) : (
-        <div className="mt-1 w-full h-[68vh] bg-gray-200 rounded-xl flex items-center justify-center text-gray-500 text-center p-4">
-          If you want to see the preview, please generate the script first.
         </div>
       )}
     </div>
