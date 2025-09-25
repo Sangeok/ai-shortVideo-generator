@@ -1,4 +1,4 @@
-import ToggleSideBarButton from "@/app/_components/ToggleSideBarButton";
+import ToggleSideBarButton from "@/src/shared/ui/atoms/Button/ToggleSideBarButton";
 
 export default function Dashboard() {
   return (
