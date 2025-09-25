@@ -8,7 +8,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/src/shared/ui/atoms/select";
 import { TitleTextArea } from "@/src/shared/ui/molecule/TitleTextArea";
 import { TRANSLATE_LANGUAGE_LIST } from "../../constants/constants";
 import { LoadingButton } from "@/src/shared/ui/molecule/LoadingButton";
@@ -38,10 +38,7 @@ export default function TranslateSection({
       <div className="space-y-2">
         <h2 className="font-medium">Select the Translate Language</h2>
         <div className="mt-4">
-          <Select
-            value={translateLanguage}
-            onValueChange={(value) => setTranslateLanguage(value)}
-          >
+          <Select value={translateLanguage} onValueChange={(value) => setTranslateLanguage(value)}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select a language" />
             </SelectTrigger>

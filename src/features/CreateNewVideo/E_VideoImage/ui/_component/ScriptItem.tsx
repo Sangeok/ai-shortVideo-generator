@@ -1,6 +1,6 @@
 import { ImageUrlType } from "@/src/shared/lib/type/ImageUrlType";
 import ImageGenerateButton from "./ImageGenerateButton";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/shared/ui/atoms/Button/Button";
 import { Download } from "lucide-react";
 import { useImageDownload } from "../../model/hooks/useImageDownload";
 
@@ -13,26 +13,13 @@ interface ScriptItemProps {
   onGenerateImage: (index: number) => Promise<void>;
 }
 
-export function ScriptItem({
-  item,
-  index,
-  isDone,
-  isLoading,
-  imageUrl,
-  onGenerateImage,
-}: ScriptItemProps) {
+export function ScriptItem({ item, index, isDone, isLoading, imageUrl, onGenerateImage }: ScriptItemProps) {
   const { handleDownload } = useImageDownload();
 
   return (
     <div className="flex flex-col gap-1 mb-8" key={item.imagePrompt}>
-      <div className="border border-gray-300 rounded-md p-2">
-        {item.imagePrompt}
-      </div>
-      <ImageGenerateButton
-        isDone={isDone}
-        isLoading={isLoading}
-        onClick={() => onGenerateImage(index)}
-      />
+      <div className="border border-gray-300 rounded-md p-2">{item.imagePrompt}</div>
+      <ImageGenerateButton isDone={isDone} isLoading={isLoading} onClick={() => onGenerateImage(index)} />
       {imageUrl.some((img) => img.imageId === index) && (
         <>
           <Button

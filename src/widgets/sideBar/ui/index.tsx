@@ -1,10 +1,10 @@
 "use client";
 
 import { useSidebar } from "@/app/providers/SidebarContext";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MenuItem from "./_component/MenuItem";
+import { Button } from "@/src/shared/ui/atoms/Button/Button";
 
 export default function SideBar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -23,15 +23,11 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
           <div className="flex gap-y-4 flex-col w-full justify-center">
             <div className="flex flex-col items-center">
               <div className="text-white text-2xl font-bold">AVG</div>
-              <h2 className="text-gray-400 text-sm mt-3">
-                AI Short Video Generator
-              </h2>
+              <h2 className="text-gray-400 text-sm mt-3">AI Short Video Generator</h2>
             </div>
             <div className="mx-5 mt-1">
               <Link href="/create-new-video">
-                <Button className="cursor-pointer w-full bg-white text-black">
-                  + Create New Video
-                </Button>
+                <Button className="cursor-pointer w-full bg-white text-black">+ Create New Video</Button>
               </Link>
             </div>
 
@@ -40,13 +36,7 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
           </div>
         </aside>
       </nav>
-      <main
-        className={`${
-          isSidebarOpen ? "w-4/5" : "w-full"
-        } transition-all duration-300`}
-      >
-        {children}
-      </main>
+      <main className={`${isSidebarOpen ? "w-4/5" : "w-full"} transition-all duration-300`}>{children}</main>
     </div>
   );
 }

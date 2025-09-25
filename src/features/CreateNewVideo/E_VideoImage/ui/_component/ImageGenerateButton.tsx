@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/shared/ui/atoms/Button/Button";
 import { Loader2Icon } from "lucide-react";
 import { SparklesIcon } from "lucide-react";
 
@@ -34,12 +34,7 @@ export default function ImageGenerateButton({
   }
 
   return (
-    <Button
-      className={buttonStyle}
-      disabled={isLoading}
-      size={"sm"}
-      onClick={onClick}
-    >
+    <Button className={buttonStyle} disabled={isLoading} size={"sm"} onClick={onClick}>
       {buttonContent}
     </Button>
   );
