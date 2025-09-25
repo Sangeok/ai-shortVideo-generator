@@ -3,7 +3,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./providers/provider";
 import { SidebarProvider } from "./providers/SidebarContext";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/src/shared/ui/atoms/tooltip";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -24,12 +24,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body className={outfit.className}>
         {" "}
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <TooltipProvider>
             <SidebarProvider>{children}</SidebarProvider>
           </TooltipProvider>

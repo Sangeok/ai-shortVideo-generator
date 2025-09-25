@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/shared/ui/atoms/Button/Button";
 
 export default function Hero() {
   return (
