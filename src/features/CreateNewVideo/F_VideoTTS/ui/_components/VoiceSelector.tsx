@@ -8,12 +8,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/src/shared/ui/atoms/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/shared/ui/atoms/tooltip";
 import { Info } from "lucide-react";
 import { TTS_VOICE_EXPLAIN, TTS_VOICE_LIST } from "../../constants/constants";
 
