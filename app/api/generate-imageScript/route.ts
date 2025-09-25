@@ -1,4 +1,4 @@
-import { generateImageScript } from "@/app/configs/AiModel";
+import { generateImageScript } from "@/src/shared/lib/AiModel";
 import { NextResponse } from "next/server";
 
 const SCRIPT_PROMPT_EN = `Generate detailed image prompts in {style} style for a 45-second video script: {script}
@@ -216,15 +216,26 @@ export async function POST(req: Request) {
       .replace("{script}", script)
       .replace("{quote}", topicDetail);
   } else if (topic === "Dark Psychology") {
-    PROMPT = PSYCHOLOGY_SCRIPT_PROMPT_KO.replace("{style}", style).replace("{script}", script);
+    PROMPT = PSYCHOLOGY_SCRIPT_PROMPT_KO.replace("{style}", style).replace(
+      "{script}",
+      script
+    );
   } else if (topic === "History") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_EN.replace("{style}", style).replace("{script}", script);
+      PROMPT = SCRIPT_PROMPT_EN.replace("{style}", style).replace(
+        "{script}",
+        script
+      );
     } else {
-      PROMPT = SCRIPT_PROMPT_KO.replace("{style}", style).replace("{script}", script).replace("{language}", language);
+      PROMPT = SCRIPT_PROMPT_KO.replace("{style}", style)
+        .replace("{script}", script)
+        .replace("{language}", language);
     }
   } else if (topic === "What If") {
-    PROMPT = WHATIF_SCRIPT_PROMPT_EN.replace("{style}", style).replace("{script}", script);
+    PROMPT = WHATIF_SCRIPT_PROMPT_EN.replace("{style}", style).replace(
+      "{script}",
+      script
+    );
   }
 
   console.log("PROMPT");

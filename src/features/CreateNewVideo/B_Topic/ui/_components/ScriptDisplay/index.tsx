@@ -11,7 +11,7 @@ export function ScriptDisplay() {
   );
 
   const [selectedScriptIndex, setSelectedScriptIndex] = useState<number | null>(
-    0
+    null
   );
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -20,7 +20,7 @@ export function ScriptDisplay() {
     setSelectedScriptIndex(index);
     useCreateVideoStore
       .getState()
-      .setCreateVideoDataByField("generateImageScript", videoScript[index]);
+      .setGenerateImageDataByFied("generateImageScript", videoScript[index]);
   };
 
   return (

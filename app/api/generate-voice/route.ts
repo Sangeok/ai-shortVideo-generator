@@ -1,15 +1,9 @@
-import { Openai } from "@/app/configs/AiModel";
+import { Openai } from "@/src/shared/lib/AiModel";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
     const { text, voice } = await request.json();
-
-    console.log("text");
-    console.log(text);
-
-    console.log("voice");
-    console.log(voice);
 
     if (!text) {
       return NextResponse.json(

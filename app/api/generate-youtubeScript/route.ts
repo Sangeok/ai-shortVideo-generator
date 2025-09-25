@@ -1,4 +1,4 @@
-import { generateScript } from "@/app/configs/AiModel";
+import { generateScript } from "@/src/shared/lib/AiModel";
 import { NextResponse } from "next/server";
 
 const SCRIPT_PROMPT_Philosophy_EN = `
@@ -400,34 +400,43 @@ export async function POST(req: Request) {
 
   if (topic === "Philosophy") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace("{philosophical quote}", topicDetail);
-    } else {
-      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace("{philosophical quote}", topicDetail).replace(
-        "{language}",
-        language
+      PROMPT = SCRIPT_PROMPT_Philosophy_EN.replace(
+        "{philosophical quote}",
+        topicDetail
       );
+    } else {
+      PROMPT = SCRIPT_PROMPT_Philosophy_KO.replace(
+        "{philosophical quote}",
+        topicDetail
+      ).replace("{language}", language);
     }
   } else if (topic === "Dark Psychology") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_DarkPsychology_EN.replace("{dark psychology concept}", topicDetail).replace(
-        "{language}",
-        language
-      );
+      PROMPT = SCRIPT_PROMPT_DarkPsychology_EN.replace(
+        "{dark psychology concept}",
+        topicDetail
+      ).replace("{language}", language);
     } else {
-      PROMPT = SCRIPT_PROMPT_DarkPsychology_KO.replace("{dark psychology concept}", topicDetail).replace(
-        "{language}",
-        language
-      );
+      PROMPT = SCRIPT_PROMPT_DarkPsychology_KO.replace(
+        "{dark psychology concept}",
+        topicDetail
+      ).replace("{language}", language);
     }
   } else if (topic === "History") {
     if (language === "English") {
       PROMPT = SCRIPT_PROMPT_EN.replace("{topic}", topicDetail);
     } else {
-      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace("{language}", language);
+      PROMPT = SCRIPT_PROMPT_KO.replace("{topic}", topicDetail).replace(
+        "{language}",
+        language
+      );
     }
   } else if (topic === "What If") {
     if (language === "English") {
-      PROMPT = SCRIPT_PROMPT_WhatIF_EN.replace("{what if scenario}", topicDetail);
+      PROMPT = SCRIPT_PROMPT_WhatIF_EN.replace(
+        "{what if scenario}",
+        topicDetail
+      );
     } else {
       // PROMPT = SCRIPT_PROMPT_WhatIF_KO.replace("{what if scenario}", topicDetail).replace("{language}", language);
     }
@@ -443,9 +452,6 @@ export async function POST(req: Request) {
   const result = await generateScript.sendMessage(PROMPT);
 
   const response = result?.response?.text();
-
-  console.log("response");
-  console.log(response);
 
   return NextResponse.json(JSON.parse(response));
 }

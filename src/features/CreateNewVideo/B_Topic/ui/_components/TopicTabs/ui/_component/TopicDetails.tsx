@@ -1,5 +1,5 @@
 import { Textarea } from "@/components/ui/textarea";
-import { DetailsPlaceHolder } from "../../../constants/constants";
+import { DetailsPlaceHolder } from "@/src/features/CreateNewVideo/B_Topic/constants/constants";
 
 interface TopicDetailsProps {
   topicDetail: string;
