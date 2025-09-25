@@ -87,24 +87,6 @@ const useCreateVideoStore = create<CreateVideoStore>((set) => ({
         ttsFileUrl: data2,
       },
     })),
-
-  // setSelectedVideoScript: (field: string, data: string) =>
-  //   set((state) => ({
-  //     initialCreateVideoData: {
-  //       ...state.initialCreateVideoData,
-  //       generateImage: {
-  //         ...state.initialCreateVideoData.generateImage,
-  //         generateImageScript: {
-  //           ...state.initialCreateVideoData,
-  //         },
-  //       },
-  //     },
-  //   })),
-  //         ...state.initialCreateVideoData.generateImage,
-  //         [field]: data,
-  //       },
-  //     },
-  //   })),
 }));
 
 export default useCreateVideoStore;

@@ -17,9 +17,9 @@ import VideoCaption from "@/src/features/CreateNewVideo/G_Caption/ui/VIdeoCaptio
 import Preview from "@/src/features/CreateNewVideo/Preview/ui/Preview";
 
 export default function CreateNewVideo() {
-  const { initialCreateVideoData } = useCreateVideoStore();
-
-  const { title } = initialCreateVideoData;
+  const title = useCreateVideoStore(
+    (state) => state.initialCreateVideoData.title
+  );
 
   return (
     <div>
