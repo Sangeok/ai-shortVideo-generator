@@ -1,4 +1,4 @@
-import { Button } from "@/src/shared/ui/atoms/Button";
+import { Button } from "@/src/shared/ui/atoms/Button/Button";
 import { clsx } from "clsx";
 import { FileVideo, Home, Search, WalletCards } from "lucide-react";
 import Link from "next/link";
@@ -32,12 +32,9 @@ export default function MenuItem({ pathname }: { pathname: string }) {
       {MenuItems.map((menu) => (
         <div
           key={menu.title}
-          className={clsx(
-            "flex cursor-pointer hover:bg-zinc-700 rounded-md w-full px-5",
-            {
-              "bg-zinc-700": pathname === menu.url,
-            }
-          )}
+          className={clsx("flex cursor-pointer hover:bg-zinc-700 rounded-md w-full px-5", {
+            "bg-zinc-700": pathname === menu.url,
+          })}
         >
           <Link href={menu.url} className="flex items-center">
             <Button className="">

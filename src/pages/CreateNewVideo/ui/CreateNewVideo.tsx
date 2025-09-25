@@ -1,7 +1,7 @@
 "use client";
 
-import ToggleSideBarButton from "@/app/_components/ToggleSideBarButton";
-import { Button } from "@/src/shared/ui/atoms/Button";
+import ToggleSideBarButton from "@/src/shared/ui/atoms/Button/ToggleSideBarButton";
+import { Button } from "@/src/shared/ui/atoms/Button/Button";
 import { WandSparkles } from "lucide-react";
 import Link from "next/link";
 
@@ -17,9 +17,7 @@ import VideoCaption from "@/src/features/CreateNewVideo/G_Caption/ui/VIdeoCaptio
 import Preview from "@/src/features/CreateNewVideo/Preview/ui/Preview";
 
 export default function CreateNewVideo() {
-  const title = useCreateVideoStore(
-    (state) => state.initialCreateVideoData.title
-  );
+  const title = useCreateVideoStore((state) => state.initialCreateVideoData.title);
 
   return (
     <div>
