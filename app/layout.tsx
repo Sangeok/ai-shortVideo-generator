@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "./provider";
+import { ThemeProvider } from "./providers/provider";
 import { SidebarProvider } from "./providers/SidebarContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
 

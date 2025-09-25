@@ -1,4 +1,4 @@
-import { generateScript } from "@/app/configs/AiModel";
+import { generateScript } from "@/src/shared/lib/AiModel";
 import { NextRequest, NextResponse } from "next/server";
 
 const SCRIPT_PROMPT = `
